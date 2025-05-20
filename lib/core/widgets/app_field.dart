@@ -144,61 +144,26 @@ class _AppFieldState extends State<AppField> {
                 fillColor: widget.fillColor,
                 prefixIcon: buildPrefixIcon(context),
                 suffixIcon: buildSuffixIcon(context),
-                errorBorder: widget.direction != null
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: context.errorColor),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                              widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(
-                              widget.direction == 'bottom' ? 14.r : 0),
-                        ),
-                      )
-                    : null,
-                disabledBorder: widget.direction != null
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: context.mainBorderColor),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                              widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(
-                              widget.direction == 'bottom' ? 14.r : 0),
-                        ),
-                      )
-                    : null,
-                border: widget.direction != null
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: context.mainBorderColor),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                              widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(
-                              widget.direction == 'bottom' ? 14.r : 0),
-                        ),
-                      )
-                    : null,
-                focusedBorder: widget.direction != null
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: context.primaryColor),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                              widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(
-                              widget.direction == 'bottom' ? 14.r : 0),
-                        ),
-                      )
-                    : null,
-                enabledBorder: widget.direction != null
-                    ? OutlineInputBorder(
-                        borderSide: BorderSide(color: context.mainBorderColor),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(
-                              widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(
-                              widget.direction == 'bottom' ? 14.r : 0),
-                        ),
-                      )
-                    : null,
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: context.errorColor),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
             ),
           ),
