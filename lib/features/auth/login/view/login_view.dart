@@ -129,13 +129,18 @@ class _LoginViewState extends State<LoginView> {
                   }
                 },
                 builder: (context, state) {
-                  return AppBtn(
-                    loading: state.requestState == RequestState.loading,
-                    onPressed: () => form.isValid ? cubit.login() : null,
-                    title: LocaleKeys.confirm.tr(),
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    radius: 30.r,
+                  return Container(
+                      decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30.r),),
+                    child: AppBtn(
+                      loading: state.requestState == RequestState.loading,
+                      onPressed: () => form.isValid ? cubit.login() : null,
+                      title: LocaleKeys.confirm.tr(),
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.white,
+                      radius: 30.r,
+                    ),
                   );
                 },
               ),
@@ -143,7 +148,6 @@ class _LoginViewState extends State<LoginView> {
                 TextSpan(
                   children: [
                     TextSpan(
-                    
                       text: "تسجيل",
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -161,8 +165,8 @@ class _LoginViewState extends State<LoginView> {
                             }
                           });
                         },
-                      style: context.mediumText.copyWith(
-                          fontSize: 16, color: Color(0xffd68243)),
+                      style: context.mediumText
+                          .copyWith(fontSize: 16, color: Color(0xffd68243)),
                     ),
                   ],
                 ),
