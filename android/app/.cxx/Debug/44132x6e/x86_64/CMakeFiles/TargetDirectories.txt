@@ -1,0 +1,2 @@
+C:/Users/abdu7/OneDrive/Desktop/tawsil_ghaz/app/android/app/.cxx/Debug/44132x6e/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/abdu7/OneDrive/Desktop/tawsil_ghaz/app/android/app/.cxx/Debug/44132x6e/x86_64/CMakeFiles/rebuild_cache.dir
