@@ -10,6 +10,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: IBM-
-  static const String ibm = 'IBM-';
+  /// Font family: SST-Arabic
+  static const String ibm = 'SST-Arabic';
 }
