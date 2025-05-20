@@ -32,14 +32,6 @@ class _HomeAppbarState extends State<HomeAppbar> {
   Widget build(BuildContext context) {
     return AppBar(
       toolbarHeight: kToolbarHeight + 90.h,
-      leading: CustomImage(
-        UserModel.i.isAuth ? UserModel.i.image : Assets.images.logo.path,
-        fit: UserModel.i.isAuth ? BoxFit.cover : null,
-        height: 56.w,
-        width: 56.w,
-        borderRadius: BorderRadius.circular(56.w),
-      ).toEnd,
-      leadingWidth: 76.w,
       titleSpacing: 10,
       title: BlocBuilder<AddressesCubit, AddressesState>(
         bloc: cubit,
@@ -47,23 +39,28 @@ class _HomeAppbarState extends State<HomeAppbar> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text.rich(
-                TextSpan(
-                  text: "${LocaleKeys.welcome_you.tr()}, ",
-                  style: context.regularText.copyWith(color: context.hintColor, fontSize: 14),
-                  children: [
-                    TextSpan(
-                      text: UserModel.i.isAuth ? UserModel.i.fullname.split(' ').firstOrNull ?? '' : LocaleKeys.guest.tr(),
-                      style: context.mediumText.copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  Text(
+                    UserModel.i.isAuth
+                        ? UserModel.i.fullname.split(' ').firstOrNull ?? ''
+                        : LocaleKeys.guest.tr(),
+                    style: context.mediumText.copyWith(fontSize: 16),
+                  ),
+                  SizedBox(width: 150.w),
+                  CustomImage(
+                    "assets/images/splash.png",
+                    height: 55.w,
+                    width: 55.w,
+                  ),
+                ],
               ).withPadding(bottom: 10.h),
               if (UserModel.i.isAuth)
                 Builder(
                   builder: (context) {
                     return InkWell(
-                      onTap: () => push(NamedRoutes.addresses).then((_) => cubit.getAddresses(withLoading: false)),
+                      onTap: () => push(NamedRoutes.addresses)
+                          .then((_) => cubit.getAddresses(withLoading: false)),
                       child: Row(
                         spacing: 3.w,
                         children: [
@@ -74,7 +71,10 @@ class _HomeAppbarState extends State<HomeAppbar> {
                           ).withPadding(end: 4.w),
                           Flexible(
                             child: Text(
-                              cubit.defaultAddress?.placeTitle.isNotEmpty == true ? cubit.defaultAddress!.placeTitle : LocaleKeys.add_address.tr(),
+                              cubit.defaultAddress?.placeTitle.isNotEmpty ==
+                                      true
+                                  ? cubit.defaultAddress!.placeTitle
+                                  : LocaleKeys.add_address.tr(),
                               style: context.mediumText.copyWith(fontSize: 14),
                             ),
                           ),
