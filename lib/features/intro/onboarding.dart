@@ -54,13 +54,19 @@ class _OnboardingViewState extends State<OnboardingView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // زر ابدأ الآن باللون الأسود
-                  AppBtn(
-                    title: LocaleKeys.star_now.tr(),
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    onPressed: () => replacement(NamedRoutes.login),
-                    radius: 30.r,
+                  // زر ابدأ الآن بدون ظل
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                    child: AppBtn(
+                      title: LocaleKeys.star_now.tr(),
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.white,
+                      onPressed: () => replacement(NamedRoutes.login),
+                      radius: 30.r,
+                    ),
                   ),
                   SizedBox(height: 16.h),
                   // زر الدخول كضيف بحدود بدون ظل
@@ -71,8 +77,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     ),
                     child: AppBtn(
                       title: LocaleKeys.login_as_guest.tr(),
-                      backgroundColor:
-                          Colors.transparent, // استخدام الشفافية لإزالة الظل
+                      backgroundColor: Colors.transparent,
                       textColor: Colors.black,
                       onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
                       radius: 30.r,
