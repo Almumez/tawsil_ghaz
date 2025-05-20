@@ -47,20 +47,28 @@ class _LoginViewState extends State<LoginView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 80.h),
-              CustomImage(Assets.images.logo.path, height: 42.2.h),
+              Center(
+                child: CustomImage("assets/images/splash.png", height: 60.h),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                "تسجيل الدخول",
+                textAlign: TextAlign.center,
+                style: context.semiboldText.copyWith(fontSize: 22),
+              ),
               SizedBox(height: 45.h),
               AppField(
                 controller: cubit.phone,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.phone,
-                labelText: LocaleKeys.phone_number.tr(),
+                labelText: "الهاتف",
                 onChangeCountry: (country) => cubit.country = country,
               ),
               AppField(
                 controller: cubit.password,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.visiblePassword,
-                labelText: LocaleKeys.password.tr(),
+                labelText: "الرمز",
               ),
               Text.rich(
                 TextSpan(
