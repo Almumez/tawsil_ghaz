@@ -1,0 +1,35 @@
+{
+    "data": {
+        "id": 124,
+        "full_name": "Mahmoud",
+        "image": "https://gas.azmy.aait-d.com/storage/images/Merchant/PVmPUIbGD3YyNJtkmW9aAhvd8z8KyM4rFvS6pIxf.png",
+        "phone_code": 966,
+        "phone": 566664444,
+        "email": null,
+        "user_type": "technician",
+        "is_active": true,
+        "is_deleted": false,
+        "admin_approved": true,
+        "is_available": true,
+        "is_notified": true,
+        "wallet": 0,
+        "locale": "ar",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dhcy5hem15LmFhaXQtZC5jb20vYXBpL2dlbmVyYWwvbG9naW4iLCJpYXQiOjE3NDUxNTE2NzgsImV4cCI6NjM1ODkxMTY3OCwibmJmIjoxNzQ1MTUxNjc4LCJqdGkiOiJaZXBrYnZYTHdkdjVuejdTIiwic3ViIjoiMTI0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.MNBtLGE15iDwN5qIAkEX328ShhBwIt8dlVTvyDthZ0Y",
+        "license": null,
+        "vehicle_form": null,
+        "health_certificate": null,
+        "civil_status_number": null,
+        "address": null,
+        "country": {
+            "id": 2,
+            "phone_code": "966",
+            "status": true,
+            "phone_limit": 9,
+            "flag": "https://gas.azmy.aait-d.com/storage/images/Country/adLABMX4fm3Vtxq3s0ZC0sqBOhyJ4OAr9RyfUq6N.png",
+            "short_name": "sa",
+            "name": "المملكة العربية السعودية"
+        }
+    },
+    "status": "success",
+    "message": "Login successfully"
+}

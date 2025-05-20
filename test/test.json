@@ -1,0 +1,53 @@
+{
+    "data": {
+        "id": 190,
+        "status": "checked",
+        "type": "maintenance",
+        "status_trans": "تم الفحص",
+        "details": [
+            {
+                "title": "الصيانة الدورية",
+                "description": "إجراء عمليات صيانة دورية لأنظمة الغاز وإصلاح الأعطال التي قد تحدث، كاستبدال الأنابيب التالفة أو الصمامات."
+            }
+        ],
+        "reports": [
+            {
+                "problem_description": "p1",
+                "price": 100
+            }
+        ],
+        "created_at": "2025 Apr 10 - 14:50",
+        "address": {
+            "id": 55,
+            "name": "Mansoura",
+            "place_title": "MAnsoura",
+            "place_description": "Work",
+            "lng": "31.37847",
+            "lat": "31.0409467",
+            "is_default": false
+        },
+        "client": {
+            "id": 88,
+            "full_name": "test account",
+            "image": "https://gas.azmy.aait-d.com/dashboardAssets/images/cover/cover_sm.png",
+            "phone_code": 20,
+            "phone": 1010202030,
+            "email": null,
+            "user_type": "client",
+            "is_active": true,
+            "admin_approved": true,
+            "is_available": false
+        },
+        "price": 100,
+        "tax": 0,
+        "tax_percentage": 0,
+        "check_fee": 0,
+        "total_price": 100,
+        "payment_method": null,
+        "is_paid": false,
+        "cancel_reason": null,
+        "other_reason": null
+    },
+    "status": "success",
+    "message": ""
+}

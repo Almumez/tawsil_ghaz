@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>$(app_name)</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>gasapp</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(MARKETING_VERSION)</string>
+		<key>CFBundleVersion</key>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>We need your location to provide better services.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>$(APP_NAME) يستخدم البيانات الحركية لتحسين التجربة.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>$(APP_NAME) يحتاج إلى إذن لحفظ الصور إلى مكتبة الصور.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		</array>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>sms</string>
+			<string>tel</string>
+		</array>
+		<key>NSCameraUsageDescription</key>
+		<string>$(app_name) needs access to your camera to allow you to capture photos or videos for profile pictures, document uploads, or sharing within the app.</string>
+		<key>NSLocalNotificationUsageDescription</key>
+		<string>$(app_name) uses notifications to send important updates, appointment reminders, and alerts about your activity within the app2.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>$(app_name) requires access to your location while using the app to show nearby services, personalize recommendations, and enhance your experience.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>$(app_name) requires access to your location while using the app to show nearby services, personalize recommendations, and enhance your experience.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>$(app_name) needs microphone access to record voice messages, enable voice search, or capture audio for video recordings.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need access to your photo library so you can upload images for your profile, share photos, or attach images in chats.</string>
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>$(app_name) requires access to your documents so you can upload, share, and manage files within the app.</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
+	</dict>
+</plist>
