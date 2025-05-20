@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:ui';
 
 import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
@@ -17,6 +18,7 @@ import '../../../../core/widgets/select_item_sheet.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
 import '../../../../models/user_model.dart';
+import '../../../../models/country.dart';
 import '../../../shared/pages/navbar/cubit/navbar_cubit.dart';
 import '../controller/login_cubit.dart';
 import '../controller/login_state.dart';
@@ -36,6 +38,19 @@ class _LoginViewState extends State<LoginView> {
     UserTypeModel(
         name: LocaleKeys.free_agent.tr(), userType: UserType.freeAgent),
   ];
+  @override
+  void initState() {
+    super.initState();
+    // تعيين رمز الدولة الافتراضي للسعودية (+966)
+    cubit.country = CountryModel.fromJson({
+      'name': 'Saudi Arabia',
+      'phone_code': '966',
+      'flag': '',
+      'short_name': 'SA',
+      'phone_limit': 9
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +77,15 @@ class _LoginViewState extends State<LoginView> {
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.phone,
                 labelText: "الهاتف",
-                onChangeCountry: (country) => cubit.country = country,
+                onChangeCountry: null,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 14.h),
+                  child: Text(
+                    "+966",
+                    style: context.regularText.copyWith(fontSize: 14),
+
+                  ),
+                ),
               ),
               AppField(
                 controller: cubit.password,
