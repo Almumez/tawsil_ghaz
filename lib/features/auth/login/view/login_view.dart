@@ -33,7 +33,8 @@ class _LoginViewState extends State<LoginView> {
   final cubit = sl<LoginCubit>();
   List<UserTypeModel> userTypes = [
     UserTypeModel(name: LocaleKeys.client.tr(), userType: UserType.client),
-    UserTypeModel(name: LocaleKeys.free_agent.tr(), userType: UserType.freeAgent),
+    UserTypeModel(
+        name: LocaleKeys.free_agent.tr(), userType: UserType.freeAgent),
   ];
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,8 @@ class _LoginViewState extends State<LoginView> {
               Text.rich(
                 TextSpan(
                   text: LocaleKeys.forgot_password.tr(),
-                  recognizer: TapGestureRecognizer()..onTap = () => push(NamedRoutes.forgetPassword),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => push(NamedRoutes.forgetPassword),
                 ),
                 style: context.regularText.copyWith(fontSize: 14),
               ).withPadding(vertical: 8.h),
@@ -86,10 +88,19 @@ class _LoginViewState extends State<LoginView> {
                   }
                 },
                 builder: (context, state) {
-                  return AppBtn(
-                    loading: state.requestState == RequestState.loading,
-                    onPressed: () => form.isValid ? cubit.login() : null,
-                    title: LocaleKeys.confirm.tr(),
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                    child: AppBtn(
+                      loading: state.requestState == RequestState.loading,
+                      onPressed: () => form.isValid ? cubit.login() : null,
+                      title: LocaleKeys.confirm.tr(),
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.white,
+                      radius: 30.r,
+                    ),
                   );
                 },
               ),
@@ -108,16 +119,19 @@ class _LoginViewState extends State<LoginView> {
                           showModalBottomSheet<UserTypeModel?>(
                             context: context,
                             builder: (context) => SelectItemSheet(
-                              title: LocaleKeys.select_val.tr(args: [LocaleKeys.user_type.tr()]),
+                              title: LocaleKeys.select_val
+                                  .tr(args: [LocaleKeys.user_type.tr()]),
                               items: userTypes,
                             ),
                           ).then((value) {
                             if (value != null) {
-                              push(NamedRoutes.register, arg: {"type": value.userType});
+                              push(NamedRoutes.register,
+                                  arg: {"type": value.userType});
                             }
                           });
                         },
-                      style: context.mediumText.copyWith(fontSize: 16, color: context.secondaryColor),
+                      style: context.mediumText.copyWith(
+                          fontSize: 16, color: context.secondaryColor),
                     ),
                   ],
                 ),
@@ -127,12 +141,22 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
       ),
-      bottomNavigationBar: AppBtn(
-        title: LocaleKeys.login_as_guest.tr(),
-        backgroundColor: context.scaffoldBackgroundColor,
-        textColor: context.primaryColor,
-        onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
-      ).withPadding(horizontal: 16.w, vertical: 12.h),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30.r),
+            border: Border.all(color: Colors.black),
+          ),
+          child: AppBtn(
+            title: LocaleKeys.login_as_guest.tr(),
+            backgroundColor: Colors.transparent,
+            textColor: Colors.black,
+            onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
+            radius: 30.r,
+          ),
+        ),
+      ),
     );
   }
 
