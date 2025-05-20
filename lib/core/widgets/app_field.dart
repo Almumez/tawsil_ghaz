@@ -74,7 +74,8 @@ class _AppFieldState extends State<AppField> {
   void initState() {
     if (widget.keyboardType == TextInputType.phone) {
       countryCubit = sl<CountriesCubit>()..getCountries();
-      country = widget.initCountry ?? CountryModel.fromJson(jsonDecode(Prefs.getString('country') ?? "{}"));
+      country = widget.initCountry ??
+          CountryModel.fromJson(jsonDecode(Prefs.getString('country') ?? "{}"));
       if (country.hasData) widget.onChangeCountry?.call(country);
     }
     super.initState();
@@ -91,10 +92,14 @@ class _AppFieldState extends State<AppField> {
           if (widget.title != null)
             Text(
               widget.title!,
-              style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+              style: context.regularText
+                  .copyWith(fontSize: 14, color: context.hintColor),
             ).withPadding(bottom: 8.h),
           Directionality(
-            textDirection: widget.keyboardType == TextInputType.phone || context.locale.languageCode == 'en' ? TextDirection.ltr : TextDirection.rtl,
+            textDirection: widget.keyboardType == TextInputType.phone ||
+                    context.locale.languageCode == 'en'
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             child: TextFormField(
               onChanged: widget.onChanged,
               onFieldSubmitted: widget.onFieldSubmitted,
@@ -102,14 +107,22 @@ class _AppFieldState extends State<AppField> {
               readOnly: widget.readOnly == true || widget.onTap != null,
               onTap: widget.onTap,
               enabled: widget.enable,
-              obscureText: widget.keyboardType == TextInputType.visiblePassword && showPass,
+              obscureText:
+                  widget.keyboardType == TextInputType.visiblePassword &&
+                      showPass,
               controller: widget.controller,
               keyboardType: widget.keyboardType,
               validator: (v) {
                 if (widget.isRequired && v?.isEmpty == true) {
-                  return LocaleKeys.val_is_required.tr(args: [widget.labelText?.replaceAll('*', '') ?? widget.title ?? LocaleKeys.this_field.tr()]);
-                } else if (widget.keyboardType == TextInputType.phone && v!.length != country.phoneNumberLimit) {
-                  return LocaleKeys.the_phone_number_must_consist_of_val_numbers.tr(args: [country.phoneNumberLimit.toString()]);
+                  return LocaleKeys.val_is_required.tr(args: [
+                    widget.labelText?.replaceAll('*', '') ??
+                        widget.title ??
+                        LocaleKeys.this_field.tr()
+                  ]);
+                } else if (widget.keyboardType == TextInputType.phone &&
+                    v!.length != country.phoneNumberLimit) {
+                  return LocaleKeys.the_phone_number_must_consist_of_val_numbers
+                      .tr(args: [country.phoneNumberLimit.toString()]);
                 }
                 // else if (!kDebugMode && widget.keyboardType == TextInputType.visiblePassword && v!.length < 8) {
                 //   return LocaleKeys.the_password_must_not_be_less_than_8_numbers.tr();
@@ -120,11 +133,13 @@ class _AppFieldState extends State<AppField> {
                 return null;
               },
               inputFormatters: [
-                if (widget.keyboardType == TextInputType.phone && country.hasData && country.phoneNumberLimit > 0)
+                if (widget.keyboardType == TextInputType.phone &&
+                    country.hasData &&
+                    country.phoneNumberLimit > 0)
                   LengthLimitingTextInputFormatter(country.phoneNumberLimit),
               ],
               decoration: InputDecoration(
-                hintText: widget.hintText ?? LocaleKeys.write_val.tr(args: [widget.labelText ?? widget.title ?? '']),
+                hintText: widget.hintText ?? widget.labelText ?? widget.title,
                 labelText: widget.labelText,
                 fillColor: widget.fillColor,
                 prefixIcon: buildPrefixIcon(context),
@@ -133,8 +148,10 @@ class _AppFieldState extends State<AppField> {
                     ? OutlineInputBorder(
                         borderSide: BorderSide(color: context.errorColor),
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(widget.direction == 'bottom' ? 14.r : 0),
+                          top: Radius.circular(
+                              widget.direction == 'top' ? 14.r : 0),
+                          bottom: Radius.circular(
+                              widget.direction == 'bottom' ? 14.r : 0),
                         ),
                       )
                     : null,
@@ -142,8 +159,10 @@ class _AppFieldState extends State<AppField> {
                     ? OutlineInputBorder(
                         borderSide: BorderSide(color: context.mainBorderColor),
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(widget.direction == 'bottom' ? 14.r : 0),
+                          top: Radius.circular(
+                              widget.direction == 'top' ? 14.r : 0),
+                          bottom: Radius.circular(
+                              widget.direction == 'bottom' ? 14.r : 0),
                         ),
                       )
                     : null,
@@ -151,8 +170,10 @@ class _AppFieldState extends State<AppField> {
                     ? OutlineInputBorder(
                         borderSide: BorderSide(color: context.mainBorderColor),
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(widget.direction == 'bottom' ? 14.r : 0),
+                          top: Radius.circular(
+                              widget.direction == 'top' ? 14.r : 0),
+                          bottom: Radius.circular(
+                              widget.direction == 'bottom' ? 14.r : 0),
                         ),
                       )
                     : null,
@@ -160,8 +181,10 @@ class _AppFieldState extends State<AppField> {
                     ? OutlineInputBorder(
                         borderSide: BorderSide(color: context.primaryColor),
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(widget.direction == 'bottom' ? 14.r : 0),
+                          top: Radius.circular(
+                              widget.direction == 'top' ? 14.r : 0),
+                          bottom: Radius.circular(
+                              widget.direction == 'bottom' ? 14.r : 0),
                         ),
                       )
                     : null,
@@ -169,8 +192,10 @@ class _AppFieldState extends State<AppField> {
                     ? OutlineInputBorder(
                         borderSide: BorderSide(color: context.mainBorderColor),
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(widget.direction == 'top' ? 14.r : 0),
-                          bottom: Radius.circular(widget.direction == 'bottom' ? 14.r : 0),
+                          top: Radius.circular(
+                              widget.direction == 'top' ? 14.r : 0),
+                          bottom: Radius.circular(
+                              widget.direction == 'bottom' ? 14.r : 0),
                         ),
                       )
                     : null,
@@ -235,7 +260,8 @@ class _AppFieldState extends State<AppField> {
               showModalBottomSheet<CountryModel?>(
                 context: context,
                 builder: (context) => SelectItemSheet(
-                  title: LocaleKeys.select_val.tr(args: [LocaleKeys.country_code.tr()]),
+                  title: LocaleKeys.select_val
+                      .tr(args: [LocaleKeys.country_code.tr()]),
                   items: countryCubit.counties,
                   initItem: country,
                   withImage: true,

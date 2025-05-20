@@ -67,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               SizedBox(height: 16.h),
               Text(
-                "تسجيل الدخول",
+                " الدخول",
                 textAlign: TextAlign.center,
                 style: context.semiboldText.copyWith(fontSize: 22),
               ),
@@ -105,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               Text.rich(
                 TextSpan(
-                  text: "نسيت الرمز",
+                  text: "نسيت ",
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => push(NamedRoutes.forgetPassword),
                 ),
@@ -143,11 +143,7 @@ class _LoginViewState extends State<LoginView> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "انشاء حساب",
-                      style: context.regularText.copyWith(fontSize: 14),
-                    ),
-                    const TextSpan(text: ' '),
-                    TextSpan(
+                    
                       text: "تسجيل",
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -166,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
                           });
                         },
                       style: context.mediumText.copyWith(
-                          fontSize: 16, color: context.secondaryColor),
+                          fontSize: 16, color: Color(0xffd68243)),
                     ),
                   ],
                 ),
