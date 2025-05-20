@@ -47,6 +47,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
 
 
 
@@ -88,3 +89,18 @@ flutter_launcher_icons:
     generate: false
   macos:
     generate: false
+
+# تكوين شاشة البداية
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash.png
+  android_12:
+    image: assets/images/splash.png
+    icon_background_color: "#FFFFFF"
+  fullscreen: true
+  android: true
+  ios: true
+  web: false
+  branding: assets/images/splash.png
+  image_dark: assets/images/splash.png
+  color_dark: "#FFFFFF"

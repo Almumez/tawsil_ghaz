@@ -1,0 +1,9 @@
+"app_name" = "سينار";
+"NSCameraUsageDescription" = "يحتاج سينار إلى الوصول إلى الكاميرا للسماح لك بالتقاط صور للملف الشخصي أو تحميل المستندات.";
+"NSLocalNotificationUsageDescription" = "يستخدم سينار الإشعارات لإرسال تحديثات وتنبيهات مهمة حول نشاطك.";
+"NSLocationAlwaysUsageDescription" = "يتطلب سينار الوصول إلى موقعك لإظهار الخدمات القريبة وتحسين تجربتك.";
+"NSLocationWhenInUseUsageDescription" = "يتطلب سينار الوصول إلى موقعك لإظهار الخدمات القريبة وتحسين تجربتك.";
+"NSMicrophoneUsageDescription" = "يحتاج سينار إلى الوصول إلى الميكروفون لتسجيل الرسائل الصوتية أو تمكين البحث الصوتي.";
+"NSPhotoLibraryUsageDescription" = "يحتاج سينار إلى الوصول إلى مكتبة الصور حتى تتمكن من تحميل صور لملفك الشخصي.";
+"NSDocumentsFolderUsageDescription" = "يتطلب سينار الوصول إلى المستندات الخاصة بك حتى تتمكن من تحميل الملفات وإدارتها.";
+"NSMotionUsageDescription" = "يستخدم سينار بيانات الحركة لتحسين تجربتك."; 

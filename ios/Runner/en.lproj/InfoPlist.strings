@@ -1,0 +1,9 @@
+"app_name" = "SENAR";
+"NSCameraUsageDescription" = "SENAR needs access to your camera to allow you to capture photos for profile pictures or document uploads.";
+"NSLocalNotificationUsageDescription" = "SENAR uses notifications to send important updates and alerts about your activity.";
+"NSLocationAlwaysUsageDescription" = "SENAR requires access to your location to show nearby services and enhance your experience.";
+"NSLocationWhenInUseUsageDescription" = "SENAR requires access to your location to show nearby services and enhance your experience.";
+"NSMicrophoneUsageDescription" = "SENAR needs microphone access to record voice messages or enable voice search.";
+"NSPhotoLibraryUsageDescription" = "SENAR needs access to your photo library so you can upload images for your profile.";
+"NSDocumentsFolderUsageDescription" = "SENAR requires access to your documents so you can upload and manage files.";
+"NSMotionUsageDescription" = "SENAR uses motion data to enhance your experience."; 

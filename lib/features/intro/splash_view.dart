@@ -58,8 +58,15 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: CustomImage(Assets.images.logo.path, height: 78.h),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: Image.asset(
+            'assets/images/splash.png',
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }
