@@ -34,7 +34,7 @@ class SliderWidget extends StatelessWidget {
                     width: 72.h,
                     borderRadius: BorderRadius.circular(36.h),
                     fit: BoxFit.cover,
-                    border: Border.all(color: context.secondaryColor),
+                    border: Border.all(color: Color(0xFFd68243)),
                   ).withPadding(horizontal: 4.w),
                 ),
               ),
