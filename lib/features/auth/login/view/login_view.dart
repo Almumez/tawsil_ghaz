@@ -72,31 +72,31 @@ class _LoginViewState extends State<LoginView> {
                 style: context.semiboldText.copyWith(fontSize: 22),
               ),
               SizedBox(height: 45.h),
-                AppField(
-                  controller: cubit.phone,
-                  margin: EdgeInsets.symmetric(vertical: 8.h),
-                  keyboardType: TextInputType.phone,
-                  labelText: "الهاتف",
-                  onChangeCountry: null,
-                  prefixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.w, vertical: 14.h),
-                        child: Text(
-                          "+966",
-                          style: context.regularText.copyWith(fontSize: 14),
-                        ),
+              AppField(
+                controller: cubit.phone,
+                margin: EdgeInsets.symmetric(vertical: 8.h),
+                keyboardType: TextInputType.phone,
+                labelText: "الهاتف",
+                onChangeCountry: null,
+                prefixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
+                      child: Text(
+                        "+966",
+                        style: context.regularText.copyWith(fontSize: 14),
                       ),
-                      Container(
-                        height: 25.h,
-                        width: 1,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      height: 25.h,
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ],
                 ),
+              ),
               AppField(
                 controller: cubit.password,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -129,19 +129,13 @@ class _LoginViewState extends State<LoginView> {
                   }
                 },
                 builder: (context, state) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                    child: AppBtn(
-                      loading: state.requestState == RequestState.loading,
-                      onPressed: () => form.isValid ? cubit.login() : null,
-                      title: LocaleKeys.confirm.tr(),
-                      backgroundColor: Colors.transparent,
-                      textColor: Colors.white,
-                      radius: 30.r,
-                    ),
+                  return AppBtn(
+                    loading: state.requestState == RequestState.loading,
+                    onPressed: () => form.isValid ? cubit.login() : null,
+                    title: LocaleKeys.confirm.tr(),
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    radius: 30.r,
                   );
                 },
               ),
@@ -149,12 +143,12 @@ class _LoginViewState extends State<LoginView> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: LocaleKeys.dont_have_account.tr(),
+                      text: "انشاء حساب",
                       style: context.regularText.copyWith(fontSize: 14),
                     ),
                     const TextSpan(text: ' '),
                     TextSpan(
-                      text: LocaleKeys.create_account.tr(),
+                      text: "تسجيل",
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           showModalBottomSheet<UserTypeModel?>(
