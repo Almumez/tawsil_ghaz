@@ -293,5 +293,11 @@
   "try_again":"حاول مرة اخرى",
   "coming_soon": "قريباً",
   "service_not_available": "نعمل حالياً على توفير هذه الخدمة لكم، ترقبوا إطلاقها قريباً!",
-  "ok": "موافق"
+  "ok": "موافق",
+  "information": "معلومات",
+  "offers": "عروض",
+  "financial": "مالية",
+  "join": "انضمام",
+  "switch_account": "تحويل",
+  "exit": "خروج"
 }

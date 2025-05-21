@@ -294,5 +294,11 @@
   "try_again":"Try Again",
   "coming_soon": "Coming Soon",
   "service_not_available": "We are currently working on making this service available for you. Stay tuned for its launch soon!",
-  "ok": "OK"
+  "ok": "OK",
+  "information": "Information",
+  "offers": "Offers",
+  "financial": "Financial",
+  "join": "Join",
+  "switch_account": "Switch Account",
+  "exit": "Exit"
 }

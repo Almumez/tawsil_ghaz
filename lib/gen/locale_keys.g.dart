@@ -294,4 +294,10 @@ abstract class  LocaleKeys {
   static const coming_soon = 'coming_soon';
   static const service_not_available = 'service_not_available';
   static const ok = 'ok';
+  static const information = 'information';
+  static const offers = 'offers';
+  static const financial = 'financial';
+  static const join = 'join';
+  static const switch_account = 'switch_account';
+  static const exit = 'exit';
 }

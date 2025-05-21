@@ -43,53 +43,59 @@ class BuildProfileList {
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
     ProfileItemModel(
       image: 'assets/svg/information.svg', 
-      title: 'معلومات', 
+      title: LocaleKeys.information, 
       onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
     ),
     ProfileItemModel(
       image: 'assets/svg/receipt-disscount.svg', 
-      title: 'عروض', 
+      title: LocaleKeys.offers, 
       onTap: () => push(NamedRoutes.notifications),
     ),
-    ProfileItemModel(image: Assets.svg.walletIcon, title: 'مالية', onTap: () => push(NamedRoutes.wallet)),
-    ProfileItemModel(image: 'assets/svg/user-add.svg', title: 'انضمام', onTap: () => push(NamedRoutes.register)),
- if (UserModel.i.isAuth) ProfileItemModel(
+    ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.financial, onTap: () => push(NamedRoutes.wallet)),
+    ProfileItemModel(image: 'assets/svg/user-add.svg', title: LocaleKeys.join, onTap: () => push(NamedRoutes.register)),
+    if (UserModel.i.isAuth) ProfileItemModel(
       image: 'assets/svg/profile-2user.svg', 
-      title: 'تحويل', 
+      title: LocaleKeys.switch_account, 
       onTap: () => switchAccountType(),
-    )  ,
-    ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
+    ),
+    ProfileItemModel(image: Assets.svg.logout, title: LocaleKeys.exit, onTap: () => logout()),
   ];
 
-  static List<ProfileItemModel> agentItems = [
+ 
+  static List<ProfileItemModel> freeAgentItems = [
+    ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
+    ProfileItemModel(
+      image: 'assets/svg/information.svg', 
+      title: LocaleKeys.information, 
+      onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
+    ),
+    ProfileItemModel(
+      image: 'assets/svg/receipt-disscount.svg', 
+      title: LocaleKeys.offers, 
+      onTap: () => push(NamedRoutes.notifications),
+    ),
+    ProfileItemModel(image: 'assets/svg/user-add.svg', title: LocaleKeys.join, onTap: () => push(NamedRoutes.register)),
+    ProfileItemModel(
+      image: 'assets/svg/profile-2user.svg', 
+      title: LocaleKeys.switch_account, 
+      onTap: () => switchAccountType(),
+    ),
+    ProfileItemModel(image: Assets.svg.profitsIcon, title: LocaleKeys.profits, onTap: () => push(NamedRoutes.profits)),
+    ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.wallet, onTap: () => push(NamedRoutes.wallet)),
+    ProfileItemModel(image: "assets/svg/document.svg", title: LocaleKeys.car_info, onTap: () => push(NamedRoutes.freeAgentCarInfo)),
+    ProfileItemModel(image: Assets.svg.logout, title: LocaleKeys.exit, onTap: () => logout(), ),
+  ];
+
+
+
+
+
+ static List<ProfileItemModel> agentItems = [
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
     ProfileItemModel(image: Assets.svg.ordersCountIcon, title: LocaleKeys.orders_count, onTap: () => push(NamedRoutes.ordersCount)),
     ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
   ];
-  static List<ProfileItemModel> freeAgentItems = [
-    ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
-ProfileItemModel(
-      image: 'assets/svg/information.svg', 
-      title: 'معلومات', 
-      onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
-    ),
-    ProfileItemModel(
-      image: 'assets/svg/receipt-disscount.svg', 
-      title: 'عروض', 
-      onTap: () => push(NamedRoutes.notifications),
-    ),
-    ProfileItemModel(image: 'assets/svg/user-add.svg', title: 'انضمام', onTap: () => push(NamedRoutes.register)),
-    ProfileItemModel(
-      image: 'assets/svg/profile-2user.svg', 
-      title: 'تحويل', 
-      onTap: () => switchAccountType(),
-    ),
-    ProfileItemModel(image: Assets.svg.profitsIcon, title: LocaleKeys.profits, onTap: () => push(NamedRoutes.profits)),
-
-    ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.wallet, onTap: () => push(NamedRoutes.wallet)),
-    ProfileItemModel(image: "assets/svg/document.svg", title: LocaleKeys.car_info, onTap: () => push(NamedRoutes.freeAgentCarInfo)),
-    ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
-  ];
+  
   static List<ProfileItemModel> productAgentItems = [
     ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.wallet, onTap: () => push(NamedRoutes.wallet)),
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
