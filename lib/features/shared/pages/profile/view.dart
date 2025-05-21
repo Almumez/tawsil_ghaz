@@ -41,11 +41,11 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.canvasColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(LocaleKeys.profile.tr()),
         centerTitle: true,
-        backgroundColor: context.canvasColor,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,12 +53,15 @@ class _ProfileViewState extends State<ProfileView> {
             if (UserModel.i.isAuth)
               Row(
                 children: [
-                  CustomImage(
-                    UserModel.i.image,
-                    height: 72.h,
-                    width: 72.h,
-                    fit: BoxFit.cover,
-                    borderRadius: BorderRadius.circular(36.h),
+                  CustomRadiusIcon(
+                    onTap: () => push(NamedRoutes.editProfile),
+                    size: 40.h,
+                    child: CustomImage(
+                      Assets.images.edit.path,
+                      height: 20.h,
+                      width: 20.h,
+                      color: context.primaryColorDark,
+                    ),
                   ).withPadding(end: 8.w),
                   Expanded(
                     child: Column(
@@ -73,18 +76,9 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                   ),
-                  CustomRadiusIcon(
-                    onTap: () => push(NamedRoutes.editProfile),
-                    size: 40.h,
-                    child: CustomImage(
-                      Assets.images.edit.path,
-                      height: 20.h,
-                      width: 20.h,
-                      color: context.primaryColorDark,
-                    ),
-                  ),
                 ],
               ),
+            SizedBox(height: 10.h),
             ...List.generate(
               _buildItems().length,
               (index) => InkWell(
@@ -93,23 +87,22 @@ class _ProfileViewState extends State<ProfileView> {
                   children: [
                     CustomRadiusIcon(
                       size: 40.h,
-                      backgroundColor: _buildItems()[index].isLogout ? context.errorColor.withValues(alpha: .1) : null,
+                      backgroundColor: Colors.transparent,
                       child: CustomImage(
                         _buildItems()[index].image,
                         height: 20.h,
                         width: 20.h,
                         color: _buildItems()[index].isLogout ? context.errorColor : context.primaryColorDark,
                       ),
-                    ).withPadding(end: 16.w),
+                    ).withPadding(end: 8.w),
                     Expanded(
                       child: Text(
                         _buildItems()[index].title.tr(),
                         style: context.mediumText.copyWith(fontSize: 16, color: _buildItems()[index].isLogout ? context.errorColor : null),
                       ),
                     ),
-                    if (!_buildItems()[index].isLogout) Icon(Icons.arrow_forward_ios, size: 20.h, color: context.primaryColorDark),
                   ],
-                ).withPadding(vertical: 16.h),
+                ).withPadding(vertical: 10.h),
               ),
             )
           ],
