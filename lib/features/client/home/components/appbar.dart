@@ -83,7 +83,7 @@ class _HomeAppbarState extends State<HomeAppbar> {
                     "assets/images/splash.png",
                     height: 70.w,
                     width: 70.w,
-                  ).withPadding(horizontal: 80.w),
+                  ).withPadding(horizontal: 20.w),
                 ],
               ),
             ],
