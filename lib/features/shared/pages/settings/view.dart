@@ -113,7 +113,7 @@ class _SettingsViewState extends State<SettingsView> {
             Row(
               children: [
                 CustomImage(
-                  Assets.svg.notificationIcon,
+                  Assets.svg.notificationsOut,
                   height: 24.h,
                   width: 24.h,
                   color: context.primaryColorDark,
