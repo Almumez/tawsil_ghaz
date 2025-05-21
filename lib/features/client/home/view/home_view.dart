@@ -64,6 +64,7 @@ class _HomeClientViewState extends State<HomeClientView> {
     HomeItemModel(
       title: LocaleKeys.fill.tr(),
       image: Assets.images.homeFill.path,
+
       onTap: () => push(NamedRoutes.centralGasFilling),
     ),
     HomeItemModel(
@@ -94,7 +95,16 @@ class _HomeClientViewState extends State<HomeClientView> {
                       onTap: items[index].onTap,
                       child: Column(
                         children: [
-                          CustomImage(items[index].image, height: 115.h, width: 112.w, fit: BoxFit.fill),
+                          CustomImage(
+
+                            items[index].image,
+                            backgroundColor: Color(0xfff5f5f5),
+                            height: 115.h,
+                            width: 112.w, 
+                            fit: BoxFit.fill,
+                            borderRadius: BorderRadius.circular(25), // إضافة radius للصور
+                            border: Border.all(width: 0, color: Colors.transparent), // إزالة البوردر
+                          ),
                           Text(items[index].title, style: context.mediumText.copyWith(fontSize: 20)),
                         ],
                       ).withPadding(bottom: 16.h, horizontal: 4.w),

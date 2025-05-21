@@ -22,8 +22,9 @@ class RequestGasWidget extends StatelessWidget {
         context.locale.languageCode == 'en' ? Assets.images.homeDistributionEn.path : Assets.images.homeDistribution.path,
         height: 140.h,
         width: 353.w,
+
         fit: BoxFit.cover,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: BorderRadius.all(Radius.circular(25)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
