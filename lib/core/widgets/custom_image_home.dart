@@ -9,7 +9,7 @@ import 'package:gasapp/core/widgets/base_shimmer.dart';
 import 'package:lottie/lottie.dart';
 
 import '../utils/extensions.dart';
-class CustomImage extends StatefulWidget {
+class CustomImageHome extends StatefulWidget {
   final double? height, width;
   final String? url;
   final bool isFile;
@@ -21,7 +21,7 @@ class CustomImage extends StatefulWidget {
   final Color? blurColor, color, backgroundColor;
   final BorderRadiusGeometry? borderRadius;
 
-  const CustomImage(this.url,
+  const CustomImageHome(this.url,
       {super.key,
       this.height,
       this.width,
@@ -37,10 +37,10 @@ class CustomImage extends StatefulWidget {
       this.constraints});
 
   @override
-  State<CustomImage> createState() => _CustomImageState();
+  State<CustomImageHome> createState() => _CustomImageHomeState();
 }
 
-class _CustomImageState extends State<CustomImage> {
+class _CustomImageHomeState extends State<CustomImageHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +72,8 @@ class _CustomImageState extends State<CustomImage> {
                   height: widget.height,
                   width: widget.width,
                   fit: widget.fit ?? BoxFit.contain,
-                  colorFilter: widget.color != null ? ColorFilter.mode(widget.color!, BlendMode.srcIn) : null,
+                  // Removed color filter that was causing the image to disappear
+                  // colorFilter: widget.color != null ? ColorFilter.mode(widget.color!, BlendMode.srcIn) : null,
                 );
               } else if (widget.url?.split(".").last.toLowerCase() == "json") {
                 return CustomLottie(
@@ -228,7 +229,7 @@ class _CashNetworkImageState extends State<CashNetworkImage> {
         decoration: BoxDecoration(borderRadius: widget.borderRadius ?? BorderRadius.zero),
         child: BaseShimmer(
           child: Center(
-            child: CustomImage(
+            child: CustomImageHome(
               'assets/images/logo.png',
               height: widget.height == null || widget.height! / 7 < 20 ? 20 : widget.height! / 7,
             ).withPadding(horizontal: 10),

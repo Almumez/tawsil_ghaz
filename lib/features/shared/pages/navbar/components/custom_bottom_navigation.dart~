@@ -40,7 +40,7 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
                 textAlign: TextAlign.center,
                 title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
                 icon: CustomImageHome(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   
                 backgroundColor: Colors.transparent,
 
