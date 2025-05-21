@@ -30,18 +30,20 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
       bloc: cubit,
       builder: (context, state) {
         return BottomNavyBar(
+            backgroundColor: Colors.white,
             selectedIndex: state,
             itemPadding: EdgeInsets.all(6.w),
             onItemSelected: cubit.changeTap,
             items: List.generate(
               4,
               (i) => BottomNavyBarItem(
+                activeColor: Colors.white,  // تغيير لون الخلفية النشطة إلى أبيض
                 inactiveColor: context.canvasColor,
                 textAlign: TextAlign.center,
                 title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
                 icon: CustomImageHome(
                   color: Colors.white,
-                  
+
                 backgroundColor: Colors.transparent,
 
                   [

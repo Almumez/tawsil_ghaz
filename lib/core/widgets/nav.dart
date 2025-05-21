@@ -95,25 +95,17 @@ class BottomNavyBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: bgColor,
-        boxShadow: [
-          if (showElevation)
-            BoxShadow(
-              color: shadowColor,
-              blurRadius: blurRadius,
-              spreadRadius: spreadRadius,
-              offset: shadowOffset,
-            ),
-        ],
+        color: Colors.transparent, // Eliminar fondo
+        boxShadow: [], // Eliminar sombra
         borderRadius: borderRadius,
       ),
       child: SafeArea(
         child: Container(
           width: context.w,
           height: containerHeight,
-          padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
+          padding: EdgeInsets.symmetric(vertical: 6.h),
           child: Row(
-            mainAxisAlignment: mainAxisAlignment,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: items.map((item) {
               var index = items.indexOf(item);
               return GestureDetector(
@@ -127,6 +119,7 @@ class BottomNavyBar extends StatelessWidget {
                   animationDuration: animationDuration,
                   itemPadding: itemPadding,
                   curve: curve,
+                  numberOfItems: items.length, // Pasar el número total de elementos
                   showInactiveTitle: showInactiveTitle,
                 ),
               );
@@ -148,6 +141,7 @@ class _ItemWidget extends StatelessWidget {
   final EdgeInsets itemPadding;
   final Curve curve;
   final bool showInactiveTitle;
+  final int numberOfItems; // Número total de elementos
 
   const _ItemWidget({
     Key? key,
@@ -159,6 +153,7 @@ class _ItemWidget extends StatelessWidget {
     required this.animationDuration,
     required this.itemPadding,
     required this.showInactiveTitle,
+    required this.numberOfItems, // Requerido
     this.curve = Curves.linear,
   }) : super(key: key);
 
@@ -167,52 +162,27 @@ class _ItemWidget extends StatelessWidget {
     return Semantics(
       container: true,
       selected: isSelected,
-      child: AnimatedContainer(
-        width: (showInactiveTitle)
-            ? ((isSelected) ? MediaQuery.of(context).size.width * 0.25 : MediaQuery.of(context).size.width * 0.2)
-            : ((isSelected) ? MediaQuery.of(context).size.width * 0.3 : MediaQuery.of(context).size.width * 0.1),
+      child: Container(
+        // Ancho fijo para todos los elementos, independientemente de si están seleccionados o no
+        width: MediaQuery.of(context).size.width / numberOfItems,
         height: double.maxFinite,
-        duration: animationDuration,
-        curve: curve,
+        // Sin animación
+        // duration: animationDuration,
+        // curve: curve,
         decoration: BoxDecoration(
-          color: backgroundColor, // Eliminar el fondo gris cuando está seleccionado
+          color: Colors.transparent, // Fondo transparente
           borderRadius: BorderRadius.circular(itemCornerRadius),
         ),
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          padding: EdgeInsets.zero, // Sin padding adicional
           child: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                item.icon,
-                if (isSelected) ...[
-                  SizedBox(width: 6.w),
-                  Flexible(
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: DefaultTextStyle.merge(
-                        style: context.mediumText.copyWith(fontSize: 12),
-                        maxLines: 1,
-                        textAlign: item.textAlign,
-                        overflow: TextOverflow.ellipsis,
-                        child: item.title,
-                      ),
-                    ),
-                  ),
-                ]
-                // Flexible(
-                //   child: ,
-                // ),
-              ],
-            ),
+            child: item.icon // Simplemente mostrar el icono sin filas adicionales
+          ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

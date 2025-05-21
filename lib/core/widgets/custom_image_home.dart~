@@ -44,7 +44,7 @@ class _CustomImageHomeState extends State<CustomImageHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.transparent,
+      color: Colors.red,
       key: widget.url == null ? null : ValueKey(widget.url),
       height: widget.height,
       constraints: widget.constraints,

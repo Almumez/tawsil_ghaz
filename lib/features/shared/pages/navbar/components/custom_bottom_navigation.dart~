@@ -30,29 +30,23 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
       bloc: cubit,
       builder: (context, state) {
         return BottomNavyBar(
+            backgroundColor: Colors.white,
             selectedIndex: state,
+            shadowColor:  Colors.red,
+            shadowOffset:   const Offset(0, 0),
+            showElevation: false,
+
             itemPadding: EdgeInsets.all(6.w),
             onItemSelected: cubit.changeTap,
             items: List.generate(
               4,
               (i) => BottomNavyBarItem(
-                inactiveColor: context.canvasColor,
+                activeColor: Colors.red,
+                 // تغيير لون الخلفية النشطة إلى أبيض
+                inactiveColor: Colors.red,
                 textAlign: TextAlign.center,
                 title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
-                icon: CustomImageHome(
-                  color: Colors.transparent,
-                  
-                backgroundColor: Colors.transparent,
-
-                  [
-                    i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
-                    i == state ? Assets.svg.ordersIn : Assets.svg.ordersOut,
-                    i == state ? Assets.svg.notificationsIn : Assets.svg.notificationsOut,
-                    i == state ? Assets.svg.profileIn : Assets.svg.profileOut,
-                  ][i],
-                  width: 25.r,
-                  height: 25.r,
-                ),
+                icon: Icon(Icons.import_contacts_sharp),
               ),
             )
             //  <BottomNavyBarItem>[
