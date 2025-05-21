@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gasapp/core/services/service_locator.dart';
 import 'package:gasapp/core/utils/extensions.dart';
 import 'package:gasapp/core/widgets/custom_image.dart';
-import 'package:gasapp/core/widgets/custom_image_home.dart';
+import 'package:gasapp/core/widgets/custom_image_nav.dart';
 import 'package:gasapp/core/widgets/nav.dart';
 import 'package:gasapp/features/shared/pages/navbar/cubit/navbar_cubit.dart';
 import 'package:gasapp/gen/assets.gen.dart';
