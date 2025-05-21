@@ -90,50 +90,56 @@ class _NotificationsViewState extends State<NotificationsView> {
               itemCount: cubit.notifications.length,
               itemBuilder: (context, index) {
                 final item = cubit.notifications[index];
-                return Row(
-                  children: [
-                    CustomRadiusIcon(
-                      borderRadius: BorderRadius.circular(10.r),
-                      backgroundColor: '#EBEEF5'.color,
-                      size: 48.sp,
-                      child: CustomImage(
-                        Assets.svg.notifications,
-                        height: 28.sp,
-                        width: 28.sp,
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: Colors.black),
+                    color: context.hoverColor,
+                  ),
+                  child: Row(
+                    children: [
+                      CustomRadiusIcon(
+                        borderRadius: BorderRadius.circular(10.r),
+                        backgroundColor: '#EBEEF5'.color,
+                        size: 48.sp,
+                        child: CustomImage(
+                          Assets.svg.notificationsIn,
+                          height: 28.sp,
+                          width: 28.sp,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title,
-                            style: context.mediumText.copyWith(fontSize: 16),
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            item.title,
-                            style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
-                          ),
-                        ],
-                      ).withPadding(horizontal: 15.w),
-                    ),
-                    CustomRadiusIcon(
-                      size: 32.sp,
-                      onTap: () => cubit.deleteItem(item.id),
-                      backgroundColor: '#F4F4F8'.color,
-                      child: CustomImage(
-                        Assets.svg.deleteNotifications,
-                        height: 16.sp,
-                        width: 16.sp,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.title,
+                              style: context.mediumText.copyWith(fontSize: 16),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              item.title,
+                              style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                            ),
+                          ],
+                        ).withPadding(horizontal: 15.w),
                       ),
-                    ),
-                  ],
+                      CustomRadiusIcon(
+                        size: 32.sp,
+                        onTap: () => cubit.deleteItem(item.id),
+                        backgroundColor: '#F4F4F8'.color,
+                        child: CustomImage(
+                          Assets.svg.deleteNotifications,
+                          height: 16.sp,
+                          width: 16.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 48.h,
-              ),
+              separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16.h),
             );
           } else if (state.getNotifications.isDone) {
             return CustomErrorWidget(
