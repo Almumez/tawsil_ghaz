@@ -86,7 +86,7 @@ class _WalletViewState extends State<WalletView> {
                     } else {
                       return CustomErrorWidget(
                         title: LocaleKeys.transcations.tr(),
-                        image: Assets.images.emptyWallet.path,
+                        image: "assets/svg/wallet_icon.svg",
                         subtitle: LocaleKeys.no_transactions_yet.tr(),
                         errType: ErrorType.empty,
                       ).withPadding(vertical: 24.h);
