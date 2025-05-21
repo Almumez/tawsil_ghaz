@@ -30,7 +30,7 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
       bloc: cubit,
       builder: (context, state) {
         return Container(
-  margin: EdgeInsets.symmetric(horizontal: 10.w), // Reduced from 20.w
+  margin: EdgeInsets.symmetric(horizontal: 25.w), // زيادة المساحة الفارغة من اليمين واليسار
   child: BottomNavyBar(
     backgroundColor: Colors.white,
     selectedIndex: state,
@@ -44,7 +44,7 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
         textAlign: TextAlign.center,
         title: const SizedBox.shrink(),
         icon: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w), // Added padding here instead
+          padding: EdgeInsets.symmetric(horizontal: 5.w), // تقليل المساحة الفارغة بين الأيقونات بشكل أكبر
           child: SvgPicture.asset(
             [
               i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
@@ -52,8 +52,8 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
               i == state ? Assets.svg.notificationsIn : Assets.svg.notificationsOut,
               i == state ? Assets.svg.profileIn : Assets.svg.profileOut,
             ][i],
-            width: 24.r,  // Slightly reduced size
-            height: 24.r, // Slightly reduced size
+            width: 24.r,  // زيادة حجم الأيقونات
+            height: 24.r, // زيادة حجم الأيقونات
             colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
           ),
         ),
