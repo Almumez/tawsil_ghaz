@@ -5,7 +5,11 @@ import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/extensions.dart';
 
-import '../../../../core/widgets/custom_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
 
@@ -16,22 +20,39 @@ class RequestGasWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnglish = context.locale.languageCode == 'en';
+    
     return InkWell(
       onTap: () => push(NamedRoutes.clientChooseDistributingMethod),
-      child: CustomImage(
-        context.locale.languageCode == 'en' ? Assets.images.homeDistributionEn.path : Assets.images.homeDistribution.path,
+      child: Container(
         height: 140.h,
         width: 353.w,
-
-        fit: BoxFit.cover,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25.r),
+          image: DecorationImage(
+            image: AssetImage(
+              isEnglish 
+                ? Assets.images.homeDistributionEn.path 
+                : Assets.images.homeDistribution.path,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(LocaleKeys.distribution.tr(), style: context.boldText.copyWith(fontSize: 23)).withPadding(bottom: 10.h),
-            Text(LocaleKeys.request_gas_now.tr(), style: context.regularText.copyWith(fontSize: 15)),
+            Text(
+              LocaleKeys.distribution.tr(),
+              style: context.boldText.copyWith(
+                fontSize: 28.sp,
+                color: Colors.black, // Assuming text should be white on the image
+              ),
+            ).withPadding(bottom: 10.h),
+
+
           ],
-        ).toStart.withPadding(start: 20.w),
+        ).withPadding(start: 20.w),
       ),
     );
   }
