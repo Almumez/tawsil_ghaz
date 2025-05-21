@@ -19,8 +19,8 @@ logout() {
 
 class BuildProfileList {
   static List<ProfileItemModel> items = [
-    ProfileItemModel(image: Assets.svg.ordersHistory, title: LocaleKeys.orders_history, onTap: () => push(NamedRoutes.clientOrdersHistory)),
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
+    ProfileItemModel(image: Assets.svg.ordersHistory, title: LocaleKeys.orders_history, onTap: () => push(NamedRoutes.clientOrdersHistory)),
     ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
   ];
 
