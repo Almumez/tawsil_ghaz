@@ -9,7 +9,7 @@ import 'package:gasapp/core/widgets/base_shimmer.dart';
 import 'package:lottie/lottie.dart';
 
 import '../utils/extensions.dart';
-class CustomImageHome extends StatefulWidget {
+class CustomImageNav extends StatefulWidget {
   final double? height, width;
   final String? url;
   final bool isFile;
@@ -21,7 +21,7 @@ class CustomImageHome extends StatefulWidget {
   final Color? blurColor, color, backgroundColor;
   final BorderRadiusGeometry? borderRadius;
 
-  const CustomImageHome(this.url,
+  const CustomImageNav(this.url,
       {super.key,
       this.height,
       this.width,
@@ -37,10 +37,10 @@ class CustomImageHome extends StatefulWidget {
       this.constraints});
 
   @override
-  State<CustomImageHome> createState() => _CustomImageHomeState();
+  State<CustomImageNav> createState() => _CustomImageNavState();
 }
 
-class _CustomImageHomeState extends State<CustomImageHome> {
+class _CustomImageNavState extends State<CustomImageNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -217,7 +217,7 @@ class _CashNetworkImageState extends State<CashNetworkImage> {
         decoration: BoxDecoration(borderRadius: widget.borderRadius ?? BorderRadius.zero),
         child: BaseShimmer(
           child: Center(
-            child: CustomImageHome(
+            child: CustomImageNav(
               'assets/images/logo.png',
               height: widget.height == null || widget.height! / 7 < 20 ? 20 : widget.height! / 7,
             ).withPadding(horizontal: 10),

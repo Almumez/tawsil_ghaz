@@ -41,7 +41,7 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
                 inactiveColor: context.canvasColor,
                 textAlign: TextAlign.center,
                 title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
-                icon: CustomImageHome(
+                icon: CustomImageNav(
                   color: Colors.white,
 
                 backgroundColor: Colors.transparent,
