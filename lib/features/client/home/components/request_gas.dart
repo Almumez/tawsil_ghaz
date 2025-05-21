@@ -196,7 +196,6 @@ class RequestGasWidget extends StatelessWidget {
       width: double.infinity,
       fit: BoxFit.cover,
       borderRadius: BorderRadius.all(Radius.circular(12.r)),
-      border: Border.all(color: context.primaryColorDark.withValues(alpha: .2)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
