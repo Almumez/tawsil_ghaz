@@ -8,8 +8,6 @@ import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/phoneix.dart';
 import '../../../../core/widgets/custom_image.dart';
-import '../../../../core/widgets/custom_radius_icon.dart';
-import 'controller/state.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../models/user_model.dart';
 
@@ -22,6 +20,7 @@ import '../../../../gen/locale_keys.g.dart';
 import '../../../../models/profile_item.dart';
 import '../../components/appbar.dart';
 import 'controller/cubit.dart';
+import 'controller/state.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -48,152 +47,147 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CustomAppbar(title: LocaleKeys.settings.tr()),
-      body: Container(
-        padding: EdgeInsets.all(10.h),
-        width: context.w,
-        decoration: BoxDecoration(color: context.cardColor, borderRadius: BorderRadius.circular(8)),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 32.h,
-            children: [
-              BlocConsumer<SettingsCubit, SettingsState>(
-                bloc: cubit,
-                listener: (context, state) {
-                  if (state.changeLanguageState.isDone) {
-                    navigator.currentContext!.setLocale(state.locale!);
-                    Phoenix.rebirth(context);
-                  } else if (state.changeLanguageState.isError) {
-                    FlashHelper.showToast(state.msg);
-                  }
-                },
-                builder: (context, state) {
-                  return Row(
-                    children: [
-                      CustomRadiusIcon(
-                        size: 40.h,
-                        backgroundColor: context.primaryColorLight,
-                        child: CustomImage(Assets.svg.languageIcon, height: 18.h),
-                      ).withPadding(end: 12.w),
-                      Expanded(child: Text(LocaleKeys.language.tr(), style: context.mediumText)),
-                      InkWell(
-                        onTap: () async {
-                          final localeResult = await showModalBottomSheet<SelectModel?>(
-                            context: context,
-                            builder: (context) => SelectItemSheet(
-                              title: LocaleKeys.choose.tr(args: [LocaleKeys.language.tr()]),
-                              items: const [
-                                SelectModel(id: Locale('en', 'US'), name: 'English'),
-                                SelectModel(id: Locale('ar', 'SA'), name: 'العربية'),
-                              ],
-                              initItem: SelectModel(
-                                id: context.locale,
-                                name: context.locale.languageCode == 'en' ? "English" : "العربية",
-                              ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 50.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 32.h,
+          children: [
+            BlocConsumer<SettingsCubit, SettingsState>(
+              bloc: cubit,
+              listener: (context, state) {
+                if (state.changeLanguageState.isDone) {
+                  navigator.currentContext!.setLocale(state.locale!);
+                  Phoenix.rebirth(context);
+                } else if (state.changeLanguageState.isError) {
+                  FlashHelper.showToast(state.msg);
+                }
+              },
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    CustomImage(
+                      Assets.svg.languageIcon,
+                      height: 24.h,
+                      width: 24.h,
+                      color: context.primaryColorDark,
+                    ).withPadding(end: 16.w),
+                    Expanded(child: Text(LocaleKeys.language.tr(), style: context.mediumText)),
+                    InkWell(
+                      onTap: () async {
+                        final localeResult = await showModalBottomSheet<SelectModel?>(
+                          context: context,
+                          builder: (context) => SelectItemSheet(
+                            title: LocaleKeys.choose.tr(args: [LocaleKeys.language.tr()]),
+                            items: const [
+                              SelectModel(id: Locale('en', 'US'), name: 'English'),
+                              SelectModel(id: Locale('ar', 'SA'), name: 'العربية'),
+                            ],
+                            initItem: SelectModel(
+                              id: context.locale,
+                              name: context.locale.languageCode == 'en' ? "English" : "العربية",
                             ),
-                          );
-                          if (context.mounted) {
-                            cubit.locale = localeResult!.id;
-                            cubit.changeLanguage(getLangUrl(localeResult.id));
-                          }
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              context.locale.languageCode == 'en' ? LocaleKeys.english.tr() : LocaleKeys.arabic.tr(),
-                              style: context.mediumText,
-                            ).withPadding(end: 6.w),
-                            state.changeLanguageState.isLoading ? CustomProgress(size: 16.h) : Icon(Icons.keyboard_arrow_down),
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
-              Row(
-                children: [
-                  CustomRadiusIcon(
-                    size: 40.h,
-                    backgroundColor: context.primaryColorLight,
-                    child: CustomImage(Assets.svg.notificationIcon, height: 18.h),
-                  ).withPadding(end: 12.w),
-                  Expanded(child: Text(LocaleKeys.notifications.tr(), style: context.mediumText)),
-                  BlocConsumer<SettingsCubit, SettingsState>(
-                    bloc: cubit,
-                    listener: (context, state) {
-                      if (state.allowNotificationsState.isDone) {
-                        Phoenix.rebirth(context);
-                      } else if (state.allowNotificationsState.isError) {
-                        FlashHelper.showToast(state.msg);
-                      }
-                    },
-                    builder: (context, state) {
-                      return Switch(
-                        activeColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        activeTrackColor: context.primaryColorDark.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        inactiveTrackColor: context.shadowColor.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
-                        value: UserModel.i.isNotified,
-                        onChanged: (value) {
-                          cubit.allowNotifications();
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-              ...List.generate(
-                items.length,
-                (index) => InkWell(
-                  onTap: items[index].onTap,
-                  child: Row(
-                    children: [
-                      CustomRadiusIcon(
-                        size: 40.h,
-                        backgroundColor: items[index].isLogout ? context.errorColor.withValues(alpha: .1) : null,
-                        child: CustomImage(
-                          items[index].image,
-                          height: 20.h,
-                          width: 20.h,
-                          color: items[index].isLogout ? context.errorColor : context.primaryColorDark,
-                        ),
-                      ).withPadding(end: 16.w),
-                      Expanded(
-                        child: Text(
-                          items[index].title.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16, color: items[index].isLogout ? context.errorColor : null),
-                        ),
+                          ),
+                        );
+                        if (context.mounted) {
+                          cubit.locale = localeResult!.id;
+                          cubit.changeLanguage(getLangUrl(localeResult.id));
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            context.locale.languageCode == 'en' ? LocaleKeys.english.tr() : LocaleKeys.arabic.tr(),
+                            style: context.mediumText,
+                          ).withPadding(end: 6.w),
+                          state.changeLanguageState.isLoading ? CustomProgress(size: 16.h) : Icon(Icons.keyboard_arrow_down),
+                        ],
                       ),
-                      if (!items[index].isLogout) Icon(Icons.arrow_forward_ios, size: 20.h, color: context.primaryColorDark),
-                    ],
-                  ),
+                    )
+                  ],
+                );
+              },
+            ).withPadding(bottom: 0.h),
+            Row(
+              children: [
+                CustomImage(
+                  Assets.svg.notificationIcon,
+                  height: 24.h,
+                  width: 24.h,
+                  color: context.primaryColorDark,
+                ).withPadding(end: 16.w),
+                Expanded(child: Text(LocaleKeys.notifications.tr(), style: context.mediumText)),
+                BlocConsumer<SettingsCubit, SettingsState>(
+                  bloc: cubit,
+                  listener: (context, state) {
+                    if (state.allowNotificationsState.isDone) {
+                      Phoenix.rebirth(context);
+                    } else if (state.allowNotificationsState.isError) {
+                      FlashHelper.showToast(state.msg);
+                    }
+                  },
+                  builder: (context, state) {
+                    return Switch(
+                      activeColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                      activeTrackColor: context.primaryColorDark.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                      inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                      inactiveTrackColor: context.shadowColor.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                      trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                      value: UserModel.i.isNotified,
+                      onChanged: (value) {
+                        cubit.allowNotifications();
+                      },
+                    );
+                  },
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => DeleteAccountSheet(),
-                  );
-                },
+              ],
+            ).withPadding(bottom: 12.h),
+            ...List.generate(
+              items.length,
+              (index) => InkWell(
+                onTap: items[index].onTap,
                 child: Row(
                   children: [
-                    CustomRadiusIcon(
-                      size: 40.h,
-                      backgroundColor: context.errorColor.withValues(alpha: .1),
-                      child: CustomImage(Assets.svg.deleteIcon, height: 18.h),
-                    ).withPadding(end: 12.w),
-                    Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(color: context.errorColor))),
+                    CustomImage(
+                      items[index].image,
+                      height: 24.h,
+                      width: 24.h,
+                      color: items[index].isLogout ? context.errorColor : context.primaryColorDark,
+                    ).withPadding(end: 16.w),
+                    Expanded(
+                      child: Text(
+                        items[index].title.tr(),
+                        style: context.mediumText.copyWith(fontSize: 16, color: items[index].isLogout ? context.errorColor : null),
+                      ),
+                    ),
                   ],
                 ),
+              ).withPadding(bottom: 12.h),
+            ),
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => DeleteAccountSheet(),
+                );
+              },
+              child: Row(
+                children: [
+                  CustomImage(
+                    Assets.svg.deleteIcon,
+                    height: 24.h,
+                    width: 24.h,
+                    color: context.errorColor,
+                  ).withPadding(end: 16.w),
+                  Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(color: context.errorColor))),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ).withPadding(horizontal: 16.w, vertical: 16.h),
+      ),
     );
   }
 }
