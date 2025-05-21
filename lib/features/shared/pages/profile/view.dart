@@ -78,7 +78,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ],
               ),
-            SizedBox(height: 10.h),
             ...List.generate(
               _buildItems().length,
               (index) => InkWell(
@@ -102,7 +101,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ],
-                ).withPadding(vertical: 10.h),
+                ).withPadding(vertical: 3 .h),
               ),
             )
           ],
