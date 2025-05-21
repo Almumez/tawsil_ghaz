@@ -15,10 +15,8 @@ import '../../../../core/widgets/app_btn.dart';
 import '../../../../core/widgets/app_field.dart';
 import '../../../../core/widgets/change_password_sheet.dart';
 import '../../../../core/widgets/custom_image.dart';
-import '../../../../core/widgets/custom_radius_icon.dart';
 import '../../../../core/widgets/flash_helper.dart';
 import '../../../../core/widgets/loading.dart';
-import '../../../../core/widgets/pick_image.dart';
 import '../../../../core/widgets/pin_code_sheet.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
@@ -52,92 +50,12 @@ class _EditProfileViewState extends State<EditProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: LocaleKeys.edit_profile.tr()),
-      bottomNavigationBar: SafeArea(
-        child: StreamBuilder<bool>(
-            stream: _buttonStream.stream,
-            builder: (context, snapshot) {
-              return BlocConsumer<EditProfileCubit, EditProfileState>(
-                  bloc: cubit,
-                  listener: (context, state) {
-                    if (state.requestState.isDone) {
-                      Phoenix.rebirth(context);
-                      _buttonStream.add(cubit.canUpdate);
-                      FlashHelper.showToast(state.msg, type: MessageType.success);
-                    }
-                  },
-                  builder: (context, state) {
-                    return AppBtn(
-                      enable: snapshot.data ?? false,
-                      title: LocaleKeys.confirm.tr(),
-                      loading: state.requestState.isLoading,
-                      onPressed: () {
-                        cubit.updateProfile();
-                      },
-                    );
-                  }).withPadding(horizontal: 16.w, bottom: 16.h);
-            }),
-      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           children: [
-            BlocConsumer<UploadAttachmentCubit, UploadAttachmentState>(
-              bloc: attachmentCubit,
-              listener: (context, state) {
-                if (state.requestState.isDone) {
-                  cubit.pickedImage = state.file!;
-                  cubit.image = state.key;
-                  _buttonStream.add(cubit.canUpdate);
-                } else if (state.requestState.isError) {
-                  FlashHelper.showToast(state.msg);
-                }
-              },
-              builder: (context, state) {
-                return InkWell(
-                  onTap: () async {
-                    if (!state.requestState.isLoading) {
-                      final result = await showModalBottomSheet(
-                        elevation: 0,
-                        context: context,
-                        isScrollControlled: true,
-                        isDismissible: true,
-                        builder: (context) => PickImage(
-                          title: LocaleKeys.pick_image.tr(),
-                        ),
-                      );
-                      if (result != null) {
-                        setState(() {
-                          attachmentCubit.file = result;
-                        });
-                        attachmentCubit.uploadAttachment(model: 'User');
-                      }
-                    }
-                  },
-                  child: Badge(
-                    label: CustomRadiusIcon(
-                      size: 32.h,
-                      backgroundColor: context.primaryColorDark,
-                      child: state.requestState.isLoading
-                          ? CustomProgress(size: 16.h, color: context.primaryColorLight)
-                          : CustomImage(Assets.images.edit.path, color: context.primaryColorLight, height: 16.h),
-                    ),
-                    backgroundColor: Colors.transparent,
-                    offset: Offset(context.locale.languageCode == 'en' ? -25.w : 80.w, 90.h),
-                    child: CustomImage(
-                      cubit.pickedImage?.path ?? UserModel.i.image,
-                      border: Border.all(color: context.hoverColor),
-                      height: 120.h,
-                      isFile: true,
-                      width: 120.h,
-                      fit: BoxFit.cover,
-                      borderRadius: BorderRadius.circular(60.r),
-                    ),
-                  ),
-                );
-              },
-            ).center,
-          
-            SizedBox(height: 10.h),
+            // إخفاء الصورة وزر التعديل
+            SizedBox(height: 20.h),
             InkWell(
               onTap: () {
                 showModalBottomSheet(
@@ -149,12 +67,15 @@ class _EditProfileViewState extends State<EditProfileView> {
                 );
               },
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomImage(Assets.images.keyIcon.path, height: 16.h).withPadding(end: 8.w),
-                  Text(LocaleKeys.change_password.tr(), style: context.regularText),
+                  CustomImage(Assets.images.keyIcon.path, height: 24.h).withPadding(end: 12.w),
+                  Text(
+                    LocaleKeys.change_password.tr(), 
+                    style: context.mediumText.copyWith(fontSize: 18.sp),
+                  ),
                 ],
-              ).withPadding(bottom: 25.h),
+              ).withPadding(bottom: 30.h),
             ),
             AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 16.h),
             if (UserModel.i.accountType != UserType.client)
@@ -180,37 +101,39 @@ class _EditProfileViewState extends State<EditProfileView> {
               },
               builder: (context, state) {
                 return AppField(
-                  labelText: LocaleKeys.phone_number.tr(),
+                  labelText: LocaleKeys.phone.tr(),
                   controller: cubit.phone,
-                  initCountry: cubit.country,
-                  onChangeCountry: (country) {
-                    cubit.country = country;
-                    _phoneStream.add(cubit.canUpdatePhone);
-                  },
+                  showFlag: false,
+                  phoneCode: "+966",
                   keyboardType: TextInputType.phone,
-                  suffixIcon: SizedBox(
-                    width: 60.w,
-                    child: Center(
-                      child: StreamBuilder<bool>(
-                        stream: _phoneStream.stream,
-                        builder: (context, sna) {
-                          return InkWell(
-                            onTap: () {
-                              if (sna.data == true && cubit.phone.text.isNotEmpty) {
-                                cubit.updatePhone();
-                              }
-                            },
-                            child: Text(
-                              LocaleKeys.confirm.tr(),
-                              style: context.regularText.copyWith(color: sna.data == true ? context.primaryColorDark : context.hintColor),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
                 );
               },
+            ),
+            SizedBox(height: 30.h),
+            StreamBuilder<bool>(
+              stream: _buttonStream.stream,
+              builder: (context, snapshot) {
+                return BlocConsumer<EditProfileCubit, EditProfileState>(
+                  bloc: cubit,
+                  listener: (context, state) {
+                    if (state.requestState.isDone) {
+                      Phoenix.rebirth(context);
+                      _buttonStream.add(cubit.canUpdate);
+                      FlashHelper.showToast(state.msg, type: MessageType.success);
+                    }
+                  },
+                  builder: (context, state) {
+                    return AppBtn(
+                      enable: snapshot.data ?? false,
+                      title: LocaleKeys.confirm.tr(),
+                      loading: state.requestState.isLoading,
+                      onPressed: () {
+                        cubit.updateProfile();
+                      },
+                    );
+                  }
+                );
+              }
             ),
           ],
         ),

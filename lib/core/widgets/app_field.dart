@@ -37,6 +37,8 @@ class AppField extends StatefulWidget {
   final Widget? suffixIcon, prefixIcon;
   final Color? fillColor;
   final String? direction;
+  final bool showFlag;
+  final String? phoneCode;
 
   const AppField({
     super.key,
@@ -61,6 +63,8 @@ class AppField extends StatefulWidget {
     this.enable,
     this.readOnly,
     this.direction,
+    this.showFlag = true,
+    this.phoneCode,
   });
 
   @override
@@ -215,6 +219,27 @@ class _AppFieldState extends State<AppField> {
     if (widget.prefixIcon != null) {
       return widget.prefixIcon;
     } else if (widget.keyboardType == TextInputType.phone) {
+      final phoneCode = widget.phoneCode ?? "+${country.phoneCode.isNotEmpty ? country.phoneCode : 'XX'}";
+      
+      if (!widget.showFlag) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              phoneCode,
+              style: context.regularText.copyWith(fontSize: 12),
+              textDirection: TextDirection.ltr,
+            ).withPadding(start: 10.w, end: 10.w),
+            Container(
+              margin: EdgeInsetsDirectional.only(end: 10.w),
+              height: 15.h,
+              width: 1,
+              color: context.hintColor,
+            )
+          ],
+        );
+      }
+      
       return BlocConsumer<CountriesCubit, CountriesState>(
         bloc: countryCubit,
         listener: (context, state) {
@@ -263,7 +288,7 @@ class _AppFieldState extends State<AppField> {
                   width: 21.w,
                 ).withPadding(start: 4.w, end: 4.w),
                 Text(
-                  "+${country.phoneCode.isNotEmpty ? country.phoneCode : 'XX'}",
+                  phoneCode,
                   style: context.regularText.copyWith(fontSize: 12),
                   textDirection: TextDirection.ltr,
                 ),
