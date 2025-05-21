@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../models/user_model.dart';
 
 import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
+import '../../../../core/utils/enums.dart';
 import '../../../../core/widgets/logout_sheet.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
@@ -17,11 +19,38 @@ logout() {
   );
 }
 
+// Function to switch between client and agent account types
+void switchAccountType() {
+  // This would be implemented with the proper API call to switch account types
+  // For now, just show a dialog or navigate to a screen to handle this
+  showDialog(
+    context: navigator.currentContext!,
+    builder: (context) => AlertDialog(
+      title: Text(LocaleKeys.profile.tr()),
+      content: Text('Switch account type functionality will be implemented here.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
 class BuildProfileList {
   static List<ProfileItemModel> items = [
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
-    ProfileItemModel(image: Assets.svg.ordersHistory, title: LocaleKeys.orders_history, onTap: () => push(NamedRoutes.clientOrdersHistory)),
-    ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
+    ProfileItemModel(image: 'assets/svg/information.svg', title: 'معلومات', onTap: () => push(NamedRoutes.static)),
+    ProfileItemModel(image: 'assets/svg/receipt-disscount.svg', title: 'عروض', onTap: () => push(NamedRoutes.agentShowOrder)),
+    ProfileItemModel(image: Assets.svg.walletIcon, title: 'مالية', onTap: () => push(NamedRoutes.wallet)),
+    ProfileItemModel(image: 'assets/svg/user-add.svg', title: 'انضمام', onTap: () => push(NamedRoutes.register)),
+    ProfileItemModel(
+      image: 'assets/svg/profile-2user.svg', 
+      title: 'تحويل', 
+      onTap: () => switchAccountType(),
+    ),
+    ProfileItemModel(image: Assets.svg.logout, title: 'خروج', onTap: () => logout(),),
   ];
 
   static List<ProfileItemModel> agentItems = [
