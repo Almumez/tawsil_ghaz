@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gasapp/core/services/service_locator.dart';
 import 'package:gasapp/core/utils/extensions.dart';
 import 'package:gasapp/core/widgets/custom_image.dart';
-import 'package:gasapp/core/widgets/custom_image_nav.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gasapp/core/widgets/nav.dart';
 import 'package:gasapp/features/shared/pages/navbar/cubit/navbar_cubit.dart';
 import 'package:gasapp/gen/assets.gen.dart';
@@ -37,15 +37,11 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
             items: List.generate(
               4,
               (i) => BottomNavyBarItem(
-                activeColor: Colors.white,  // تغيير لون الخلفية النشطة إلى أبيض
-                inactiveColor: context.canvasColor,
+                activeColor: Colors.black,  // Set active icon color to black
+                inactiveColor: Colors.black,  // Set inactive icon color to black
                 textAlign: TextAlign.center,
-                title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
-                icon: CustomImageNav(
-                  color: Colors.white,
-
-                backgroundColor: Colors.transparent,
-
+                title: const SizedBox.shrink(),
+                icon: SvgPicture.asset(
                   [
                     i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
                     i == state ? Assets.svg.ordersIn : Assets.svg.ordersOut,
@@ -54,6 +50,7 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
                   ][i],
                   width: 25.r,
                   height: 25.r,
+                  colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
                 ),
               ),
             )
