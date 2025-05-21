@@ -29,47 +29,38 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
     return BlocBuilder<NavbarCubit, int>(
       bloc: cubit,
       builder: (context, state) {
-        return BottomNavyBar(
-            backgroundColor: Colors.white,
-            selectedIndex: state,
-            itemPadding: EdgeInsets.all(6.w),
-            onItemSelected: cubit.changeTap,
-            items: List.generate(
-              4,
-              (i) => BottomNavyBarItem(
-                activeColor: Colors.black,  // Set active icon color to black
-                inactiveColor: Colors.black,  // Set inactive icon color to black
-                textAlign: TextAlign.center,
-                title: const SizedBox.shrink(),
-                icon: SvgPicture.asset(
-                  [
-                    i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
-                    i == state ? Assets.svg.ordersIn : Assets.svg.ordersOut,
-                    i == state ? Assets.svg.notificationsIn : Assets.svg.notificationsOut,
-                    i == state ? Assets.svg.profileIn : Assets.svg.profileOut,
-                  ][i],
-                  width: 25.r,
-                  height: 25.r,
-                  colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                ),
-              ),
-            )
-            //  <BottomNavyBarItem>[
-
-            //   BottomNavyBarItem(
-            //     title: Text('Item Two'),
-            //     icon: Icon(Icons.apps),
-            //   ),
-            //   BottomNavyBarItem(
-            //     title: Text('Item Three'),
-            //     icon: Icon(Icons.chat_bubble),
-            //   ),
-            //   BottomNavyBarItem(
-            //     title: Text('Item Four'),
-            //     icon: Icon(Icons.settings),
-            //   ),
-            // ],
-            );
+        return Container(
+  margin: EdgeInsets.symmetric(horizontal: 10.w), // Reduced from 20.w
+  child: BottomNavyBar(
+    backgroundColor: Colors.white,
+    selectedIndex: state,
+    onItemSelected: cubit.changeTap,
+    itemPadding: EdgeInsets.zero, // Removed horizontal padding here
+    items: List.generate(
+      4,
+      (i) => BottomNavyBarItem(
+        activeColor: Colors.black,
+        inactiveColor: Colors.black,
+        textAlign: TextAlign.center,
+        title: const SizedBox.shrink(),
+        icon: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w), // Added padding here instead
+          child: SvgPicture.asset(
+            [
+              i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
+              i == state ? Assets.svg.ordersIn : Assets.svg.ordersOut,
+              i == state ? Assets.svg.notificationsIn : Assets.svg.notificationsOut,
+              i == state ? Assets.svg.profileIn : Assets.svg.profileOut,
+            ][i],
+            width: 24.r,  // Slightly reduced size
+            height: 24.r, // Slightly reduced size
+            colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+          ),
+        ),
+      ),
+    ),
+  ),
+);
       },
     );
 

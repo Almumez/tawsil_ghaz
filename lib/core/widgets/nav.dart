@@ -104,26 +104,34 @@ class BottomNavyBar extends StatelessWidget {
           width: context.w,
           height: containerHeight,
           padding: EdgeInsets.symmetric(vertical: 6.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: items.map((item) {
-              var index = items.indexOf(item);
-              return GestureDetector(
-                onTap: () => onItemSelected(index),
-                child: _ItemWidget(
-                  item: item,
-                  iconSize: iconSize,
-                  isSelected: index == selectedIndex,
-                  backgroundColor: bgColor,
-                  itemCornerRadius: itemCornerRadius,
-                  animationDuration: animationDuration,
-                  itemPadding: itemPadding,
-                  curve: curve,
-                  numberOfItems: items.length, // Pasar el número total de elementos
-                  showInactiveTitle: showInactiveTitle,
-                ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final itemWidth = constraints.maxWidth / items.length;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: items.map((item) {
+                  var index = items.indexOf(item);
+                  return SizedBox(
+                    width: itemWidth,
+                    child: GestureDetector(
+                      onTap: () => onItemSelected(index),
+                      child: _ItemWidget(
+                        item: item,
+                        iconSize: iconSize,
+                        isSelected: index == selectedIndex,
+                        backgroundColor: bgColor,
+                        itemCornerRadius: itemCornerRadius,
+                        animationDuration: animationDuration,
+                        itemPadding: itemPadding,
+                        curve: curve,
+                        numberOfItems: items.length,
+                        showInactiveTitle: showInactiveTitle,
+                      ),
+                    ),
+                  );
+                }).toList(),
               );
-            }).toList(),
+            },
           ),
         ),
       ),
