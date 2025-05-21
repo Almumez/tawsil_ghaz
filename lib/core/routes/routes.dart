@@ -19,6 +19,7 @@ class NamedRoutes {
   static const profits = "/profits";
   static const ordersCount = "/ordersCount";
   static const wallet = "/wallet";
+  static const notifications = "/notifications";
 
   static const clientChooseDistributingMethod = "/clientChooseDistributingMethod";
   static const buyCylinder = "/buyCylinder";

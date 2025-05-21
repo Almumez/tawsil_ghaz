@@ -41,8 +41,16 @@ void switchAccountType() {
 class BuildProfileList {
   static List<ProfileItemModel> items = [
     ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
-    ProfileItemModel(image: 'assets/svg/information.svg', title: 'معلومات', onTap: () => push(NamedRoutes.static)),
-    ProfileItemModel(image: 'assets/svg/receipt-disscount.svg', title: 'عروض', onTap: () => push(NamedRoutes.agentShowOrder)),
+    ProfileItemModel(
+      image: 'assets/svg/information.svg', 
+      title: 'معلومات', 
+      onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
+    ),
+    ProfileItemModel(
+      image: 'assets/svg/receipt-disscount.svg', 
+      title: 'عروض', 
+      onTap: () => push(NamedRoutes.notifications),
+    ),
     ProfileItemModel(image: Assets.svg.walletIcon, title: 'مالية', onTap: () => push(NamedRoutes.wallet)),
     ProfileItemModel(image: 'assets/svg/user-add.svg', title: 'انضمام', onTap: () => push(NamedRoutes.register)),
     ProfileItemModel(

@@ -45,6 +45,7 @@ import '../../features/shared/pages/static_pages/view.dart';
 import '../../features/shared/pages/wallet/view/transactions_view.dart';
 import '../../features/shared/pages/wallet/view/wallet_view.dart';
 import '../../features/shared/pages/wallet/view/withdrow_view.dart';
+import '../../features/shared/pages/notifications/view/notifications_view.dart';
 import '../../features/technician/order_details/view/order_details_view.dart';
 import '../services/my_fatoora.dart';
 import '../utils/extensions.dart';
@@ -81,6 +82,7 @@ class AppRoutes {
     NamedRoutes.profits: (c) => ProfitsView(),
     NamedRoutes.ordersCount: (c) => OrdersCountView(),
     NamedRoutes.wallet: (c) => WalletView(),
+    NamedRoutes.notifications: (c) => NotificationsView(),
     NamedRoutes.clientChooseDistributingMethod: (c) =>
         ClientChooseDistributingService(),
     NamedRoutes.buyCylinder: (c) => BuyCylinderView(),
