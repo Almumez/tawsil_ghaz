@@ -175,7 +175,7 @@ class _ItemWidget extends StatelessWidget {
         duration: animationDuration,
         curve: curve,
         decoration: BoxDecoration(
-          color: isSelected ? context.canvasColor : backgroundColor,
+          color: backgroundColor, // Eliminar el fondo gris cuando está seleccionado
           borderRadius: BorderRadius.circular(itemCornerRadius),
         ),
         child: Container(

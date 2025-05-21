@@ -30,7 +30,6 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
       builder: (context, state) {
         return BottomNavyBar(
             selectedIndex: state,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             itemPadding: EdgeInsets.all(6.w),
             onItemSelected: cubit.changeTap,
             items: List.generate(
@@ -38,16 +37,10 @@ class _CustomNavigationBarItemsState extends State<CustomNavigationBarItems> {
               (i) => BottomNavyBarItem(
                 inactiveColor: context.canvasColor,
                 textAlign: TextAlign.center,
-                title: Text(
-                  [
-                    LocaleKeys.home.tr(),
-                    LocaleKeys.orders.tr(),
-                    LocaleKeys.notifications.tr(),
-                    LocaleKeys.profile.tr(),
-                  ][i],
-                  style: context.boldText.copyWith(color: context.primaryColorDark, fontWeight: FontWeight.w700, fontSize: 12),
-                ),
+                title: const SizedBox.shrink(), // Eliminar texto, mostrar solo iconos
                 icon: CustomImage(
+                backgroundColor: Colors.transparent,
+
                   [
                     i == state ? Assets.svg.homeIn : Assets.svg.homeOut,
                     i == state ? Assets.svg.ordersIn : Assets.svg.ordersOut,
