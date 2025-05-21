@@ -40,50 +40,52 @@ class _HomeAppbarState extends State<HomeAppbar> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    UserModel.i.isAuth
-                        ? UserModel.i.fullname.split(' ').firstOrNull ?? ''
-                        : LocaleKeys.guest.tr(),
-                    style: context.mediumText.copyWith(fontSize: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          UserModel.i.isAuth
+                              ? UserModel.i.fullname.split(' ').firstOrNull ?? ''
+                              : LocaleKeys.guest.tr(),
+                          style: context.mediumText.copyWith(fontSize: 16),
+                        ).withPadding(horizontal: 20.w, bottom: 10.h,top: 10.h,),
+                        if (UserModel.i.isAuth)
+                          InkWell(
+                            onTap: () => push(NamedRoutes.addresses)
+                                .then((_) => cubit.getAddresses(withLoading: false)),
+                            child: Row(
+                              spacing: 3.w,
+                              children: [
+                                CustomImage(
+                                  Assets.svg.location,
+                                  height: 14.sp,
+                                  width: 14.sp,
+                                ).withPadding(end: 4.w),
+                                Flexible(
+                                  child: Text(
+                                    cubit.defaultAddress?.placeTitle.isNotEmpty ==
+                                            true
+                                        ? cubit.defaultAddress!.placeTitle
+                                        : LocaleKeys.add_address.tr(),
+                                    style: context.mediumText.copyWith(fontSize: 14),
+                                  ),
+                                ),
+                                Icon(Icons.keyboard_arrow_down_outlined)
+                              ],
+                            ),
+                          ).withPadding(horizontal: 20.w)                      ],
+                    ),
                   ),
-                  SizedBox(width: 150.w),
                   CustomImage(
                     "assets/images/splash.png",
-                    height: 55.w,
-                    width: 55.w,
-                  ),
+                    height: 70.w,
+                    width: 70.w,
+                  ).withPadding(horizontal: 80.w),
                 ],
-              ).withPadding(bottom: 10.h),
-              if (UserModel.i.isAuth)
-                Builder(
-                  builder: (context) {
-                    return InkWell(
-                      onTap: () => push(NamedRoutes.addresses)
-                          .then((_) => cubit.getAddresses(withLoading: false)),
-                      child: Row(
-                        spacing: 3.w,
-                        children: [
-                          CustomImage(
-                            Assets.svg.location,
-                            height: 14.sp,
-                            width: 14.sp,
-                          ).withPadding(end: 4.w),
-                          Flexible(
-                            child: Text(
-                              cubit.defaultAddress?.placeTitle.isNotEmpty ==
-                                      true
-                                  ? cubit.defaultAddress!.placeTitle
-                                  : LocaleKeys.add_address.tr(),
-                              style: context.mediumText.copyWith(fontSize: 14),
-                            ),
-                          ),
-                          Icon(Icons.keyboard_arrow_down_outlined)
-                        ],
-                      ),
-                    );
-                  },
-                )
+              ),
             ],
           );
         },
