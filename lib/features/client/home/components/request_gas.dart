@@ -36,6 +36,7 @@ class RequestGasWidget extends StatelessWidget {
                 : Assets.images.homeDistribution.path,
             ),
             fit: BoxFit.cover,
+            opacity: .7
           ),
         ),
         child: Column(
