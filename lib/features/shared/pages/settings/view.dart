@@ -109,7 +109,7 @@ class _SettingsViewState extends State<SettingsView> {
                   ],
                 );
               },
-            ).withPadding(bottom: 0.h),
+            ).withPadding(bottom: 4.h),
             Row(
               children: [
                 CustomImage(
@@ -143,7 +143,7 @@ class _SettingsViewState extends State<SettingsView> {
                   },
                 ),
               ],
-            ).withPadding(bottom: 12.h),
+            ).withPadding(bottom: 4.h),
             ...List.generate(
               items.length,
               (index) => InkWell(
@@ -164,7 +164,7 @@ class _SettingsViewState extends State<SettingsView> {
                     ),
                   ],
                 ),
-              ).withPadding(bottom: 12.h),
+              ).withPadding(bottom: 4.h),
             ),
             InkWell(
               onTap: () {
