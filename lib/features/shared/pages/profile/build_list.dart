@@ -53,11 +53,11 @@ class BuildProfileList {
     ),
     ProfileItemModel(image: Assets.svg.walletIcon, title: 'مالية', onTap: () => push(NamedRoutes.wallet)),
     ProfileItemModel(image: 'assets/svg/user-add.svg', title: 'انضمام', onTap: () => push(NamedRoutes.register)),
-    ProfileItemModel(
+ if (UserModel.i.isAuth) ProfileItemModel(
       image: 'assets/svg/profile-2user.svg', 
       title: 'تحويل', 
       onTap: () => switchAccountType(),
-    ),
+    )  ,
     ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout()),
   ];
 
