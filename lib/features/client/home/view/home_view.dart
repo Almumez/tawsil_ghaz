@@ -86,7 +86,7 @@ class _HomeClientViewState extends State<HomeClientView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SliderWidget(cubit: cubit),
-                Text(LocaleKeys.services.tr(), style: context.boldText.copyWith(fontSize: 20)).withPadding(horizontal: 20.w, bottom: 16.h),
+                // Text(LocaleKeys.services.tr(), style: context.boldText.copyWith(fontSize: 20)).withPadding(horizontal: 20.w, bottom: 16.h),
                 RequestGasWidget().withPadding(bottom: 16.h).center,
                 Wrap(
                   children: List.generate(
