@@ -291,5 +291,8 @@
   "guest":"Guest",
   "payment_failed": "Payment failed, please try again",
   "online_payment":"Online Payment",
-  "try_again":"Try Again"
+  "try_again":"Try Again",
+  "coming_soon": "Coming Soon",
+  "service_not_available": "We are currently working on making this service available for you. Stay tuned for its launch soon!",
+  "ok": "OK"
 }

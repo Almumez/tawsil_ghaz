@@ -291,5 +291,7 @@ abstract class  LocaleKeys {
   static const payment_failed = 'payment_failed';
   static const online_payment = 'online_payment';
   static const try_again = 'try_again';
-
+  static const coming_soon = 'coming_soon';
+  static const service_not_available = 'service_not_available';
+  static const ok = 'ok';
 }

@@ -40,6 +40,90 @@ class _HomeClientViewState extends State<HomeClientView> {
     super.initState();
   }
 
+  // إظهار نافذة منبثقة "قريباً"
+  void _showComingSoonPopup(BuildContext context, String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.r),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(20.r),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25.r),
+              boxShadow: [
+                BoxShadow(
+                  color: "#BDBDD3".color.withOpacity(0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 70.w,
+                  height: 70.h,
+                  decoration: BoxDecoration(
+                    color: "#A07855".color.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.notifications_active,
+                    color: "#A07855".color,
+                    size: 35.r,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  "${LocaleKeys.coming_soon.tr()}",
+                  style: context.boldText.copyWith(
+                    fontSize: 20.sp,
+                    color: "#090909".color,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  LocaleKeys.service_not_available.tr(),
+                  style: context.mediumText.copyWith(
+                    fontSize: 16.sp,
+                    color: "#9E968F".color,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 25.h),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: TextButton.styleFrom(
+                    backgroundColor: "#090909".color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    minimumSize: Size(double.infinity, 50.h),
+                  ),
+                  child: Text(
+                    LocaleKeys.ok.tr(),
+                    style: context.mediumText.copyWith(
+                      fontSize: 16.sp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   List<HomeItemModel> items = [
     HomeItemModel(
       title: LocaleKeys.factory.tr(),
@@ -64,7 +148,6 @@ class _HomeClientViewState extends State<HomeClientView> {
     HomeItemModel(
       title: LocaleKeys.fill.tr(),
       image: Assets.images.homeFill.path,
-
       onTap: () => push(NamedRoutes.centralGasFilling),
     ),
     HomeItemModel(
@@ -92,11 +175,10 @@ class _HomeClientViewState extends State<HomeClientView> {
                   children: List.generate(
                     items.length,
                     (index) => InkWell(
-                      onTap: items[index].onTap,
+                      onTap: () => _showComingSoonPopup(context, items[index].title),
                       child: Column(
                         children: [
                           CustomImage(
-
                             items[index].image,
                             backgroundColor: Color(0xfff5f5f5),
                             height: 115.h,
