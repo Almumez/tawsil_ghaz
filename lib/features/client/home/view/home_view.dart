@@ -71,12 +71,12 @@ class _HomeClientViewState extends State<HomeClientView> {
                   width: 70.w,
                   height: 70.h,
                   decoration: BoxDecoration(
-                    color: "#A07855".color.withOpacity(0.1),
+                    color: "#d68243".color.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.notifications_active,
-                    color: "#A07855".color,
+                    color: "#d68243".color,
                     size: 35.r,
                   ),
                 ),
