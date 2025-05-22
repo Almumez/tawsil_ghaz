@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // import 'package:doctor_client/main.dart';
 
@@ -12,6 +13,15 @@ import 'server_gate.dart';
 
 class GlobalNotification {
   static String _deviceToken = "";
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static AndroidNotificationChannel channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.', // description
+    importance: Importance.high,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('notification'),
+  );
 
   static Future<String> getFcmToken() async {
     try {
@@ -59,17 +69,36 @@ class GlobalNotification {
   Map<String, dynamic> _not = {};
 
   Future<void> setUpFirebase() async {
-    getFcmToken();
-
+    await getFcmToken();
+    
+    // Inicializar Firebase en segundo plano
+    await Firebase.initializeApp();
+    
+    // Configurar el canal de notificación para Android
+    if (Platform.isAndroid) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+    }
+    
+    // Configurar opciones de notificación en primer plano
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     _firebaseMessaging = FirebaseMessaging.instance;
     _firebaseMessaging.setAutoInitEnabled(true);
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
-    // checkLastMessage();
+    
     firebaseCloudMessagingListeners();
-    _notificationsPlugin = FlutterLocalNotificationsPlugin();
+    _notificationsPlugin = flutterLocalNotificationsPlugin;
+    
     if (Platform.isAndroid) await _firebaseMessaging.requestPermission(alert: true, announcement: false, badge: true, sound: true);
-    var android = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    
+    // Configurar inicialización para Android y iOS
+    var android = const AndroidInitializationSettings('@mipmap/launcher_icon');
     var ios = const DarwinInitializationSettings(
       defaultPresentBadge: true,
       defaultPresentAlert: true,
@@ -90,11 +119,7 @@ class GlobalNotification {
       _onMessageStreamController.add(data.data);
 
       _not = data.data;
-      if (Platform.isAndroid) {
-        showNotification(data);
-      } else {
-        // showNotification(data);
-      }
+      showNotification(data);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage data) {
@@ -109,24 +134,24 @@ class GlobalNotification {
   }
 
   Future<void> showNotification(RemoteMessage data) async {
-    var iOSPlatformSpecifics = const DarwinNotificationDetails(
-      presentSound: true,
-      sound: 'notification.wav',
-    );
-
-    var androidChannelSpecifics = AndroidNotificationDetails(
-      'lohtak',
-      "لوحتك",
-      channelDescription: "Lohtak",
-      importance: Importance.high,
-      colorized: true,
-      color: '#70C656'.color,
-      priority: Priority.high,
-      sound: const RawResourceAndroidNotificationSound('notification'),
-      playSound: true,
-    );
-    var notificationDetails = NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
     if (data.notification != null) {
+      var iOSPlatformSpecifics = const DarwinNotificationDetails(
+        presentSound: true,
+        sound: 'notification.wav',
+      );
+
+      var androidChannelSpecifics = AndroidNotificationDetails(
+        channel.id,
+        channel.name,
+        channelDescription: channel.description,
+        importance: Importance.high,
+        colorized: true,
+        color: '#70C656'.color,
+        priority: Priority.high,
+        sound: const RawResourceAndroidNotificationSound('notification'),
+        playSound: true,
+      );
+      var notificationDetails = NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
       await _notificationsPlugin.show(0, data.notification!.title, data.notification!.body, notificationDetails);
     }
   }
@@ -169,25 +194,54 @@ class GlobalNotification {
   }
 }
 
+// Esta función debe ser de nivel superior, fuera de cualquier clase
+@pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage data) async {
-  // If you're going to use other Firebase services in the dat, such as Firestore,
-  // make sure you call initializeApp before using other Firebase services.
-  // _onMessageStreamController.add(message.data);
-  // if (Platform.isAndroid) {
-  //   GlobalNotification().showNotificationWithAttachment(
-  //       data.data,
-  //       data.notification.title,
-  //       data.notification.body,
-  //       data.notification.android.imageUrl);
-  // } else {
-  //   GlobalNotification().showNotificationWithAttachment(
-  //       data.data,
-  //       data.notification.title,
-  //       data.notification.body,
-  //       data.notification.apple.imageUrl);
-  // }
-  // main();
-  // print("Handling a background message: ${data.data}");
+  // Asegurarnos que Firebase está inicializado
+  await Firebase.initializeApp();
+  
+  // En segundo plano, debemos mostrar la notificación manualmente
+  await showBackgroundNotification(data);
+}
+
+// Función adicional para mostrar notificación en segundo plano
+@pragma('vm:entry-point')
+Future<void> showBackgroundNotification(RemoteMessage message) async {
+  if (message.notification != null) {
+    // Inicializar el plugin de notificaciones locales
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    
+    // Configuración específica para Android
+    AndroidNotificationDetails androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'high_importance_channel',
+      'High Importance Notifications',
+      channelDescription: 'This channel is used for important notifications.',
+      importance: Importance.high,
+      priority: Priority.high,
+      sound: RawResourceAndroidNotificationSound('notification'),
+      playSound: true,
+    );
+    
+    // Configuración específica para iOS
+    const DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(
+      presentSound: true,
+      sound: 'notification.wav',
+    );
+    
+    // Combinamos configuraciones
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+    
+    // Mostrar la notificación
+    await flutterLocalNotificationsPlugin.show(
+      message.hashCode,
+      message.notification!.title,
+      message.notification!.body,
+      platformChannelSpecifics,
+    );
+  }
 }
 
 StreamController<Map<String, dynamic>> _onMessageStreamController = StreamController.broadcast();

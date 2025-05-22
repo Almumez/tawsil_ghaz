@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'core/routes/app_routes.dart';
 import 'core/routes/app_routes_fun.dart';
@@ -18,6 +20,13 @@ import 'core/utils/unfocus.dart';
 import 'firebase_options.dart';
 import 'models/user_model.dart';
 
+// Definir el manejador de mensajes en segundo plano a nivel superior
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await firebaseMessagingBackgroundHandler(message);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
@@ -26,10 +35,31 @@ void main() async {
   Bloc.observer = AppBlocObserver();
   Prefs = await SharedPreferences.getInstance();
   UserModel.i.get();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-    (v) => GlobalNotification().setUpFirebase(),
+
+  // Inicializar Firebase primero
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
+  // Configurar el manejador de mensajes en segundo plano
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Crear e inicializar canales de notificación
+  await GlobalNotification.flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(GlobalNotification.channel);
+
+  // Configurar opciones de presentación de notificaciones en primer plano
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
   );
+  
+  // Inicializar el servicio de notificación
+  GlobalNotification().setUpFirebase();
+  
+  // Inicializar el localizador de servicios
   ServicesLocator().init();
+  
   runApp(const MyApp());
 }
 
