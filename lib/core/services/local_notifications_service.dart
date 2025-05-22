@@ -109,7 +109,10 @@ class GlobalNotification {
   }
 
   Future<void> showNotification(RemoteMessage data) async {
-    var iOSPlatformSpecifics = const DarwinNotificationDetails();
+    var iOSPlatformSpecifics = const DarwinNotificationDetails(
+      presentSound: true,
+      sound: 'notification.wav',
+    );
 
     var androidChannelSpecifics = AndroidNotificationDetails(
       'lohtak',
@@ -119,6 +122,8 @@ class GlobalNotification {
       colorized: true,
       color: '#70C656'.color,
       priority: Priority.high,
+      sound: const RawResourceAndroidNotificationSound('notification'),
+      playSound: true,
     );
     var notificationDetails = NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
     if (data.notification != null) {
