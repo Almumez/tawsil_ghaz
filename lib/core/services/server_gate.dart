@@ -12,7 +12,8 @@ import '../utils/enums.dart';
 import '../utils/logger.dart';
 
 class ServerGate {
-  final String _baseUrl = 'https://gas.azmy.aait-d.com/api';
+//  final String _baseUrl = 'https://gas.azmy.aait-d.com/api';
+  final String _baseUrl = 'http://192.168.0.116:8000/api';
 
   Map<String, dynamic> get constHeader => {
         if (UserModel.i.isAuth) "Authorization": "Bearer ${UserModel.i.token}",
@@ -327,43 +328,77 @@ class ServerGate {
 class CustomApiInterceptor extends Interceptor {
   final log = LoggerDebug(headColor: LogColors.red, constTitle: "Server Gate Logger");
   CustomApiInterceptor();
+  
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    log.red("\x1B[37m------ Current Error Response (status code ${err.response?.statusCode}) -----\x1B[0m");
-    log.red("\x1B[31m${jsonEncode(err.response?.data)}\x1B[0m");
-    log.white(_generateCurlCommand(err.requestOptions));
+    log.red("\x1B[37m====== ERROR RESPONSE (${err.response?.statusCode}) ======\x1B[0m");
+    log.red("\x1B[31mURL: ${err.requestOptions.uri}\x1B[0m");
+    log.red("\x1B[31mMethod: ${err.requestOptions.method}\x1B[0m");
+    log.red("\x1B[31mError Message: ${err.message}\x1B[0m");
+    log.red("\x1B[31mError Data: ${jsonEncode(err.response?.data ?? {})}\x1B[0m");
+    log.red("\x1B[31mRequest Headers: ${jsonEncode(err.requestOptions.headers)}\x1B[0m");
+    log.red("\x1B[31mRequest Body: ${_formatRequestBody(err.requestOptions.data)}\x1B[0m");
+    log.white("cURL Command: ${_generateCurlCommand(err.requestOptions)}");
     return super.onError(err, handler);
   }
 
   @override
   Future<void> onResponse(Response response, ResponseInterceptorHandler handler) async {
-    log.green("------ Current Response (status code ${response.statusCode}) ------");
-    log.green(jsonEncode(response.data));
-    log.white(_generateCurlCommand(response.requestOptions));
+    log.green("====== RESPONSE SUCCESS (${response.statusCode}) ======");
+    log.green("URL: ${response.requestOptions.uri}");
+    log.green("Method: ${response.requestOptions.method}");
+    log.green("Response Time: ${response.requestOptions.receiveTimeout != null ? '${response.requestOptions.receiveTimeout}ms' : 'N/A'}");
+    log.green("Response Data: ${jsonEncode(response.data)}");
+    log.white("cURL Command: ${_generateCurlCommand(response.requestOptions)}");
     return super.onResponse(response, handler);
   }
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    log.yellow("------ Current Request Path -----");
-    log.yellow("${options.path} ${LogColors.red}API METHOD : (${options.method})${LogColors.reset}");
+    log.yellow("====== REQUEST STARTED ======");
+    log.yellow("URL: ${options.uri}");
+    log.yellow("Method: ${options.method}");
+    
     if (options.data != null) {
-      log.cyan("------ Current Request body Data -----");
-      if (options.data is FormData) {
-        Map<String, dynamic> body = {};
-        options.data.fields.forEach((element) {
-          body[element.key] = '${element.value}';
-        });
-        log.cyan(jsonEncode(body));
-      } else {
-        log.cyan(jsonEncode(options.data));
-      }
+      log.cyan("Request Body:");
+      log.cyan(_formatRequestBody(options.data));
     }
-    log.white("------ Current Request Parameters Data -----");
-    log.white(jsonEncode(options.queryParameters));
-    log.yellow("------ Current Request Headers -----");
+    
+    if (options.queryParameters.isNotEmpty) {
+      log.white("Query Parameters:");
+      log.white(jsonEncode(options.queryParameters));
+    }
+    
+    log.yellow("Request Headers:");
     log.yellow(jsonEncode(options.headers));
     return super.onRequest(options, handler);
+  }
+
+  String _formatRequestBody(dynamic data) {
+    if (data == null) return "null";
+    
+    try {
+      if (data is FormData) {
+        Map<String, dynamic> body = {};
+        data.fields.forEach((element) {
+          body[element.key] = '${element.value}';
+        });
+        
+        // Add files info
+        if (data.files.isNotEmpty) {
+          body['__files__'] = data.files.map((file) => 
+            {'key': file.key, 'filename': file.value.filename}).toList();
+        }
+        
+        return jsonEncode(body);
+      } else if (data is Map) {
+        return jsonEncode(data);
+      } else {
+        return data.toString();
+      }
+    } catch (e) {
+      return "Error formatting request body: $e";
+    }
   }
 
   String _generateCurlCommand(RequestOptions options) {
