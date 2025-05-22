@@ -123,11 +123,12 @@ class _AppFieldState extends State<AppField> {
                         widget.title ??
                         LocaleKeys.this_field.tr()
                   ]);
-                } else if (widget.keyboardType == TextInputType.phone &&
-                    v!.length != country.phoneNumberLimit) {
-                  return LocaleKeys.the_phone_number_must_consist_of_val_numbers
-                      .tr(args: [country.phoneNumberLimit.toString()]);
-                }
+                 }
+                //else if (widget.keyboardType == TextInputType.phone &&
+                //     v!.length != country.phoneNumberLimit) {
+                //   return LocaleKeys.the_phone_number_must_consist_of_val_numbers
+                //       .tr(args: [country.phoneNumberLimit.toString()]);
+                // }
                 // else if (!kDebugMode && widget.keyboardType == TextInputType.visiblePassword && v!.length < 8) {
                 //   return LocaleKeys.the_password_must_not_be_less_than_8_numbers.tr();
                 // }
