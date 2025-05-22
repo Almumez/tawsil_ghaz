@@ -42,6 +42,10 @@ class _ClientOrdersViewState extends State<ClientOrdersView> {
     super.dispose();
   }
 
+  Future<void> _refresh() async {
+    await cubit.reload();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,16 +63,20 @@ class _ClientOrdersViewState extends State<ClientOrdersView> {
           if (state.getOrdersState == RequestState.done && cubit.items.isEmpty) {
             return Center(child: Text(LocaleKeys.no_orders.tr()));
           }
-          return ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-            controller: _scrollController,
-            itemCount: cubit.items.length + (state.paginationState == RequestState.loading ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == cubit.items.length) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return ClientOrderCard(data: cubit.items[index], onBack: () => cubit.reload()).withPadding(bottom: 20.h);
-            },
+          return RefreshIndicator(
+            onRefresh: _refresh,
+            color: Theme.of(context).primaryColor,
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+              controller: _scrollController,
+              itemCount: cubit.items.length + (state.paginationState == RequestState.loading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == cubit.items.length) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return ClientOrderCard(data: cubit.items[index], onBack: () => cubit.reload()).withPadding(bottom: 20.h);
+              },
+            ),
           );
         },
       ),

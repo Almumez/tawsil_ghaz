@@ -11,8 +11,8 @@ class FaqCubit extends Cubit<FaqState> {
   FaqCubit() : super(FaqState());
   List<FaqModel> faq = [];
 
-  Future<void> getFaq({bool openSheet = false}) async {
-    if (faq.isNotEmpty) {
+  Future<void> getFaq({bool openSheet = false, bool forceRefresh = false}) async {
+    if (faq.isNotEmpty && !forceRefresh) {
       emit(state.copyWith(requestState: RequestState.done));
     } else {
       emit(state.copyWith(requestState: RequestState.loading));

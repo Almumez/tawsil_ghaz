@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/pull_to_refresh.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../../gen/locale_keys.g.dart';
@@ -46,6 +47,10 @@ class _StaticViewState extends State<StaticView> {
     }
   }
 
+  Future<void> _refresh() async {
+    await cubit.getStatic(getUrl());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,26 +61,29 @@ class _StaticViewState extends State<StaticView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: getTitle()),
-      body: BlocBuilder<StaticCubit, StaticState>(
-          bloc: cubit,
-          builder: (context, state) {
-            if (state.requestState.isDone) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    if (state.data?.image != null) CustomImage(state.data?.image, width: 361.w, height: 230.h).center,
-                    HtmlWidget(
-                      state.data?.content ?? '',
-                    ).withPadding(horizontal: 16.w, vertical: 16.h),
-                  ],
-                ),
-              );
-            } else if (state.requestState.isError) {
-              return CustomErrorWidget(title: state.msg);
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          }),
+      body: PullToRefresh(
+        onRefresh: _refresh,
+        child: BlocBuilder<StaticCubit, StaticState>(
+            bloc: cubit,
+            builder: (context, state) {
+              if (state.requestState.isDone) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (state.data?.image != null) CustomImage(state.data?.image, width: 361.w, height: 230.h).center,
+                      HtmlWidget(
+                        state.data?.content ?? '',
+                      ).withPadding(horizontal: 16.w, vertical: 16.h),
+                    ],
+                  ),
+                );
+              } else if (state.requestState.isError) {
+                return CustomErrorWidget(title: state.msg);
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
+      ),
     );
   }
 }

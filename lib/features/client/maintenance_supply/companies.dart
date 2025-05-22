@@ -44,6 +44,10 @@ class _ClientMaintenanceCompaniesViewState extends State<ClientMaintenanceCompan
     super.dispose();
   }
 
+  Future<void> _refresh() async {
+    await cubit.fetchCompanies();
+  }
+
   getTitle() {
     switch (widget.type) {
       case CompanyServiceType.maintenance:
@@ -84,51 +88,55 @@ class _ClientMaintenanceCompaniesViewState extends State<ClientMaintenanceCompan
             children: [
               Text('• ${getSubTitle()}').withPadding(horizontal: 16.w, vertical: 15.h),
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                  controller: _scrollController,
-                  itemCount: cubit.items.length + (state.paginationState == RequestState.loading ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == cubit.items.length) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return InkWell(
-                      onTap: () => push(NamedRoutes.companyDetails, arg: {
-                        "type": widget.type,
-                        "id": cubit.items[index].id,
-                        "title": cubit.items[index].fullname,
-                      }),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(color: context.borderColor),
-                          color: context.hoverColor,
+                child: RefreshIndicator(
+                  onRefresh: _refresh,
+                  color: Theme.of(context).primaryColor,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+                    controller: _scrollController,
+                    itemCount: cubit.items.length + (state.paginationState == RequestState.loading ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == cubit.items.length) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return InkWell(
+                        onTap: () => push(NamedRoutes.companyDetails, arg: {
+                          "type": widget.type,
+                          "id": cubit.items[index].id,
+                          "title": cubit.items[index].fullname,
+                        }),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(color: context.borderColor),
+                            color: context.hoverColor,
+                          ),
+                          child: Row(
+                            children: [
+                              CustomImage(
+                                cubit.items[index].image,
+                                height: 120.h,
+                                width: 120.h,
+                              ).withPadding(end: 5.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(cubit.items[index].fullname, style: context.boldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.location_on_outlined, size: 20.h, color: context.hintColor),
+                                      Text(cubit.items[index].address, style: context.regularText.copyWith(fontSize: 14)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            CustomImage(
-                              cubit.items[index].image,
-                              height: 120.h,
-                              width: 120.h,
-                            ).withPadding(end: 5.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(cubit.items[index].fullname, style: context.boldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
-                                Row(
-                                  children: [
-                                    Icon(Icons.location_on_outlined, size: 20.h, color: context.hintColor),
-                                    Text(cubit.items[index].address, style: context.regularText.copyWith(fontSize: 14)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ).withPadding(bottom: 15.h);
-                  },
+                      ).withPadding(bottom: 15.h);
+                    },
+                  ),
                 ),
               ),
             ],

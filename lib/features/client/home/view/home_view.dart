@@ -9,6 +9,7 @@ import '../../../../core/routes/routes.dart';
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/pull_to_refresh.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
@@ -38,6 +39,13 @@ class _HomeClientViewState extends State<HomeClientView> {
       }
     }
     super.initState();
+  }
+
+  Future<void> _refresh() async {
+    await cubit.getHome();
+    if (UserModel.i.isAuth && addressesCubit.addresses.isEmpty) {
+      await addressesCubit.getAddresses();
+    }
   }
 
   // إظهار نافذة منبثقة "قريباً"
@@ -164,36 +172,39 @@ class _HomeClientViewState extends State<HomeClientView> {
         return Scaffold(
           backgroundColor: context.scaffoldBackgroundColor,
           appBar: HomeAppbar(),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SliderWidget(cubit: cubit),
-                // Text(LocaleKeys.services.tr(), style: context.boldText.copyWith(fontSize: 20)).withPadding(horizontal: 20.w, bottom: 16.h),
-                RequestGasWidget().withPadding(bottom: 16.h).center,
-                Wrap(
-                  children: List.generate(
-                    items.length,
-                    (index) => InkWell(
-                      onTap: () => _showComingSoonPopup(context, items[index].title),
-                      child: Column(
-                        children: [
-                          CustomImage(
-                            items[index].image,
-                            backgroundColor: Color(0xfff5f5f5),
-                            height: 115.h,
-                            width: 112.w, 
-                            fit: BoxFit.fill,
-                            borderRadius: BorderRadius.circular(25), // إضافة radius للصور
-                            border: Border.all(width: 0, color: Colors.transparent), // إزالة البوردر
-                          ),
-                          Text(items[index].title, style: context.mediumText.copyWith(fontSize: 20)),
-                        ],
-                      ).withPadding(bottom: 16.h, horizontal: 4.w),
+          body: PullToRefresh(
+            onRefresh: _refresh,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SliderWidget(cubit: cubit),
+                  // Text(LocaleKeys.services.tr(), style: context.boldText.copyWith(fontSize: 20)).withPadding(horizontal: 20.w, bottom: 16.h),
+                  RequestGasWidget().withPadding(bottom: 16.h).center,
+                  Wrap(
+                    children: List.generate(
+                      items.length,
+                      (index) => InkWell(
+                        onTap: () => _showComingSoonPopup(context, items[index].title),
+                        child: Column(
+                          children: [
+                            CustomImage(
+                              items[index].image,
+                              backgroundColor: Color(0xfff5f5f5),
+                              height: 115.h,
+                              width: 112.w, 
+                              fit: BoxFit.fill,
+                              borderRadius: BorderRadius.circular(25), // إضافة radius للصور
+                              border: Border.all(width: 0, color: Colors.transparent), // إزالة البوردر
+                            ),
+                            Text(items[index].title, style: context.mediumText.copyWith(fontSize: 20)),
+                          ],
+                        ).withPadding(bottom: 16.h, horizontal: 4.w),
+                      ),
                     ),
-                  ),
-                ).center
-              ],
+                  ).center
+                ],
+              ),
             ),
           ),
         );

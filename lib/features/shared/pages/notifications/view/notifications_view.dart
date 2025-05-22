@@ -8,6 +8,7 @@ import '../../../../../core/widgets/successfully_sheet.dart';
 import '../../../../../core/services/service_locator.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../../core/utils/extensions.dart';
+import '../../../../../core/utils/pull_to_refresh.dart';
 import '../../../../../core/widgets/custom_image.dart';
 import '../../../../../core/widgets/custom_radius_icon.dart';
 import '../../../../../core/widgets/error_widget.dart';
@@ -27,6 +28,11 @@ class NotificationsView extends StatefulWidget {
 
 class _NotificationsViewState extends State<NotificationsView> {
   final cubit = sl<NotificationsCubit>()..getNotifications();
+
+  Future<void> _refresh() async {
+    await cubit.getNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,84 +85,87 @@ class _NotificationsViewState extends State<NotificationsView> {
         title: LocaleKeys.notifications.tr(),
         withBack: false,
       ),
-      body: BlocBuilder<NotificationsCubit, NotificationsState>(
-        bloc: cubit,
-        buildWhen: (previous, current) => previous.getNotifications != current.getNotifications,
-        builder: (context, state) {
-          if (cubit.notifications.isNotEmpty) {
-            return ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-              controller: cubit.scrollController,
-              itemCount: cubit.notifications.length,
-              itemBuilder: (context, index) {
-                final item = cubit.notifications[index];
-                return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(color: Colors.black),
-                    color: context.hoverColor,
-                  ),
-                  child: Row(
-                    children: [
-                      CustomRadiusIcon(
-                        borderRadius: BorderRadius.circular(10.r),
-                        backgroundColor: '#EBEEF5'.color,
-                        size: 48.sp,
-                        child: CustomImage(
-                          Assets.svg.notificationsIn,
-                          height: 28.sp,
-                          width: 28.sp,
+      body: PullToRefresh(
+        onRefresh: _refresh,
+        child: BlocBuilder<NotificationsCubit, NotificationsState>(
+          bloc: cubit,
+          buildWhen: (previous, current) => previous.getNotifications != current.getNotifications,
+          builder: (context, state) {
+            if (cubit.notifications.isNotEmpty) {
+              return ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+                controller: cubit.scrollController,
+                itemCount: cubit.notifications.length,
+                itemBuilder: (context, index) {
+                  final item = cubit.notifications[index];
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(color: Colors.black),
+                      color: context.hoverColor,
+                    ),
+                    child: Row(
+                      children: [
+                        CustomRadiusIcon(
+                          borderRadius: BorderRadius.circular(10.r),
+                          backgroundColor: '#EBEEF5'.color,
+                          size: 48.sp,
+                          child: CustomImage(
+                            Assets.svg.notificationsIn,
+                            height: 28.sp,
+                            width: 28.sp,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.title,
-                              style: context.mediumText.copyWith(fontSize: 16),
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              item.title,
-                              style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
-                            ),
-                          ],
-                        ).withPadding(horizontal: 15.w),
-                      ),
-                      CustomRadiusIcon(
-                        size: 32.sp,
-                        onTap: () => cubit.deleteItem(item.id),
-                        backgroundColor: '#F4F4F8'.color,
-                        child: CustomImage(
-                          Assets.svg.deleteNotifications,
-                          height: 16.sp,
-                          width: 16.sp,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title,
+                                style: context.mediumText.copyWith(fontSize: 16),
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(
+                                item.title,
+                                style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                              ),
+                            ],
+                          ).withPadding(horizontal: 15.w),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16.h),
-            );
-          } else if (state.getNotifications.isDone) {
-            return CustomErrorWidget(
-              title: LocaleKeys.notifications.tr(),
-              subtitle: LocaleKeys.no_notifications.tr(),
-              errType: ErrorType.empty,
-            );
-          } else if (state.getNotifications.isError) {
-            return CustomErrorWidget(
-              title: LocaleKeys.notifications.tr(),
-              subtitle: state.msg,
-              errType: state.errorType,
-            );
-          } else {
-            return LoadingApp();
-          }
-        },
+                        CustomRadiusIcon(
+                          size: 32.sp,
+                          onTap: () => cubit.deleteItem(item.id),
+                          backgroundColor: '#F4F4F8'.color,
+                          child: CustomImage(
+                            Assets.svg.deleteNotifications,
+                            height: 16.sp,
+                            width: 16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => SizedBox(height: 16.h),
+              );
+            } else if (state.getNotifications.isDone) {
+              return CustomErrorWidget(
+                title: LocaleKeys.notifications.tr(),
+                subtitle: LocaleKeys.no_notifications.tr(),
+                errType: ErrorType.empty,
+              );
+            } else if (state.getNotifications.isError) {
+              return CustomErrorWidget(
+                title: LocaleKeys.notifications.tr(),
+                subtitle: state.msg,
+                errType: state.errorType,
+              );
+            } else {
+              return LoadingApp();
+            }
+          },
+        ),
       ),
       bottomNavigationBar: BlocBuilder<NotificationsCubit, NotificationsState>(
         bloc: cubit,

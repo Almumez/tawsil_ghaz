@@ -8,6 +8,7 @@ import '../../../../../core/widgets/app_btn.dart';
 
 import '../../../../../core/services/service_locator.dart';
 import '../../../../../core/utils/extensions.dart';
+import '../../../../../core/utils/pull_to_refresh.dart';
 import '../../../../../core/widgets/app_field.dart';
 import '../../../../../core/widgets/custom_radius_icon.dart';
 import '../../../../../gen/locale_keys.g.dart';
@@ -25,6 +26,11 @@ class ContactUsView extends StatefulWidget {
 class _ContactUsViewState extends State<ContactUsView> {
   final cubit = sl<ContactUsCubit>()..getContacts();
   final form = GlobalKey<FormState>();
+
+  Future<void> _refresh() async {
+    await cubit.getContacts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,60 +58,63 @@ class _ContactUsViewState extends State<ContactUsView> {
           },
         ).withPadding(horizontal: 24.w, bottom: 16.h),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-        child: Form(
-          key: form,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<ContactUsCubit, ContactUsState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  if (cubit.contactsPhone != null) {
-                    return Container(
-                      padding: EdgeInsets.all(12.w),
-                      decoration: BoxDecoration(color: context.canvasColor, borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(LocaleKeys.contact_us.tr(), style: context.mediumText).withPadding(bottom: 8.h),
-                                Text('${cubit.contactsPhone}', style: context.regularText, textDirection: TextDirection.ltr),
-                              ],
+      body: PullToRefresh(
+        onRefresh: _refresh,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          child: Form(
+            key: form,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<ContactUsCubit, ContactUsState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    if (cubit.contactsPhone != null) {
+                      return Container(
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(color: context.canvasColor, borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(LocaleKeys.contact_us.tr(), style: context.mediumText).withPadding(bottom: 8.h),
+                                  Text('${cubit.contactsPhone}', style: context.regularText, textDirection: TextDirection.ltr),
+                                ],
+                              ),
                             ),
-                          ),
-                          CustomRadiusIcon(
-                            onTap: () => launchUrl(Uri.parse('https://wa.me/${cubit.contactsPhone}')),
-                            size: 40.h,
-                            backgroundColor: context.primaryColorDark,
-                            child: Icon(CupertinoIcons.phone, color: context.primaryColorLight, size: 24.h),
-                          )
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              Text(LocaleKeys.please_enter_the_information.tr(), style: context.boldText).withPadding(top: 32.h, bottom: 20.h),
-              AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 20.h),
-              AppField(labelText: LocaleKeys.email.tr(), controller: cubit.email, isRequired: false).withPadding(bottom: 20.h),
-              AppField(
-                  labelText: LocaleKeys.phone.tr(),
-                  controller: cubit.phone,
-                  keyboardType: TextInputType.phone,
-                  onChangeCountry: (country) => cubit.country = country).withPadding(bottom: 20.h),
-              AppField(
-                labelText: LocaleKeys.your_message.tr(),
-                controller: cubit.msg,
-                maxLines: 4,
-              ).withPadding(bottom: 20.h),
-            ],
+                            CustomRadiusIcon(
+                              onTap: () => launchUrl(Uri.parse('https://wa.me/${cubit.contactsPhone}')),
+                              size: 40.h,
+                              backgroundColor: context.primaryColorDark,
+                              child: Icon(CupertinoIcons.phone, color: context.primaryColorLight, size: 24.h),
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+                Text(LocaleKeys.please_enter_the_information.tr(), style: context.boldText).withPadding(top: 32.h, bottom: 20.h),
+                AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 20.h),
+                AppField(labelText: LocaleKeys.email.tr(), controller: cubit.email, isRequired: false).withPadding(bottom: 20.h),
+                AppField(
+                    labelText: LocaleKeys.phone.tr(),
+                    controller: cubit.phone,
+                    keyboardType: TextInputType.phone,
+                    onChangeCountry: (country) => cubit.country = country).withPadding(bottom: 20.h),
+                AppField(
+                  labelText: LocaleKeys.your_message.tr(),
+                  controller: cubit.msg,
+                  maxLines: 4,
+                ).withPadding(bottom: 20.h),
+              ],
+            ),
           ),
         ),
       ),

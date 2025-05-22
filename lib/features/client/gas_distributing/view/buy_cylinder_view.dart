@@ -7,6 +7,7 @@ import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/extensions.dart';
+import '../../../../core/utils/pull_to_refresh.dart';
 import '../../../../core/widgets/app_btn.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/error_widget.dart';
@@ -43,6 +44,10 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
     super.dispose();
   }
 
+  Future<void> _refresh() async {
+    await cubit.fetchServices();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,26 +73,29 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
             );
           },
         ),
-        body: BlocBuilder<ClientDistributeGasCubit, ClientDistributeGasState>(
-            bloc: cubit,
-            builder: (context, state) {
-              if (state.requestState.isError) {
-                return CustomErrorWidget(title: state.msg);
-              } else if (state.requestState.isDone) {
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 20.h),
-                  separatorBuilder: (context, index) => Container(
-                    width: context.w,
-                    height: 10.h,
-                    color: context.mainBorderColor.withValues(alpha: .5),
-                  ).withPadding(bottom: 15.h),
-                  itemCount: cubit.services.length,
-                  itemBuilder: (context, index) => BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w),
-                );
-              } else {
-                return Center(child: CustomProgress(size: 30.w));
-              }
-            }));
+        body: PullToRefresh(
+          onRefresh: _refresh,
+          child: BlocBuilder<ClientDistributeGasCubit, ClientDistributeGasState>(
+              bloc: cubit,
+              builder: (context, state) {
+                if (state.requestState.isError) {
+                  return CustomErrorWidget(title: state.msg);
+                } else if (state.requestState.isDone) {
+                  return ListView.separated(
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    separatorBuilder: (context, index) => Container(
+                      width: context.w,
+                      height: 10.h,
+                      color: context.mainBorderColor.withValues(alpha: .5),
+                    ).withPadding(bottom: 15.h),
+                    itemCount: cubit.services.length,
+                    itemBuilder: (context, index) => BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w),
+                  );
+                } else {
+                  return Center(child: CustomProgress(size: 30.w));
+                }
+              }),
+        ));
   }
 }
 
