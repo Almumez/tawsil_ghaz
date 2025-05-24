@@ -300,4 +300,8 @@ abstract class  LocaleKeys {
   static const join = 'join';
   static const switch_account = 'switch_account';
   static const exit = 'exit';
+  static const reject_order = 'reject_order';
+  static const reject_reason = 'reject_reason';
+  static const enter_reject_reason = 'enter_reject_reason';
+  static const cancel = 'cancel';
 }

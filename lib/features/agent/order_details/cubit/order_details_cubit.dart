@@ -35,8 +35,14 @@ class AgentOrderDetailsCubit extends Cubit<AgentOrderDetailsState> {
     );
     if (result.success) {
       FlashHelper.showToast(result.msg, type: MessageType.success);
-      getOrderDetails(order!.id, order!.type);
-
+      
+      if (result.data != null && result.data['data'] != null) {
+        order = AgentOrderModel.fromJson(result.data['data']);
+        print("DEBUG: Order accepted - new status: ${order?.status}");
+      } else {
+        await getOrderDetails(order!.id, order!.type);
+      }
+      
       emit(state.copyWith(acceptState: RequestState.done));
     } else {
       FlashHelper.showToast(result.msg);
@@ -44,10 +50,11 @@ class AgentOrderDetailsCubit extends Cubit<AgentOrderDetailsState> {
     }
   }
 
-  rejectOrder() async {
+  rejectOrder([String? reason]) async {
     emit(state.copyWith(acceptState: RequestState.loading));
-    final result = await ServerGate.i.deleteFromServer(
+    final result = await ServerGate.i.sendToServer(
       url: '${UserModel.i.accountType.isFreeAgent ? "free-" : ""}agent/order/reject/${order?.id}',
+      body: {'reason': reason ?? ''},
     );
     if (result.success) {
       FlashHelper.showToast(result.msg, type: MessageType.success);
@@ -108,6 +115,8 @@ class AgentOrderDetailsCubit extends Cubit<AgentOrderDetailsState> {
 
   refreshOrder() {
     emit(state.copyWith(getOrderState: RequestState.loading));
-    emit(state.copyWith(getOrderState: RequestState.done));
+    Future.delayed(Duration(milliseconds: 50), () {
+      emit(state.copyWith(getOrderState: RequestState.done));
+    });
   }
 }

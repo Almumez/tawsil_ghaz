@@ -8,6 +8,7 @@ import '../../../../core/widgets/app_btn.dart';
 import '../../../../gen/locale_keys.g.dart';
 import '../cubit/order_details_cubit.dart';
 import '../cubit/order_details_state.dart';
+import 'reject_reason_sheet.dart';
 
 class AgentOrderActions extends StatefulWidget {
   final AgentOrderDetailsCubit cubit;
@@ -19,12 +20,33 @@ class AgentOrderActions extends StatefulWidget {
 
 class _AgentOrderActionsState extends State<AgentOrderActions> {
   AgentOrderDetailsCubit get cubit => widget.cubit;
+  
+  // دالة لعرض نافذة سبب الرفض
+  void _showRejectReasonSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: RejectReasonSheet(cubit: cubit),
+      ),
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
       bloc: cubit,
-      buildWhen: (previous, current) => previous.getOrderState != current.getOrderState,
+      buildWhen: (previous, current) => 
+        previous.getOrderState != current.getOrderState || 
+        previous.acceptState != current.acceptState ||
+        previous.changeStatus != current.changeStatus,
       builder: (context, state) {
+        // Print debug information for all statuses
+        print("DEBUG: Current order status: ${cubit.order?.status}");
         if (cubit.order?.status == "pending") {
           return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
             bloc: cubit,
@@ -33,34 +55,19 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
                 absorbing: state.acceptState.isLoading || state.rejectOrder.isLoading,
                 child: Opacity(
                   opacity: state.acceptState.isLoading || state.rejectOrder.isLoading ? 0.4 : 1,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: AppBtn(
-                          onPressed: () {
-                            // if (UserModel.i.accountType.isAgent) {
-                            cubit.acceptOrder();
-                            // } else {
-                            //   push(NamedRoutes.selectMerchent).then((v) {
-                            //     if (v != null) {
-                            //       cubit.acceptOrder(v);
-                            //     }
-                            //   });
-                            // }
-                          },
-                          title: LocaleKeys.accept.tr(),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: AppBtn(
-                          onPressed: () => cubit.rejectOrder(),
-                          textColor: context.errorColor,
-                          backgroundColor: Colors.transparent,
-                          title: LocaleKeys.reject.tr(),
-                        ),
-                      )
-                    ],
+                  child: AppBtn(
+                    onPressed: () {
+                      // if (UserModel.i.accountType.isAgent) {
+                      cubit.acceptOrder();
+                      // } else {
+                      //   push(NamedRoutes.selectMerchent).then((v) {
+                      //     if (v != null) {
+                      //       cubit.acceptOrder(v);
+                      //     }
+                      //   });
+                      // }
+                    },
+                    title: LocaleKeys.accept.tr(),
                   ),
                 ),
               ).withPadding(vertical: 12.h, horizontal: 16.w);
@@ -79,7 +86,7 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
               );
             },
           ).withPadding(horizontal: 16.w, vertical: 12.h);
-        } else if ((cubit.order?.status == "on_way" && (cubit.order!.isPaid || cubit.order!.paymentMethod == 'cash')) || cubit.order?.status == "accepted") {
+        } else if ((cubit.order?.status == "on_way" && (cubit.order!.isPaid || cubit.order!.paymentMethod == 'cash'))) {
           return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
             bloc: cubit,
             buildWhen: (previous, current) => previous.changeStatus != current.changeStatus,
@@ -88,9 +95,37 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
                 loading: state.changeStatus.isLoading,
                 title: "btn_status_trans.${cubit.order?.status}".tr(),
                 onPressed: () => cubit.changeStatus(),
-              );
+              ).withPadding(horizontal: 16.w, vertical: 12.h);
             },
-          ).withPadding(horizontal: 16.w, vertical: 12.h);
+          );
+        } else if (cubit.order?.status == "accepted") {
+          print("DEBUG: Order status is ACCEPTED - Status: ${cubit.order?.status}");
+          return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
+            bloc: cubit,
+            buildWhen: (previous, current) => previous.changeStatus != current.changeStatus || previous.acceptState != current.acceptState || previous.getOrderState != current.getOrderState,
+            builder: (context, state) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: AppBtn(
+                      loading: state.changeStatus.isLoading,
+                      title: "btn_status_trans.${cubit.order?.status}".tr(),
+                      onPressed: () => cubit.changeStatus(),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: AppBtn(
+                      onPressed: _showRejectReasonSheet,
+                      textColor: context.errorColor,
+                      backgroundColor: Colors.transparent,
+                      title: LocaleKeys.reject.tr(),
+                    ),
+                  ),
+                ],
+              ).withPadding(horizontal: 16.w, vertical: 12.h);
+            },
+          );
         }
         return SizedBox.shrink();
       },

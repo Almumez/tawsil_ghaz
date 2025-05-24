@@ -299,5 +299,9 @@
   "financial": "مالية",
   "join": "انضمام",
   "switch_account": "تحويل",
-  "exit": "خروج"
+  "exit": "خروج",
+  "reject_order": "رفض الطلب",
+  "reject_reason": "سبب الرفض",
+  "enter_reject_reason": "أدخل سبب الرفض هنا",
+  "cancel": "إلغاء"
 }

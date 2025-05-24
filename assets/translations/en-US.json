@@ -300,5 +300,9 @@
   "financial": "Financial",
   "join": "Join",
   "switch_account": "Switch Account",
-  "exit": "Exit"
+  "exit": "Exit",
+  "reject_order": "Reject Order",
+  "reject_reason": "Rejection Reason",
+  "enter_reject_reason": "Enter reason for rejection here",
+  "cancel": "Cancel"
 }

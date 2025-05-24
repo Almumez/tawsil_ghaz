@@ -121,17 +121,6 @@ class AgentOrderWidget extends StatelessWidget {
                       title: LocaleKeys.accept.tr(),
                     ),
                   ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: AppBtn(
-                      onPressed: onTap,
-                      textColor: context.primaryColor,
-                      saveArea: false,
-                      height: 40.h,
-                      backgroundColor: context.primaryColorLight,
-                      title: LocaleKeys.reject.tr(),
-                    ),
-                  )
                 ],
               ).withPadding(top: 8.h),
           ],
