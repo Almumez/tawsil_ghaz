@@ -27,6 +27,8 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
   bool _isLoading = true;
   String? _errorMessage;
   final Set<Marker> _markers = {};
+  String _agentName = '';
+  String _agentPhone = '';
 
   @override
   void initState() {
@@ -57,16 +59,25 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
   Future<void> _fetchDeliveryLocation() async {
     try {
       final response = await ServerGate.i.getFromServer(
-        url: 'track-order/${widget.orderId}',
+        url: 'general/track-order/${widget.orderId}',
       );
 
       if (response.success) {
         final data = response.data;
-        if (data['status'] == true && data['lat'] != null && data['lng'] != null) {
+        if (data['status'] == true && 
+            data['location'] != null && 
+            data['location']['lat'] != null && 
+            data['location']['lng'] != null) {
           final newLocation = LatLng(
-            double.parse(data['lat'].toString()),
-            double.parse(data['lng'].toString()),
+            double.parse(data['location']['lat'].toString()),
+            double.parse(data['location']['lng'].toString()),
           );
+          
+          // استخراج معلومات المندوب
+          if (data['agent'] != null) {
+            _agentName = data['agent']['name']?.toString() ?? LocaleKeys.delivery_person.tr();
+            _agentPhone = data['agent']['phone']?.toString() ?? '';
+          }
           
           setState(() {
             _deliveryLocation = newLocation;
@@ -111,7 +122,8 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
         position: _deliveryLocation!,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
         infoWindow: InfoWindow(
-          title: LocaleKeys.delivery_person.tr(),
+          title: _agentName,
+          snippet: _agentPhone.isNotEmpty ? _agentPhone : null,
         ),
       ),
     );
