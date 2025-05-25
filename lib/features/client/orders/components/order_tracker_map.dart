@@ -21,7 +21,8 @@ class OrderTrackerMap extends StatefulWidget {
 }
 
 class _OrderTrackerMapState extends State<OrderTrackerMap> {
-  GoogleMapController? _controller;
+  final Completer<GoogleMapController> _controllerCompleter = Completer<GoogleMapController>();
+  GoogleMapController? _mapController;
   Timer? _timer;
   LatLng? _deliveryLocation;
   bool _isLoading = true;
@@ -29,22 +30,23 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
   final Set<Marker> _markers = {};
   String _agentName = '';
   String _agentPhone = '';
+  bool _isMapCreated = false;
 
   @override
   void initState() {
     super.initState();
     _fetchDeliveryLocation();
-    _startLocationUpdates();
   }
 
   @override
   void dispose() {
     _stopLocationUpdates();
-    _controller?.dispose();
+    _mapController?.dispose();
     super.dispose();
   }
 
   void _startLocationUpdates() {
+    _timer?.cancel();
     // Call API every 5 seconds
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _fetchDeliveryLocation();
@@ -68,30 +70,30 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
             data['location'] != null && 
             data['location']['lat'] != null && 
             data['location']['lng'] != null) {
-          final newLocation = LatLng(
-            double.parse(data['location']['lat'].toString()),
-            double.parse(data['location']['lng'].toString()),
-          );
+          
+          final newLat = double.parse(data['location']['lat'].toString());
+          final newLng = double.parse(data['location']['lng'].toString());
+          final newLocation = LatLng(newLat, newLng);
           
           // استخراج معلومات المندوب
           if (data['agent'] != null) {
             _agentName = data['agent']['name']?.toString() ?? LocaleKeys.delivery_person.tr();
             _agentPhone = data['agent']['phone']?.toString() ?? '';
           }
-          
+
           setState(() {
             _deliveryLocation = newLocation;
             _isLoading = false;
             _errorMessage = null;
-            _updateMarkers();
           });
-          
-          // Move camera to new position if controller is available
-          if (_controller != null && _deliveryLocation != null) {
-            _controller!.animateCamera(
-              CameraUpdate.newLatLngZoom(_deliveryLocation!, 15),
-            );
+
+          if (!_isMapCreated && _mapController != null) {
+            _isMapCreated = true;
+            _startLocationUpdates();
           }
+          
+          // تحديث الموقع على الخريطة
+          _updateLocationOnMap(newLocation);
         } else {
           setState(() {
             _isLoading = false;
@@ -112,21 +114,28 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
     }
   }
 
-  void _updateMarkers() {
-    if (_deliveryLocation == null) return;
-    
-    _markers.clear();
-    _markers.add(
-      Marker(
-        markerId: const MarkerId('delivery_person'),
-        position: _deliveryLocation!,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-        infoWindow: InfoWindow(
-          title: _agentName,
-          snippet: _agentPhone.isNotEmpty ? _agentPhone : null,
-        ),
-      ),
-    );
+  Future<void> _updateLocationOnMap(LatLng newLocation) async {
+    if (_mapController != null) {
+      // تحريك الكاميرا إلى الموقع الجديد
+      await _mapController!.animateCamera(CameraUpdate.newLatLng(newLocation));
+      
+      // تحديث العلامات على الخريطة
+      setState(() {
+        _markers.clear();
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('delivery_person'),
+            position: newLocation,
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+            infoWindow: InfoWindow(
+              title: _agentName,
+              snippet: _agentPhone.isNotEmpty ? _agentPhone : null,
+            ),
+            zIndex: 2,
+          ),
+        );
+      });
+    }
   }
 
   @override
@@ -169,21 +178,35 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
                           style: context.mediumText,
                         ),
                       )
-                    : GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: _deliveryLocation!,
-                          zoom: 15,
-                        ),
-                        markers: _markers,
-                        onMapCreated: (controller) {
-                          _controller = controller;
-                        },
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        compassEnabled: true,
-                        zoomControlsEnabled: true,
-                      ),
+                    : _buildMap(),
       ),
+    );
+  }
+  
+  Widget _buildMap() {
+    return GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: _deliveryLocation!,
+        zoom: 15,
+      ),
+      markers: _markers,
+      onMapCreated: (GoogleMapController controller) {
+        _mapController = controller;
+        if (!_controllerCompleter.isCompleted) {
+          _controllerCompleter.complete(controller);
+        }
+        
+        // تبدأ التحديثات بعد إنشاء الخريطة
+        if (_deliveryLocation != null && !_isMapCreated) {
+          _isMapCreated = true;
+          _updateLocationOnMap(_deliveryLocation!);
+          _startLocationUpdates();
+        }
+      },
+      myLocationEnabled: true,
+      myLocationButtonEnabled: true,
+      compassEnabled: true,
+      zoomControlsEnabled: true,
     );
   }
 } 
