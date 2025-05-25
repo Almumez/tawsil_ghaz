@@ -7,6 +7,7 @@ import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/pull_to_refresh.dart';
 import '../../../../core/widgets/app_btn.dart';
 import '../components/view/distribution_order_details.dart';
+import '../components/order_tracker_map.dart';
 import 'rate_agent.dart';
 import '../../../shared/controller/cancel_reasons/states.dart';
 import '../../../../models/cancel_reasons.dart';
@@ -43,6 +44,30 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
   }
 
   Widget buildBody(ClientOrderModel data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Show tracking map when order status is 'accepted'
+        if (data.status == 'accepted')
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                LocaleKeys.live_order_tracking.tr(),
+                style: context.boldText.copyWith(fontSize: 18.sp),
+              ).withPadding(horizontal: 16.w, bottom: 8.h),
+              OrderTrackerMap(orderId: data.id).withPadding(horizontal: 16.w, bottom: 16.h),
+            ],
+          ),
+        // Show the original order details based on type
+        Expanded(
+          child: _buildOrderDetails(data),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrderDetails(ClientOrderModel data) {
     switch (data.type) {
       case 'distribution':
         return ClientDistributionOrderDetails(data: data);

@@ -308,5 +308,8 @@ abstract class  LocaleKeys {
   static const location_available = 'location_available';
   static const location_not_available = 'location_not_available';
   static const location_not_available_message = 'location_not_available_message';
-
+  static const delivery_person = 'delivery_person';
+  static const retry = 'retry';
+  static const tracking_delivery = 'tracking_delivery';
+  static const live_order_tracking = 'live_order_tracking';
 }

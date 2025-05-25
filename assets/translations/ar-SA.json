@@ -306,7 +306,7 @@
   "cancel": "إلغاء",
   "checking_location": "جاري التحقق من الموقع...",
   "location_available": "الموقع متاح للتوصيل",
-  "location_not_available": "الموقع غير متاح للتوصيل",
+  "location_not_available": "الموقع غير متاح",
   "location_not_available_message": "عذراً، هذا الموقع غير مشمول في نطاق خدمة التوصيل لدينا",
   "select_your_location": "اختر موقعك",
   "add_address_description": "إضافة وصف العنوان",
@@ -318,5 +318,9 @@
   "full_address": "العنوان بالتفصيل",
   "description": "الوصف",
   "address_added_successfully": "تم إضافة العنوان بنجاح",
-  "are_you_want_to_delete_this_address": "هل تريد حذف هذا العنوان؟"
+  "are_you_want_to_delete_this_address": "هل تريد حذف هذا العنوان؟",
+  "delivery_person": "المندوب",
+  "retry": "إعادة المحاولة",
+  "tracking_delivery": "تتبع التوصيل",
+  "live_order_tracking": "تتبع الطلب المباشر"
 }

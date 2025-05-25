@@ -307,6 +307,10 @@
   "cancel": "Cancel",
   "checking_location": "Checking location...",
   "location_available": "Location available for delivery",
-  "location_not_available": "Location not available for delivery",
-  "location_not_available_message": "Sorry, this location is not within our delivery zone scope"
+  "location_not_available": "Location not available",
+  "location_not_available_message": "Sorry, this location is not within our delivery zone scope",
+  "delivery_person": "Delivery Person",
+  "retry": "Retry",
+  "tracking_delivery": "Tracking Delivery",
+  "live_order_tracking": "Live Order Tracking"
 }
