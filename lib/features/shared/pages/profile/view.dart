@@ -11,6 +11,8 @@ import '../../../../models/profile_item.dart';
 import '../../../../models/user_model.dart';
 
 import '../../../../core/routes/routes.dart';
+import '../../../../core/services/location_tracking_service.dart';
+import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../gen/locale_keys.g.dart';
 import 'build_list.dart';
@@ -23,6 +25,50 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  bool _isLocationTracking = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLocationTrackingStatus();
+  }
+
+  void _checkLocationTrackingStatus() {
+    if (UserModel.i.accountType == UserType.freeAgent) {
+      _isLocationTracking = sl<LocationTrackingService>().isTracking;
+      setState(() {});
+    }
+  }
+
+  Future<void> _toggleLocationTracking() async {
+    final service = sl<LocationTrackingService>();
+    
+    if (_isLocationTracking) {
+      service.stopTracking();
+    } else {
+      await service.checkAndStart();
+    }
+    
+    _isLocationTracking = service.isTracking;
+    setState(() {});
+    
+    if (_isLocationTracking) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم تشغيل خدمة تتبع الموقع'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم إيقاف خدمة تتبع الموقع'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+
   List<ProfileItemModel> _buildItems() {
     if (UserModel.i.accountType == UserType.client) {
       return BuildProfileList.items;
@@ -41,6 +87,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   Future<void> _refresh() async {
     // Actualizar los datos del usuario si es necesario
+    _checkLocationTrackingStatus();
     setState(() {
       // Actualizar el estado si es necesario
     });
@@ -88,6 +135,45 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ],
                 ),
+                
+              // زر التحكم في خدمة تتبع الموقع للمندوب الحر
+              if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent)
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 16.h),
+                  decoration: BoxDecoration(
+                    color: _isLocationTracking ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: _isLocationTracking ? Colors.green : Colors.orange,
+                      width: 1,
+                    ),
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      _isLocationTracking ? Icons.location_on : Icons.location_off,
+                      color: _isLocationTracking ? Colors.green : Colors.orange,
+                    ),
+                    title: Text(
+                      _isLocationTracking ? 'خدمة تتبع الموقع قيد التشغيل' : 'خدمة تتبع الموقع متوقفة',
+                      style: context.mediumText.copyWith(
+                        color: _isLocationTracking ? Colors.green : Colors.orange,
+                      ),
+                    ),
+                    subtitle: Text(
+                      _isLocationTracking 
+                          ? 'يتم إرسال موقعك إلى النظام كل 5 ثواني' 
+                          : 'اضغط للتشغيل',
+                      style: context.regularText.copyWith(fontSize: 12.sp),
+                    ),
+                    trailing: Switch(
+                      value: _isLocationTracking,
+                      onChanged: (value) => _toggleLocationTracking(),
+                      activeColor: Colors.green,
+                    ),
+                    onTap: _toggleLocationTracking,
+                  ),
+                ),
+                
               ...List.generate(
                 _buildItems().length,
                 (index) => InkWell(

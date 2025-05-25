@@ -14,7 +14,9 @@ import 'core/routes/app_routes_fun.dart';
 import 'core/services/bloc_observer.dart';
 import 'core/services/local_notifications_service.dart';
 import 'core/services/service_locator.dart';
+import 'core/services/location_tracking_service.dart';
 import 'core/utils/app_theme.dart';
+import 'core/utils/enums.dart';
 import 'core/utils/phoneix.dart';
 import 'core/utils/unfocus.dart';
 import 'firebase_options.dart';
@@ -59,6 +61,27 @@ void main() async {
   
   // Inicializar el localizador de servicios
   ServicesLocator().init();
+
+  // بدء خدمة تتبع الموقع للمندوب الحر
+  debugPrint('تحقق من نوع الحساب عند بدء التطبيق: ${UserModel.i.userType}');
+  
+  if (UserModel.i.isAuth) {
+    debugPrint('المستخدم مسجل الدخول، مستخدم من نوع: ${UserModel.i.userType}');
+    
+    if (UserModel.i.userType == 'free_agent') {
+      debugPrint('المستخدم هو مندوب حر، بدء خدمة تتبع الموقع...');
+      try {
+        await sl<LocationTrackingService>().startTracking();
+        debugPrint('تم بدء خدمة تتبع الموقع عند بدء التطبيق');
+      } catch (e) {
+        debugPrint('خطأ عند بدء خدمة تتبع الموقع: $e');
+      }
+    } else {
+      debugPrint('المستخدم ليس مندوب حر، لن يتم بدء خدمة تتبع الموقع');
+    }
+  } else {
+    debugPrint('المستخدم غير مسجل الدخول، لن يتم بدء خدمة تتبع الموقع');
+  }
   
   runApp(const MyApp());
 }
@@ -70,7 +93,38 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent) {
+      switch (state) {
+        case AppLifecycleState.resumed:
+          // App is in the foreground
+          sl<LocationTrackingService>().startTracking();
+          break;
+        case AppLifecycleState.detached:
+        case AppLifecycleState.hidden:
+        case AppLifecycleState.inactive:
+        case AppLifecycleState.paused:
+          // App is in the background or inactive
+          // Keep location tracking running for agents
+          break;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return lang.EasyLocalization(

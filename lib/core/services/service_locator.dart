@@ -46,6 +46,7 @@ import '../../features/technician/home/controller/home_cubit.dart';
 import '../../features/technician/order_details/cubit/order_details_cubit.dart';
 import '../../features/technician/orders/cubit/orders_cubit.dart';
 import '../utils/location_service.dart';
+import 'location_tracking_service.dart';
 
 final sl = GetIt.instance;
 
@@ -76,6 +77,7 @@ class ServicesLocator {
     sl.registerFactory(() => ClientMaintenanceSupplyCubit());
     sl.registerLazySingleton(() => CompanyDetailsCubit());
     sl.registerLazySingleton(() => LocationService());
+    sl.registerLazySingleton(() => LocationTrackingService.instance);
     sl.registerFactory(() => GoogleMapSearchBloc());
     sl.registerFactory(() => ClientOrdersCubit());
     sl.registerFactory(() => ClientFactoriesAccessoriesCubit());
