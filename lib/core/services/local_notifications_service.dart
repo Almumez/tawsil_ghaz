@@ -21,6 +21,8 @@ class GlobalNotification {
     importance: Importance.high,
     playSound: true,
     sound: RawResourceAndroidNotificationSound('notification'),
+    enableVibration: true,
+    enableLights: true,
   );
 
   static Future<String> getFcmToken() async {
@@ -150,6 +152,8 @@ class GlobalNotification {
         priority: Priority.high,
         sound: const RawResourceAndroidNotificationSound('notification'),
         playSound: true,
+        enableVibration: true,
+        enableLights: true,
       );
       var notificationDetails = NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
       await _notificationsPlugin.show(0, data.notification!.title, data.notification!.body, notificationDetails);
@@ -220,6 +224,8 @@ Future<void> showBackgroundNotification(RemoteMessage message) async {
       priority: Priority.high,
       sound: RawResourceAndroidNotificationSound('notification'),
       playSound: true,
+      enableVibration: true,
+      enableLights: true,
     );
     
     // Configuración específica para iOS
