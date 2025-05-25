@@ -181,7 +181,7 @@
   "address_added_successfully": "Address added successfully",
   "add_address_description": "Add address description",
   "edit_address": "Edit address",
-  "are_you_want_to_delete_this_address": "Are you want to delete this address",
+  "are_you_want_to_delete_this_address": "Do you want to delete this address?",
   "the_service": "Service : ",
   "no_agent": "No agent yet",
   "industrial_gas_factories": "Industrial gas factories",
@@ -303,6 +303,10 @@
   "exit": "Exit",
   "reject_order": "Reject Order",
   "reject_reason": "Rejection Reason",
-  "enter_reject_reason": "Enter reason for rejection here",
-  "cancel": "Cancel"
+  "enter_reject_reason": "Enter rejection reason here",
+  "cancel": "Cancel",
+  "checking_location": "Checking location...",
+  "location_available": "Location available for delivery",
+  "location_not_available": "Location not available for delivery",
+  "location_not_available_message": "Sorry, this location is not within our delivery zone scope"
 }

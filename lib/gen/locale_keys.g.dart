@@ -304,4 +304,9 @@ abstract class  LocaleKeys {
   static const reject_reason = 'reject_reason';
   static const enter_reject_reason = 'enter_reject_reason';
   static const cancel = 'cancel';
+  static const checking_location = 'checking_location';
+  static const location_available = 'location_available';
+  static const location_not_available = 'location_not_available';
+  static const location_not_available_message = 'location_not_available_message';
+
 }

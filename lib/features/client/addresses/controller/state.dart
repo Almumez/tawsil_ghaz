@@ -8,6 +8,7 @@ class AddressesState {
   final RequestState deleteStateState;
   final RequestState getStateState;
   final RequestState setDefaultStateState;
+  final RequestState checkZoneState;
   final String msg;
   final ErrorType errorType;
 
@@ -17,6 +18,7 @@ class AddressesState {
     this.deleteStateState = RequestState.initial,
     this.getStateState = RequestState.initial,
     this.setDefaultStateState = RequestState.initial,
+    this.checkZoneState = RequestState.initial,
     this.msg = '',
     this.errorType = ErrorType.none,
   });
@@ -27,6 +29,7 @@ class AddressesState {
     RequestState? deleteStateState,
     RequestState? getStateState,
     RequestState? setDefaultStateState,
+    RequestState? checkZoneState,
     String? msg,
     ErrorType? errorType,
     AddressModel? address,
@@ -37,6 +40,7 @@ class AddressesState {
         deleteStateState: deleteStateState ?? this.deleteStateState,
         getStateState: getStateState ?? this.getStateState,
         setDefaultStateState: setDefaultStateState ?? this.setDefaultStateState,
+        checkZoneState: checkZoneState ?? this.checkZoneState,
         msg: msg ?? this.msg,
         errorType: errorType ?? this.errorType,
       );

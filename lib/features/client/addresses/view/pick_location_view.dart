@@ -16,6 +16,9 @@ import '../../../../core/widgets/custom_radius_icon.dart';
 import '../../../../core/widgets/flash_helper.dart';
 import '../../../../gen/locale_keys.g.dart';
 import '../../../shared/controller/google_map_search/bloc.dart';
+import '../controller/cubit.dart';
+import '../controller/state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PickLocationView extends StatefulWidget {
   final AddressModel? data;
@@ -28,6 +31,7 @@ class PickLocationView extends StatefulWidget {
 class _PickLocationViewState extends State<PickLocationView> {
   final location = LocationService();
   final cubit = sl<GoogleMapSearchBloc>();
+  final addressesCubit = sl<AddressesCubit>();
   final markers = <Marker>{};
   LatLng? latLng;
   bool loading = true;
@@ -48,7 +52,7 @@ class _PickLocationViewState extends State<PickLocationView> {
         (value) {
           final position = value.position;
           if (position != null) {
-            _goToTheLake(LatLng(position.altitude, position.longitude));
+            _goToTheLake(LatLng(position.latitude, position.longitude));
           } else {
             FlashHelper.showToast(value.msg);
           }
@@ -77,7 +81,10 @@ class _PickLocationViewState extends State<PickLocationView> {
         children: [
           GoogleMap(
             mapType: MapType.normal,
-            onTap: _goToTheLake,
+            onTap: (latLng) {
+              _goToTheLake(latLng);
+              addressesCubit.checkZoneLocation(latLng);
+            },
             markers: markers,
             initialCameraPosition: _kGooglePlex,
             myLocationButtonEnabled: false,
@@ -202,30 +209,50 @@ class _PickLocationViewState extends State<PickLocationView> {
           height: 90.h,
           color: context.primaryColorLight,
           padding: EdgeInsets.only(top: 10.h),
-          child: AppBtn(
-            textColor: context.primaryColor,
-            backgroundColor: Colors.transparent,
-            onPressed: () {
-              showModalBottomSheet(
-                elevation: 0,
-                context: context,
-                isScrollControlled: true,
-                isDismissible: true,
-                builder: (context) => AddAddressSheet(latLng: latLng!, data: widget.data),
-              );
-              // if (widget.latLng == latLng) {
-              //   Navigator.pop(context);
-              // } else if (latLng != null) {
-              //   setState(() {
-              //     loading = true;
-              //   });
-              //   location.getAddressFromLatLng(latLng: latLng).then((value) {
-              //     Navigator.pop(context, {"latLng": latLng, "name": value});
-              //   });
-              // }
-            },
-            title: widget.data == null ? LocaleKeys.add_address_description.tr() : LocaleKeys.edit_address.tr(),
-          ).withPadding(horizontal: 24.w, vertical: 10.h),
+          child: BlocBuilder<AddressesCubit, AddressesState>(
+            bloc: addressesCubit,
+            builder: (context, state) {
+              String buttonText = widget.data == null
+                ? LocaleKeys.add_address_description.tr()
+                : LocaleKeys.edit_address.tr();
+              
+              Color textColor = context.primaryColor;
+              Color backgroundColor = Colors.transparent;
+              bool isEnabled = true;
+              
+              if (state.checkZoneState.isLoading) {
+                buttonText = LocaleKeys.checking_location.tr();
+              } else if (state.checkZoneState.isDone && latLng != null) {
+                if (addressesCubit.isLocationAvailable) {
+                  buttonText = LocaleKeys.location_available.tr();
+                } else {
+                  buttonText = LocaleKeys.location_not_available.tr();
+                  textColor = context.errorColor;
+                }
+              }
+              
+              return AppBtn(
+                textColor: textColor,
+                backgroundColor: backgroundColor,
+                onPressed: () {
+                  if (!state.checkZoneState.isLoading && latLng != null) {
+                    if (addressesCubit.isLocationAvailable) {
+                      showModalBottomSheet(
+                        elevation: 0,
+                        context: context,
+                        isScrollControlled: true,
+                        isDismissible: true,
+                        builder: (context) => AddAddressSheet(latLng: latLng!, data: widget.data),
+                      );
+                    } else {
+                      FlashHelper.showToast(LocaleKeys.location_not_available_message.tr());
+                    }
+                  }
+                },
+                title: buttonText,
+              ).withPadding(horizontal: 24.w, vertical: 10.h);
+            }
+          ),
         ),
       ),
       floatingActionButton: CustomRadiusIcon(
@@ -234,6 +261,7 @@ class _PickLocationViewState extends State<PickLocationView> {
             final position = value.position;
             if (position != null) {
               _goToTheLake(LatLng(position.latitude, position.longitude));
+              addressesCubit.checkZoneLocation(LatLng(position.latitude, position.longitude));
             } else {
               FlashHelper.showToast(value.msg);
             }

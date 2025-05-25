@@ -20,6 +20,7 @@ class AddressesCubit extends Cubit<AddressesState> {
   AddressModel? defaultAddress;
 
   String defaultAddressId = '';
+  bool isLocationAvailable = false;
 
   Future<void> getAddresses({bool withLoading = true}) async {
     if (withLoading) emit(state.copyWith(getStateState: RequestState.loading));
@@ -30,6 +31,24 @@ class AddressesCubit extends Cubit<AddressesState> {
       emit(state.copyWith(getStateState: RequestState.done, msg: result.msg));
     } else {
       emit(state.copyWith(getStateState: RequestState.error, msg: result.msg, errorType: result.errType));
+    }
+  }
+
+  Future<void> checkZoneLocation(LatLng latLng) async {
+    emit(state.copyWith(checkZoneState: RequestState.loading));
+    final result = await ServerGate.i.sendToServer(
+      url: 'general/zones/check-location',
+      body: {
+        "lat": latLng.latitude,
+        "lng": latLng.longitude,
+      },
+    );
+    if (result.success) {
+      isLocationAvailable = result.data['data']['is_valid_location'] == 1;
+      emit(state.copyWith(checkZoneState: RequestState.done, msg: result.msg));
+    } else {
+      isLocationAvailable = false;
+      emit(state.copyWith(checkZoneState: RequestState.error, msg: result.msg, errorType: result.errType));
     }
   }
 
