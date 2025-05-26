@@ -17,12 +17,23 @@ class FlashHelper {
       builder: (context, controller) {
         return FlashBar(
           controller: controller,
-          position: FlashPosition.bottom,
+          position: FlashPosition.top,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          margin: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top + 10.h),
           content: Container(
             padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 10.h),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(9.r), color: _getBgColor(type)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(9.r),
+              color: _getBgColor(type),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                )
+              ],
+            ),
             child: Row(
               children: [
                 Container(
@@ -30,11 +41,10 @@ class FlashHelper {
                   decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                   child: Center(
                     child: CustomImage(
-                      Assets.images.logo.path,
+                      "assets/images/splash.png",
                       fit: BoxFit.scaleDown,
-                      height: 19.h,
-                      width: 24.h,
-                      // color: _getBgColor(type),
+                      height: 25.h,
+                      width: 25.h,
                     ),
                   ),
                 ),
@@ -49,78 +59,14 @@ class FlashHelper {
                     style: context.regularText.copyWith(fontSize: 16, color: context.primaryColorLight),
                   ),
                 ),
-                // Container(
-                //   height: 24.h,
-                //   width: 24.h,
-                //   padding: EdgeInsets.all(5.r),
-                //   decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                //   child: CustomImage(
-                //     _getToastIcon(type),
-                //     height: 19.h,
-                //     width: 24.h,
-                //     color: _getBgColor(type),
-                //   ),
-                // ),
               ],
             ),
           ),
+
         );
       },
-      duration: const Duration(milliseconds: 3000),
+      duration: Duration(milliseconds: duration * 1000),
     );
-    // if (msg.isNotEmpty) {
-    //   ScaffoldMessenger.of(navigator.currentContext!).clearSnackBars();
-    //   ScaffoldMessenger.of(navigator.currentContext!).showSnackBar(
-    //     SnackBar(
-    //       behavior: SnackBarBehavior.floating,
-    //       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-    //       margin: EdgeInsets.fromLTRB(20.w, 0, 20.w, 652.h),
-    //       elevation: 0,
-    //       backgroundColor: _getBgColor(type),
-    //       clipBehavior: Clip.antiAlias,
-    //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.r)),
-    //       content: Row(
-    //         children: [
-    //           Container(
-    //             padding: EdgeInsets.symmetric(horizontal: 8.r, vertical: 11.h),
-    //             decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-    //             child: Center(
-    //               child: CustomImage(
-    //                 Assets.svg.logo,
-    //                 fit: BoxFit.scaleDown,
-    //                 height: 19.h,
-    //                 width: 24.h,
-    //                 color: _getBgColor(type),
-    //               ),
-    //             ),
-    //           ),
-    //           SizedBox(width: 10.w),
-    //           Expanded(
-    //             child: Text(msg,
-    //                 maxLines: 5,
-    //                 overflow: TextOverflow.ellipsis,
-    //                 textAlign: TextAlign.start,
-    //                 softWrap: true,
-    //                 style: TextStyle(fontSize: 16.sp, color: Colors.white)),
-    //           ),
-    //           Container(
-    //             height: 24.h,
-    //             width: 24.h,
-    //             padding: EdgeInsets.all(5.r),
-    //             decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-    //             child: CustomImage(
-    //               _getToastIcon(type),
-    //               // fit: BoxFit.scaleDown,
-    //               height: 19.h,
-    //               width: 24.h,
-    //               color: _getBgColor(type),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
   }
 
   static Color _getBgColor(MessageType msgType) {

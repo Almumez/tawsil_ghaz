@@ -33,7 +33,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   // شعار كبير في الوسط
                   Image.asset(
                     'assets/images/splash.png',
-                    height: 120.h,
+                    height: 150.h,
                   ),
                   SizedBox(height: 80.h),
                   // مرحباً بك بخط كبير
