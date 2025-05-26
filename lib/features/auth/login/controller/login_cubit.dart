@@ -16,8 +16,8 @@ import 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginState());
 
-  final phone = TextEditingController(text: kDebugMode ? '555555555' : '');
-  final password = TextEditingController(text: kDebugMode ? '123456' : '');
+  final phone = TextEditingController();
+  final password = TextEditingController();
   CountryModel? country;
 
   Future<Map<String, dynamic>> get body async => {

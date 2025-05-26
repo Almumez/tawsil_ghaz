@@ -70,18 +70,12 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                   SizedBox(height: 16.h),
                   // زر الدخول كضيف بحدود بدون ظل
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.r),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: AppBtn(
-                      title: LocaleKeys.login_as_guest.tr(),
-                      backgroundColor: Colors.transparent,
-                      textColor: Colors.black,
-                      onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
-                      radius: 30.r,
-                    ),
+                  AppBtn(
+                    title: LocaleKeys.login_as_guest.tr(),
+                    backgroundColor: Colors.transparent,
+                    textColor: Colors.black,
+                    onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
+                    radius: 30.r,
                   ),
                 ],
               ),

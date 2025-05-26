@@ -82,9 +82,14 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisSize: MainAxisSize.min,
 
                   children: [
+                    Container(
+                      height: 25.h,
+                      width: 1,
+                      color: Colors.black,
+                    ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
+                          EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
                       child: Text(
                      textAlign: TextAlign.left,
                         // textDirection:  TextDirection.LTR,
@@ -92,11 +97,7 @@ class _LoginViewState extends State<LoginView> {
                         style: context.regularText.copyWith(fontSize: 14),
                       ),
                     ),
-                    Container(
-                      height: 25.h,
-                      width: 1,
-                      color: Colors.grey,
-                    ),
+
                   ],
                 ),
               ),

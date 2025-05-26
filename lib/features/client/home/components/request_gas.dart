@@ -249,7 +249,7 @@ class RequestGasWidget extends StatelessWidget {
                 fontSize: 28.sp,
                 color: Colors.black, // Assuming text should be white on the image
               ),
-            ).withPadding(bottom: 10.h),
+            ).withPadding(bottom: 10.h, start: 30.w),
           ],
         ).withPadding(start: 20.w),
       ),
