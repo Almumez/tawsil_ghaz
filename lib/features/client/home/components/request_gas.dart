@@ -254,12 +254,15 @@ class RequestGasWidget extends StatelessWidget {
                 color: Colors.black,
               ),
             ).withPadding(start:  50.w),
-            Image.asset(
-              height: 150.h,
-              width: 150.w,
-              isEnglish
-                  ? Assets.images.homeDistributionEn.path
-                  : Assets.images.homeDistribution.path,
+            CircleAvatar(
+              radius: 50.r,
+              child: Image.asset(
+                height: 150.h,
+                width: 150.w,
+                isEnglish
+                    ? Assets.images.homeDistributionEn.path
+                    : Assets.images.homeDistribution.path,
+              ),
             )
           ],
         ),
