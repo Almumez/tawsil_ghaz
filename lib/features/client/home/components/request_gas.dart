@@ -55,7 +55,7 @@ class RequestGasWidget extends StatelessWidget {
                 
                 // عنوان البوتوم شيت
                 Text(
-                  LocaleKeys.gas_distribution.tr(),
+                  LocaleKeys.distribution.tr(),
                   style: context.boldText.copyWith(
                     fontSize: 24.sp,
                     color: "#090909".color,
@@ -245,7 +245,7 @@ class RequestGasWidget extends StatelessWidget {
           children: [
             Text(
               LocaleKeys.distribution.tr(),
-              style: context.boldText.copyWith(
+              style: context.mediumText.copyWith(
                 fontSize: 28.sp,
                 color: Colors.black, // Assuming text should be white on the image
               ),
