@@ -77,21 +77,19 @@ class RequestGasWidget extends StatelessWidget {
                 ).withPadding(bottom: 16.h),
                 
                 // خيار بيع أسطوانة
-                Row(children: [
-                  _buildBannerImage(
-                    context: context,
-                    image: context.locale.languageCode == 'en'
-                        ? Assets.images.sellCylinderEn.path
-                        : Assets.images.sellCylinder.path,
-                    title: LocaleKeys.sell_gas_to_companies.tr(),
-                    buttonText: LocaleKeys.sell_gas.tr(),
-                    onPressed: () {
-                      // يمكن تعديل هذه الوظيفة لاحقاً
-                      Navigator.pop(context);
-                      _showComingSoonPopup(context, LocaleKeys.sell_gas.tr());
-                    },
-                  ).withPadding(bottom: 10.h),
-                ],)
+                _buildBannerImage(
+                  context: context,
+                  image: context.locale.languageCode == 'en'
+                      ? Assets.images.sellCylinderEn.path
+                      : Assets.images.sellCylinder.path,
+                  title: LocaleKeys.sell_gas_to_companies.tr(),
+                  buttonText: LocaleKeys.sell_gas.tr(),
+                  onPressed: () {
+                    // يمكن تعديل هذه الوظيفة لاحقاً
+                    Navigator.pop(context);
+                    _showComingSoonPopup(context, LocaleKeys.sell_gas.tr());
+                  },
+                ).withPadding(bottom: 10.h)
 
               ],
             ),

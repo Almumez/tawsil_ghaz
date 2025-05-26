@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../models/user_model.dart';
 
 import '../../../../core/routes/app_routes_fun.dart';
@@ -79,14 +80,19 @@ class _HomeClientViewState extends State<HomeClientView> {
                   width: 70.w,
                   height: 70.h,
                   decoration: BoxDecoration(
-                    color: "#d68243".color.withOpacity(0.1),
+                    color: Color(0xfff5f5f5),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.notifications_active,
-                    color: "#d68243".color,
-                    size: 35.r,
+                  child: Container(
+                    margin: EdgeInsets.all(15.r),
+                    child: SvgPicture.asset("assets/svg/notifications_in.svg",
+                      height:   20.h,
+                        width:  20.w,
+                      fit:  BoxFit.cover,
+
+                    ),
                   ),
+
                 ),
                 SizedBox(height: 20.h),
                 Text(
@@ -98,14 +104,14 @@ class _HomeClientViewState extends State<HomeClientView> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 15.h),
-                Text(
-                  LocaleKeys.service_not_available.tr(),
-                  style: context.mediumText.copyWith(
-                    fontSize: 16.sp,
-                    color: "#9E968F".color,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                // Text(
+                //   LocaleKeys.service_not_available.tr(),
+                //   style: context.mediumText.copyWith(
+                //     fontSize: 16.sp,
+                //     color: "#9E968F".color,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
                 SizedBox(height: 25.h),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -188,14 +194,18 @@ class _HomeClientViewState extends State<HomeClientView> {
                         onTap: () => _showComingSoonPopup(context, items[index].title),
                         child: Column(
                           children: [
-                            CustomImage(
-                              items[index].image,
-                              backgroundColor: Color(0xfff5f5f5),
+                            Container(
                               height: 115.h,
-                              width: 112.w, 
-                              fit: BoxFit.fill,
-                              borderRadius: BorderRadius.circular(25), // إضافة radius للصور
-                              border: Border.all(width: 0, color: Colors.transparent), // إزالة البوردر
+                              width: 112.w,
+                              decoration: BoxDecoration(
+                                color: Color(0xfff5f5f5),
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(width: 0, color: Colors.transparent),
+                              ),
+                              child: Image.asset(
+                                items[index].image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             Text(items[index].title, style: context.mediumText.copyWith(fontSize: 20)),
                           ],
