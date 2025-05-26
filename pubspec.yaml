@@ -73,7 +73,7 @@ flutter:
           weight: 500
         - asset: assets/fonts/alfont_com_AlFont_com_SST-Arabic-Medium.ttf
           weight: 400
-        - asset: assets/fonts/alfont_com_AlFont_com_SST-Arabic-Medium.ttf
+        - asset: assets/fonts/alfont_com_AlFont_com_SST-Arabic-Light.ttf
           weight: 300
 
 # تكوين أيقونة التطبيق

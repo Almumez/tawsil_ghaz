@@ -108,32 +108,35 @@ class _ProfileViewState extends State<ProfileView> {
           child: Column(
             children: [
               if (UserModel.i.isAuth)
-                Row(
-                  children: [
-                    CustomRadiusIcon(
-                      onTap: () => push(NamedRoutes.editProfile),
-                      size: 40.h,
-                      child: CustomImage(
-                        Assets.images.edit.path,
-                        height: 20.h,
-                        width: 20.h,
-                        color: context.primaryColorDark,
+                InkWell(
+                  onTap:() => push(NamedRoutes.editProfile),
+                  child: Row(
+                    children: [
+                      CustomRadiusIcon(
+                        onTap: () => push(NamedRoutes.editProfile),
+                        size: 40.h,
+                        child: CustomImage(
+                          Assets.images.edit.path,
+                          height: 20.h,
+                          width: 20.h,
+                          color: context.primaryColorDark,
+                        ),
+                      ).withPadding(end: 8.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 16.sp)),
+                            Text(
+                              "+${UserModel.i.phoneCode}-${UserModel.i.phone}",
+                              textDirection: TextDirection.ltr,
+                              style: context.mediumText,
+                            )
+                          ],
+                        ),
                       ),
-                    ).withPadding(end: 8.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(UserModel.i.fullname, style: context.boldText.copyWith(fontSize: 16.sp)),
-                          Text(
-                            "+${UserModel.i.phoneCode}-${UserModel.i.phone}",
-                            textDirection: TextDirection.ltr,
-                            style: context.mediumText,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 
               // زر التحكم في خدمة تتبع الموقع للمندوب الحر
