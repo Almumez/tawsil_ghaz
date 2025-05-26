@@ -101,15 +101,14 @@ class _NotificationsViewState extends State<NotificationsView> {
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: Colors.black),
-                      color: context.hoverColor,
+                      borderRadius: BorderRadius.circular(15.r),
+                      color:  Color(0xfff5f5f5),
                     ),
                     child: Row(
                       children: [
                         CustomRadiusIcon(
                           borderRadius: BorderRadius.circular(10.r),
-                          backgroundColor: '#EBEEF5'.color,
+                          backgroundColor: '#ffffff'.color,
                           size: 48.sp,
                           child: CustomImage(
                             Assets.svg.notificationsIn,
@@ -136,7 +135,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                         CustomRadiusIcon(
                           size: 32.sp,
                           onTap: () => cubit.deleteItem(item.id),
-                          backgroundColor: '#F4F4F8'.color,
+                          backgroundColor: '#ffffff'.color,
                           child: CustomImage(
                             Assets.svg.deleteNotifications,
                             height: 16.sp,
