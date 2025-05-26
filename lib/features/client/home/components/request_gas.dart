@@ -231,7 +231,16 @@ class RequestGasWidget extends StatelessWidget {
         height: 140.h,
         width: 353.w,
         decoration: BoxDecoration(
+          color: Color(0xfff5f5f5),
           borderRadius: BorderRadius.circular(25.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 5,
+              spreadRadius: 1,
+              offset: const Offset(0, 2),
+            ),
+          ],
           image: DecorationImage(
             image: AssetImage(
               isEnglish 
@@ -250,9 +259,9 @@ class RequestGasWidget extends StatelessWidget {
               LocaleKeys.distribution.tr(),
               style: context.mediumText.copyWith(
                 fontSize: 28.sp,
-                color: Colors.black, // Assuming text should be white on the image
+                color: Colors.black,
               ),
-            ).withPadding(bottom: 10.h, start: 30.w),
+            ).withPadding(start: 30.w),
           ],
         ).withPadding(start: 20.w),
       ),
