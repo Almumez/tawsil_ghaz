@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
-
 import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/services/service_locator.dart';
@@ -61,30 +60,34 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 80.h),
+              SizedBox(height: 100.h),
               Center(
-                child: CustomImage("assets/images/splash.png", height: 60.h),
+                child: CustomImage("assets/images/splash.png", height: 100.h),
               ),
               SizedBox(height: 16.h),
               Text(
-                " الدخول",
+                " دخول",
                 textAlign: TextAlign.center,
-                style: context.semiboldText.copyWith(fontSize: 22),
+                style:  context.boldText.copyWith(fontSize: 24),
               ),
               SizedBox(height: 45.h),
               AppField(
                 controller: cubit.phone,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
-                keyboardType: TextInputType.phone,
+                keyboardType: TextInputType.text,
                 labelText: "الهاتف",
-                onChangeCountry: null,
-                prefixIcon: Row(
+                direction: "right",
+
+                suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
+
                   children: [
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
                       child: Text(
+                     textAlign: TextAlign.left,
+                        // textDirection:  TextDirection.LTR,
                         "+966",
                         style: context.regularText.copyWith(fontSize: 14),
                       ),
@@ -110,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
                     ..onTap = () => push(NamedRoutes.forgetPassword),
                 ),
                 style: context.regularText.copyWith(fontSize: 14),
-              ).withPadding(vertical: 8.h),
+              ).withPadding(vertical: 8.h,horizontal: 8.w),
               SizedBox(height: 24.h),
               BlocConsumer<LoginCubit, LoginState>(
                 bloc: cubit,
@@ -166,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
                           });
                         },
                       style: context.mediumText
-                          .copyWith(fontSize: 16, color: Color(0xffd68243)),
+                          .copyWith(fontSize: 16, color: Color(0xff000000)),
                     ),
                   ],
                 ),
@@ -178,18 +181,12 @@ class _LoginViewState extends State<LoginView> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.r),
-            border: Border.all(color: Colors.black),
-          ),
-          child: AppBtn(
-            title: LocaleKeys.login_as_guest.tr(),
-            backgroundColor: Colors.transparent,
-            textColor: Colors.black,
-            onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
-            radius: 30.r,
-          ),
+        child: AppBtn(
+          title: LocaleKeys.login_as_guest.tr(),
+          backgroundColor: Colors.transparent,
+          textColor: Colors.black,
+          onPressed: () => pushAndRemoveUntil(NamedRoutes.navbar),
+          radius: 30.r,
         ),
       ),
     );

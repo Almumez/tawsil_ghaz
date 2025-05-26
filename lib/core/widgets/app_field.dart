@@ -102,7 +102,7 @@ class _AppFieldState extends State<AppField> {
           Directionality(
             textDirection: widget.keyboardType == TextInputType.phone ||
                     context.locale.languageCode == 'en'
-                ? TextDirection.ltr
+                ? TextDirection.rtl
                 : TextDirection.rtl,
             child: TextFormField(
               onChanged: widget.onChanged,
@@ -145,7 +145,7 @@ class _AppFieldState extends State<AppField> {
               ],
               decoration: InputDecoration(
                 hintText: widget.hintText ?? widget.labelText ?? widget.title,
-                labelText: widget.labelText,
+                // labelText: widget.labelText,
                 fillColor: widget.fillColor,
                 prefixIcon: buildPrefixIcon(context),
                 suffixIcon: buildSuffixIcon(context),
@@ -209,7 +209,7 @@ class _AppFieldState extends State<AppField> {
             showPass ? Assets.svg.eye : Assets.svg.eyeSlash,
             width: 20.w,
             height: 20.w,
-            color: context.hintColor,
+            color: Colors.black,
           ).center,
         ),
       );
@@ -223,21 +223,24 @@ class _AppFieldState extends State<AppField> {
       final phoneCode = widget.phoneCode ?? "+${country.phoneCode.isNotEmpty ? country.phoneCode : 'XX'}";
       
       if (!widget.showFlag) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              phoneCode,
-              style: context.regularText.copyWith(fontSize: 12),
-              textDirection: TextDirection.ltr,
-            ).withPadding(start: 10.w, end: 10.w),
-            Container(
-              margin: EdgeInsetsDirectional.only(end: 10.w),
-              height: 15.h,
-              width: 1,
-              color: context.hintColor,
-            )
-          ],
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                phoneCode,
+                style: context.regularText.copyWith(fontSize: 12),
+                textDirection: TextDirection.ltr,
+              ).withPadding(start: 10.w, end: 10.w),
+              Container(
+                margin: EdgeInsetsDirectional.only(end: 10.w),
+                height: 15.h,
+                width: 1,
+                color: context.hintColor,
+              )
+            ],
+          ),
         );
       }
       
