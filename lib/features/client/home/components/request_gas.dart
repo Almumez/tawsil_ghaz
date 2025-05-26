@@ -241,19 +241,11 @@ class RequestGasWidget extends StatelessWidget {
               offset: const Offset(0, 2),
             ),
           ],
-          image: DecorationImage(
-            image: AssetImage(
-              isEnglish 
-                ? Assets.images.homeDistributionEn.path 
-                : Assets.images.homeDistribution.path,
-            ),
-            fit: BoxFit.cover,
-            opacity: .7
-          ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 30.w,
           children: [
             Text(
               LocaleKeys.distribution.tr(),
@@ -261,9 +253,16 @@ class RequestGasWidget extends StatelessWidget {
                 fontSize: 28.sp,
                 color: Colors.black,
               ),
-            ).withPadding(start: 30.w),
+            ).withPadding(start:  50.w),
+            Image.asset(
+              height: 150.h,
+              width: 150.w,
+              isEnglish
+                  ? Assets.images.homeDistributionEn.path
+                  : Assets.images.homeDistribution.path,
+            )
           ],
-        ).withPadding(start: 20.w),
+        ),
       ),
     );
   }
