@@ -29,7 +29,7 @@ class ClientOrderCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
 
-          color: context.hoverColor,
+          color: Color( 0xFFF6F6F6),
         ),
         child: Column(
           spacing: 10.h,
@@ -93,7 +93,7 @@ class ClientOrderCard extends StatelessWidget {
                   color: Colors.black,
                 ).withPadding(end: 5.w),
                 Text(
-                  DateFormat('dd MMM yyyy', 'en').format(data.createdAt),
+                  DateFormat('dd/MM/yyyy', 'en').format(data.createdAt),
                   style: context.regularText.copyWith(
                     fontSize: 12,
                     color: Colors.black,
