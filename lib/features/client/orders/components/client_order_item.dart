@@ -27,8 +27,8 @@ class ClientOrderCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.r),
-          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(15.r),
+
           color: context.hoverColor,
         ),
         child: Column(
@@ -75,11 +75,11 @@ class ClientOrderCard extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: LocaleKeys.the_service.tr(),
-                style: context.regularText.copyWith(color: Colors.black),
+                style: context.mediumText.copyWith(color: Colors.black),
                 children: [
                   TextSpan(
                     text: data.typeTrans,
-                    style: context.boldText.copyWith(color: Colors.black),
+                    style: context.mediumText.copyWith(color: Colors.black),
                   ),
                 ],
               ),
