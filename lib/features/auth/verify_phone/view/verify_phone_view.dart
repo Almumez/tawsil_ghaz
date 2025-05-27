@@ -54,9 +54,9 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 80.h),
-              CustomImage(Assets.images.logo.path, height: 42.2.h),
+              Center(child: CustomImage("assets/images/splash.png", height: 100.2.h)),
               SizedBox(height: 45.h),
-              Text(LocaleKeys.confirm_identity.tr(), style: context.boldText.copyWith(fontSize: 24)),
+              Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 24, color: Colors.black))),
               Text.rich(
                 TextSpan(
                   children: [
@@ -65,14 +65,12 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                     ),
                     TextSpan(
                       text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
-                      style: context.regularText.copyWith(fontSize: 16),
+                      style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
                       locale: Locale('en'),
                     ),
-                    TextSpan(
-                      text: LocaleKeys.enter_the_code_found_in_the_box_below_to_continue.tr(),
-                    ),
+
                   ],
-                  style: context.regularText.copyWith(fontSize: 16, color: context.hintColor),
+                  style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
                 ),
               ),
               SizedBox(height: 24.h),
@@ -98,7 +96,7 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                 },
                 child: Text(
                   LocaleKeys.edit_phone.tr(),
-                  style: context.boldText.copyWith(fontSize: 14, color: context.secondaryColor),
+                  style: context.boldText.copyWith(fontSize: 14, color: Colors.black),
                 ),
               ),
               CustomPinCode(controller: bloc.code).withPadding(vertical: 16.h),
@@ -151,6 +149,8 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                     title: LocaleKeys.confirm.tr(),
                     loading: state.verifyState.isLoading,
                     onPressed: () => form.isValid ? bloc.verify() : null,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
                   );
                 },
               ),

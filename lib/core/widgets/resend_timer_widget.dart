@@ -27,10 +27,7 @@ class _ResendTimerWidgetState extends State<ResendTimerWidget> {
         Text.rich(
           TextSpan(
             children: [
-              TextSpan(
-                text: LocaleKeys.did_not_you_receive_the_code.tr(),
-                style: context.mediumText.copyWith(fontSize: 14),
-              ),
+
               const TextSpan(text: " "),
               TextSpan(
                 text: LocaleKeys.resend.tr(),
@@ -38,7 +35,7 @@ class _ResendTimerWidgetState extends State<ResendTimerWidget> {
                   ..onTap = () {
                     if (widget.timer.timer?.isActive != true) widget.onTap.call();
                   },
-                style: context.mediumText.copyWith(fontSize: 14, color: widget.timer.timer?.isActive == false ? context.primaryColor : context.hintColor),
+                style: context.mediumText.copyWith(fontSize: 14, color: widget.timer.timer?.isActive == false ? Colors.black : Colors.grey),
               ),
             ],
           ),
@@ -53,7 +50,7 @@ class _ResendTimerWidgetState extends State<ResendTimerWidget> {
           builder: (tiker) {
             return Text(
               "${"${tiker.minutes}".padLeft(2, "0")}:${"${tiker.seconds}".padLeft(2, "0")}",
-              style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+              style: context.regularText.copyWith(fontSize: 14, color: Colors.black),
             );
           },
           controller: widget.timer,
