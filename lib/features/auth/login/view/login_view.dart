@@ -11,6 +11,7 @@ import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/widgets/app_btn.dart';
 import '../../../../core/widgets/app_field.dart';
+import '../../../../core/widgets/auth_back_button.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/flash_helper.dart';
 import '../../../../core/widgets/select_item_sheet.dart';
@@ -60,131 +61,137 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Form(
-          key: form,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 100.h),
-              Center(
-                child: CustomImage("assets/images/splash.png", height: 100.h),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                " دخول",
-                textAlign: TextAlign.center,
-                style:  context.boldText.copyWith(fontSize: 24),
-              ),
-              SizedBox(height: 45.h),
-              AppField(
-                controller: cubit.phone,
-                margin: EdgeInsets.symmetric(vertical: 8.h),
-                keyboardType: TextInputType.text,
-                labelText: "هاتف",
-                direction: "right",
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Form(
+              key: form,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 100.h),
+                  Center(
+                    child: CustomImage("assets/images/splash.png", height: 100.h),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    " دخول",
+                    textAlign: TextAlign.center,
+                    style:  context.boldText.copyWith(fontSize: 24),
+                  ),
+                  SizedBox(height: 45.h),
+                  AppField(
+                    controller: cubit.phone,
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType: TextInputType.text,
+                    labelText: "هاتف",
+                    direction: "right",
 
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
 
-                  children: [
-                    Container(
-                      height: 25.h,
-                      width: 1,
-                      color: Colors.black,
+                      children: [
+                        Container(
+                          height: 25.h,
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                          child: Text(
+                         textAlign: TextAlign.left,
+                            // textDirection:  TextDirection.LTR,
+                            "+966",
+                            style: context.regularText.copyWith(fontSize: 14),
+                          ),
+                        ),
+
+                      ],
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
-                      child: Text(
-                     textAlign: TextAlign.left,
-                        // textDirection:  TextDirection.LTR,
-                        "+966",
-                        style: context.regularText.copyWith(fontSize: 14),
-                      ),
-                    ),
-
-                  ],
-                ),
-              ),
-              AppField(
-                controller: cubit.password,
-                margin: EdgeInsets.symmetric(vertical: 8.h),
-                keyboardType: TextInputType.visiblePassword,
-                labelText: "رمز",
-              ),
-              Text.rich(
-                TextSpan(
-                  text: "نسيت ",
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => push(NamedRoutes.forgetPassword),
-                ),
-                style: context.regularText.copyWith(fontSize: 14),
-              ).withPadding(vertical: 8.h,horizontal: 8.w),
-              SizedBox(height: 24.h),
-              BlocConsumer<LoginCubit, LoginState>(
-                bloc: cubit,
-                listener: (context, state) {
-                  switch (state.requestState) {
-                    case RequestState.done:
-                      _navigateUserBasedOnType();
-                      break;
-
-                    case RequestState.error:
-                      FlashHelper.showToast(state.msg);
-                      break;
-
-                    default:
-                      break;
-                  }
-                },
-                builder: (context, state) {
-                  return Container(
-                      decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(30.r),),
-                    child: AppBtn(
-                      loading: state.requestState == RequestState.loading,
-                      onPressed: () => form.isValid ? cubit.login() : null,
-                      title: LocaleKeys.confirm.tr(),
-                      backgroundColor: Colors.transparent,
-                      textColor: Colors.white,
-                      radius: 30.r,
-                    ),
-                  );
-                },
-              ),
-              Text.rich(
-                TextSpan(
-                  children: [
+                  ),
+                  AppField(
+                    controller: cubit.password,
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: "رمز",
+                  ),
+                  Text.rich(
                     TextSpan(
-                      text: "تسجيل",
+                      text: "نسيت ",
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          showModalBottomSheet<UserTypeModel?>(
-                            context: context,
-                            builder: (context) => SelectItemSheet(
-                              title: "اختر",
-                              items: userTypes,
-                            ),
-                          ).then((value) {
-                            if (value != null) {
-                              push(NamedRoutes.register,
-                                  arg: {"type": value.userType});
-                            }
-                          });
-                        },
-                      style: context.mediumText
-                          .copyWith(fontSize: 16, color: Color(0xff000000)),
+                        ..onTap = () => push(NamedRoutes.forgetPassword),
                     ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ).withPadding(vertical: 18.h),
-            ],
+                    style: context.regularText.copyWith(fontSize: 14),
+                  ).withPadding(vertical: 8.h,horizontal: 8.w),
+                  SizedBox(height: 24.h),
+                  BlocConsumer<LoginCubit, LoginState>(
+                    bloc: cubit,
+                    listener: (context, state) {
+                      switch (state.requestState) {
+                        case RequestState.done:
+                          _navigateUserBasedOnType();
+                          break;
+
+                        case RequestState.error:
+                          FlashHelper.showToast(state.msg);
+                          break;
+
+                        default:
+                          break;
+                      }
+                    },
+                    builder: (context, state) {
+                      return Container(
+                          decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(30.r),),
+                        child: AppBtn(
+                          loading: state.requestState == RequestState.loading,
+                          onPressed: () => form.isValid ? cubit.login() : null,
+                          title: LocaleKeys.confirm.tr(),
+                          backgroundColor: Colors.transparent,
+                          textColor: Colors.white,
+                          radius: 30.r,
+                        ),
+                      );
+                    },
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "تسجيل",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              showModalBottomSheet<UserTypeModel?>(
+                                context: context,
+                                builder: (context) => SelectItemSheet(
+                                  title: "اختر",
+                                  items: userTypes,
+                                ),
+                              ).then((value) {
+                                if (value != null) {
+                                  push(NamedRoutes.register,
+                                      arg: {"type": value.userType});
+                                }
+                              });
+                            },
+                          style: context.mediumText
+                              .copyWith(fontSize: 16, color: Color(0xff000000)),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ).withPadding(vertical: 18.h),
+                ],
+              ),
+            ),
           ),
-        ),
+          // زر العودة سيظهر فقط إذا كان هناك صفحة سابقة يمكن العودة إليها
+          // فصفحة تسجيل الدخول عادة هي أول صفحة ولا تحتاج لزر عودة
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

@@ -9,6 +9,7 @@ import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/widgets/app_btn.dart';
+import '../../../../core/widgets/auth_back_button.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/custom_timer.dart';
 import '../../../../core/widgets/flash_helper.dart';
@@ -46,120 +47,127 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Form(
-          key: form,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 80.h),
-              Center(child: CustomImage("assets/images/splash.png", height: 100.2.h)),
-              SizedBox(height: 45.h),
-              Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 24, color: Colors.black))),
-              SizedBox(height: 24.h),
-              Center(
-                child: Text.rich(
-                  TextSpan(
-                    children: [
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Form(
+              key: form,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 80.h),
+                  Center(child: CustomImage("assets/images/splash.png", height: 100.2.h)),
+                  SizedBox(height: 45.h),
+                  Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 24, color: Colors.black))),
+                  SizedBox(height: 24.h),
+                  Center(
+                    child: Text.rich(
                       TextSpan(
-                        text: LocaleKeys.we_have_sent_a_verification_code_consisting_of_4_digits_to.tr(args: [bloc.phone.toString()]),
-                      ),
-                      TextSpan(
-                        text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
-                        style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
-                        locale: Locale('en'),
-                      ),
+                        children: [
+                          TextSpan(
+                            text: LocaleKeys.we_have_sent_a_verification_code_consisting_of_4_digits_to.tr(args: [bloc.phone.toString()]),
+                          ),
+                          TextSpan(
+                            text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
+                            style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                            locale: Locale('en'),
+                          ),
 
-                    ],
-                    style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.h),
-              InkWell(
-                onTap: () {
-                  if (widget.type == VerifyType.register) {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => BlocProvider.value(
-                        value: bloc,
-                        child: EditPhoneSheet(phone: bloc.phone!),
+                        ],
+                        style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
                       ),
-                    ).then((value) {
-                      if (value != null) {
-                        timerController.setDuration(30.seconds);
-                        setState(() {});
-                      }
-                    });
-                  } else {
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text(
-                  LocaleKeys.edit_phone.tr(),
-                  style: context.boldText.copyWith(fontSize: 14, color: Colors.black),
-                ),
-              ),
-              CustomPinCode(controller: bloc.code).withPadding(vertical: 16.h),
-              BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
-                bloc: bloc,
-                buildWhen: (previous, current) => previous.resendState != current.resendState,
-                listenWhen: (previous, current) => previous.resendState != current.resendState,
-                listener: (context, state) {
-                  if (state.resendState.isDone) {
-                    timerController.setDuration(1.minutes);
-                    FlashHelper.showToast(state.msg, type: MessageType.success);
-                  } else if (state.resendState.isError) {
-                    FlashHelper.showToast(state.msg);
-                  }
-                },
-                builder: (context, state) {
-                  return ResendTimerWidget(
-                    timer: timerController,
+                    ),
+                  ),
+                  SizedBox(height: 24.h),
+                  InkWell(
                     onTap: () {
-                      if (!state.resendState.isLoading) {
-                        bloc.resend();
+                      if (widget.type == VerifyType.register) {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => BlocProvider.value(
+                            value: bloc,
+                            child: EditPhoneSheet(phone: bloc.phone!),
+                          ),
+                        ).then((value) {
+                          if (value != null) {
+                            timerController.setDuration(30.seconds);
+                            setState(() {});
+                          }
+                        });
+                      } else {
+                        Navigator.pop(context);
                       }
                     },
-                    loading: state.resendState.isLoading,
-                  );
-                },
-              ),
-              SizedBox(height: 32.h),
-              BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
-                bloc: bloc,
-                buildWhen: (previous, current) => previous.verifyState != current.verifyState,
-                listenWhen: (previous, current) => previous.verifyState != current.verifyState,
-                listener: (context, state) {
-                  if (state.verifyState.isDone) {
-                    if (widget.type == VerifyType.register) {
-                      if (UserModel.i.accountType == UserType.freeAgent) {
-                        replacement(NamedRoutes.completeData, arg: {'phone': widget.phone, 'phone_code': widget.phoneCode});
-                      } else {
-                        pushAndRemoveUntil(NamedRoutes.navbar);
+                    child: Text(
+                      LocaleKeys.edit_phone.tr(),
+                      style: context.boldText.copyWith(fontSize: 14, color: Colors.black),
+                    ),
+                  ),
+                  CustomPinCode(controller: bloc.code).withPadding(vertical: 16.h),
+                  BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
+                    bloc: bloc,
+                    buildWhen: (previous, current) => previous.resendState != current.resendState,
+                    listenWhen: (previous, current) => previous.resendState != current.resendState,
+                    listener: (context, state) {
+                      if (state.resendState.isDone) {
+                        timerController.setDuration(1.minutes);
+                        FlashHelper.showToast(state.msg, type: MessageType.success);
+                      } else if (state.resendState.isError) {
+                        FlashHelper.showToast(state.msg);
                       }
-                    } else {
-                      replacement(NamedRoutes.resetPassword, arg: {'phone': widget.phone, 'code': bloc.code.text, 'phone_code': widget.phoneCode});
-                    }
-                  } else if (state.verifyState.isError) {
-                    FlashHelper.showToast(state.msg);
-                  }
-                },
-                builder: (context, state) {
-                  return AppBtn(
-                    title: "تأكيد",
-                    loading: state.verifyState.isLoading,
-                    onPressed: () => form.isValid ? bloc.verify() : null,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                  );
-                },
+                    },
+                    builder: (context, state) {
+                      return ResendTimerWidget(
+                        timer: timerController,
+                        onTap: () {
+                          if (!state.resendState.isLoading) {
+                            bloc.resend();
+                          }
+                        },
+                        loading: state.resendState.isLoading,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 32.h),
+                  BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
+                    bloc: bloc,
+                    buildWhen: (previous, current) => previous.verifyState != current.verifyState,
+                    listenWhen: (previous, current) => previous.verifyState != current.verifyState,
+                    listener: (context, state) {
+                      if (state.verifyState.isDone) {
+                        if (widget.type == VerifyType.register) {
+                          if (UserModel.i.accountType == UserType.freeAgent) {
+                            replacement(NamedRoutes.completeData, arg: {'phone': widget.phone, 'phone_code': widget.phoneCode});
+                          } else {
+                            pushAndRemoveUntil(NamedRoutes.navbar);
+                          }
+                        } else {
+                          replacement(NamedRoutes.resetPassword, arg: {'phone': widget.phone, 'code': bloc.code.text, 'phone_code': widget.phoneCode});
+                        }
+                      } else if (state.verifyState.isError) {
+                        FlashHelper.showToast(state.msg);
+                      }
+                    },
+                    builder: (context, state) {
+                      return AppBtn(
+                        title: "تأكيد",
+                        loading: state.verifyState.isLoading,
+                        onPressed: () => form.isValid ? bloc.verify() : null,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          AuthBackButton(
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
       ),
     );
   }
