@@ -76,20 +76,40 @@ class RequestGasWidget extends StatelessWidget {
                   },
                 ).withPadding(bottom: 20.h),
                 
-                // خيار بيع أسطوانة
-                _buildBannerImage(
-                  context: context,
-                  image: context.locale.languageCode == 'en'
-                      ? Assets.images.sellCylinderEn.path
-                      : Assets.images.sellCylinder.path,
-                  title: LocaleKeys.sell_gas_to_companies.tr(),
-                  buttonText: LocaleKeys.sell_gas.tr(),
-                  onPressed: () {
-                    // يمكن تعديل هذه الوظيفة لاحقاً
-                    Navigator.pop(context);
-                    _showComingSoonPopup(context, LocaleKeys.sell_gas.tr());
-                  },
-                ).withPadding(bottom: 20.h)
+                // Two square boxes side by side
+                Row(
+                  children: [
+                    // First box - Sell Gas Cylinders
+                    Expanded(
+                      child: _buildSquareOption(
+                        context: context,
+                        title: "بيع",
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // Add a small delay to ensure the bottom sheet is closed before showing popup
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            _showComingSoonPopup(context, "بيع");
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    // Second box - Wholesale
+                    Expanded(
+                      child: _buildSquareOption(
+                        context: context,
+                        title: "جملة",
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // Add a small delay to ensure the bottom sheet is closed before showing popup
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            _showComingSoonPopup(context, "جملة");
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ).withPadding(bottom: 20.h),
 
               ],
             ),
@@ -103,26 +123,15 @@ class RequestGasWidget extends StatelessWidget {
   void _showComingSoonPopup(BuildContext context, String title) {
     showDialog(
       context: context,
+      barrierDismissible: true,
       builder: (BuildContext context) {
-        return Dialog(
+        return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.r),
           ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          child: Container(
+          backgroundColor: Colors.white,
+          content: Container(
             padding: EdgeInsets.all(20.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25.r),
-              boxShadow: [
-                BoxShadow(
-                  color: "#BDBDD3".color.withOpacity(0.2),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -141,7 +150,7 @@ class RequestGasWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 Text(
-                  "${LocaleKeys.coming_soon.tr()}",
+                  LocaleKeys.coming_soon.tr(),
                   style: context.boldText.copyWith(
                     fontSize: 20.sp,
                     color: "#090909".color,
@@ -158,20 +167,23 @@ class RequestGasWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 25.h),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: TextButton.styleFrom(
-                    backgroundColor: "#090909".color,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.r),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: TextButton.styleFrom(
+                      backgroundColor: "#090909".color,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                      ),
+                      minimumSize: Size(double.infinity, 50.h),
                     ),
-                    minimumSize: Size(double.infinity, 50.h),
-                  ),
-                  child: Text(
-                    LocaleKeys.ok.tr(),
-                    style: context.mediumText.copyWith(
-                      fontSize: 16.sp,
-                      color: Colors.white,
+                    child: Text(
+                      LocaleKeys.ok.tr(),
+                      style: context.mediumText.copyWith(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -265,6 +277,72 @@ class RequestGasWidget extends StatelessWidget {
     );
   }
 
+  // New method to build square option boxes
+  Widget _buildSquareOption({
+    required BuildContext context,
+    required String title,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      height: 140.h,
+      decoration: BoxDecoration(
+        color: Color(0xfff5f5f5),
+        borderRadius: BorderRadius.circular(25.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(25.r),
+          child: Padding(
+            padding: EdgeInsets.all(15.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: context.mediumText.copyWith(
+                    fontSize: 18.sp,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 15.h),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+                  child: Center(
+                    child: Text(
+                      LocaleKeys.coming_soon.tr(),
+                      style: context.mediumText.copyWith(
+                        fontSize: 14.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isEnglish = context.locale.languageCode == 'en';
@@ -286,10 +364,9 @@ class RequestGasWidget extends StatelessWidget {
             ),
           ],
         ),
-        child:Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 30.w,
           children: [
             Text(
               LocaleKeys.distribution.tr(),
@@ -297,7 +374,7 @@ class RequestGasWidget extends StatelessWidget {
                 fontSize: 28.sp,
                 color: Colors.black,
               ),
-            ).withPadding(start:  50.w),
+            ).withPadding(start: 50.w),
             CircleAvatar(
               radius: 60.r,
               child: Image.asset(
