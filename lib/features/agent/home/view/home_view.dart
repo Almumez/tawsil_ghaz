@@ -25,6 +25,7 @@ class FreeAgentHomeView extends StatefulWidget {
 class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
   final cubit = sl<AgentHomeCubit>();
   final ScrollController _scrollController = ScrollController();
+  bool isAutomatic = false;
 
   @override
   void initState() {
@@ -48,47 +49,77 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 90.h,
-        actions: [
-          Text(
-            LocaleKeys.available.tr(),
-            style: context.semiboldText.copyWith(fontSize: 16),
-          ),
-          SizedBox(width: 12.w),
-          BlocBuilder<AgentHomeCubit, AgentHomeState>(
-            bloc: cubit,
-            builder: (context, state) {
-              return SizedBox(
-                height: 32.h,
-                child: Switch.adaptive(
-                  value: UserModel.i.isAvailable,
-                  onChanged: (v) {
-                    if (state.activeState.isLoading) return;
-                    cubit.changeAvailability();
+        toolbarHeight: 80.h,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    UserModel.i.fullname, 
+                    style: context.mediumText.copyWith(fontSize: 16),
+                  ),
+                ),
+                Text(
+                  LocaleKeys.available.tr(),
+                  style: context.mediumText,
+                ).withPadding(end: 16.w),
+                BlocBuilder<AgentHomeCubit, AgentHomeState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    return Transform.scale(
+                      scale: 0.7,
+                      child: Switch(
+                        activeColor: context.primaryColorLight.withValues(alpha: state.activeState.isLoading ? .5 : 1),
+                        activeTrackColor: context.primaryColorDark.withValues(alpha: state.activeState.isLoading ? .5 : 1),
+                        inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.activeState.isLoading ? .5 : 1),
+                        inactiveTrackColor: context.shadowColor.withValues(alpha: state.activeState.isLoading ? .5 : 1),
+                        trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+                        value: UserModel.i.isAvailable,
+                        onChanged: (v) {
+                          if (state.activeState.isLoading) return;
+                          cubit.changeAvailability();
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
-            },
-          ),
-          SizedBox(width: 16.w),
-        ],
-        leading: CustomImage(
-          UserModel.i.image,
-          height: 56.w,
-          width: 56.w,
-          borderRadius: BorderRadius.circular(28.w),
-          fit: BoxFit.cover,
-        ).withPadding(start: 20.w, vertical: 10.w),
-        leadingWidth: 76.w,
-        title: Text.rich(
-          TextSpan(
-            text: "${LocaleKeys.welcome_you.tr()}, ",
-            style: context.regularText.copyWith(color: context.hintColor),
-            children: [
-              TextSpan(text: UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 16)),
-            ],
-          ),
-        ).withPadding(bottom: 20.w),
+              ],
+            ),
+            Transform.translate(
+              offset: Offset(0, -14.h),
+              child: Row(
+                children: [
+                  Expanded(child: Container()),
+                  Text(
+                    "تلقائي",
+                    style: context.mediumText,
+                  ).withPadding(end: 16.w),
+                  Transform.scale(
+                    scale: 0.7,
+                    child: Switch(
+                      activeColor: context.primaryColorLight,
+                      activeTrackColor: context.primaryColorDark,
+                      inactiveThumbColor: context.primaryColorLight,
+                      inactiveTrackColor: context.shadowColor,
+                      trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+                      value: isAutomatic,
+                      onChanged: (v) {
+                        setState(() {
+                          isAutomatic = v;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        automaticallyImplyLeading: false,
+        titleSpacing: 16.w,
       ),
       body: PullToRefresh(
         onRefresh: cubit.reload,
