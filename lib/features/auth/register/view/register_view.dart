@@ -15,6 +15,7 @@ import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/flash_helper.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
+import '../../../../models/country.dart';
 import '../controller/register_cubit.dart';
 import '../controller/register_states.dart';
 
@@ -34,6 +35,14 @@ class _RegisterViewState extends State<RegisterView> {
   void initState() {
     cubit.userType = widget.userType;
     print("user type is : ${cubit.userType}");
+    // تعيين رمز الدولة الافتراضي للسعودية (+966)
+    cubit.country = CountryModel.fromJson({
+      'name': 'Saudi Arabia',
+      'phone_code': '966',
+      'flag': '',
+      'short_name': 'SA',
+      'phone_limit': 9
+    });
     super.initState();
   }
 
@@ -47,14 +56,17 @@ class _RegisterViewState extends State<RegisterView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 80.h),
-              CustomImage(Assets.images.logo.path, height: 42.2.h),
-              SizedBox(height: 17.h),
-              Text(LocaleKeys.welcome_you.tr(), style: context.boldText.copyWith(fontSize: 24)),
+              SizedBox(height: 100.h),
+              Center(
+                child: CustomImage("assets/images/splash.png", height: 100.h),
+              ),
+              SizedBox(height: 16.h),
               Text(
-                LocaleKeys.please_enter_this_information_to_continue_registering_and_enjoy_our_services.tr(),
-                style: context.regularText.copyWith(fontSize: 16, color: context.hintColor),
-              ).withPadding(bottom: 19.h),
+                "تسجيل",
+                textAlign: TextAlign.center,
+                style: context.boldText.copyWith(fontSize: 24),
+              ),
+              SizedBox(height: 45.h),
               AppField(
                 controller: cubit.fullName,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -63,22 +75,34 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               AppField(
                 controller: cubit.phone,
-                onChangeCountry: (country) => cubit.country = country,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
-                keyboardType: TextInputType.phone,
-                labelText: LocaleKeys.phone_number.tr(),
+                keyboardType: TextInputType.text,
+                labelText: "الهاتف",
+                direction: "right",
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 25.h,
+                      width: 1,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                      child: Text(
+                        textAlign: TextAlign.left,
+                        "+966",
+                        style: context.regularText.copyWith(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              // AppField(
-              //   controller: bloc.email,
-              //   margin: EdgeInsets.symmetric(vertical: 8.h),
-              //   keyboardType: TextInputType.emailAddress,
-              //   labelText: LocaleKeys.email.tr(),
-              // ),
               AppField(
                 controller: cubit.password,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.visiblePassword,
-                labelText: LocaleKeys.password.tr(),
+                labelText: "الرمز",
               ),
               AppField(
                 controller: cubit.confirmPassword,
@@ -104,10 +128,19 @@ class _RegisterViewState extends State<RegisterView> {
                   }
                 },
                 builder: (context, state) {
-                  return AppBtn(
-                    loading: state.requestState.isLoading,
-                    onPressed: () => form.isValid ? cubit.register() : null,
-                    title: LocaleKeys.create_account.tr(),
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                    child: AppBtn(
+                      loading: state.requestState.isLoading,
+                      onPressed: () => form.isValid ? cubit.register() : null,
+                      title: LocaleKeys.confirm.tr(),
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.white,
+                      radius: 30.r,
+                    ),
                   );
                 },
               ),
@@ -115,14 +148,9 @@ class _RegisterViewState extends State<RegisterView> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: LocaleKeys.have_account.tr(),
-                      style: context.regularText.copyWith(fontSize: 14),
-                    ),
-                    const TextSpan(text: ' '),
-                    TextSpan(
                       text: LocaleKeys.login.tr(),
                       recognizer: TapGestureRecognizer()..onTap = () => replacement(NamedRoutes.login),
-                      style: context.mediumText.copyWith(fontSize: 16, color: context.secondaryColor),
+                      style: context.mediumText.copyWith(fontSize: 16, color: Color(0xff000000)),
                     ),
                   ],
                 ),
