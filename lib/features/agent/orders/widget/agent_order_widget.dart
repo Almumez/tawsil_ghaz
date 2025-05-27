@@ -29,34 +29,18 @@ class AgentOrderWidget extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 20.h),
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.w),
-          border: Border.all(color: context.borderColor),
+          borderRadius: BorderRadius.circular(16.w),
+          color: Color(0xFFF5F5F5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
-                    Text(item.createdAt, style: context.regularText),
-                  ],
-                ),
+                Text(" ${item.id} #", style: context.semiboldText),
               ],
-            ),
-            Divider(height: 25.h),
-            Text.rich(
-              TextSpan(
-                text: "${LocaleKeys.service_type.tr()} : ",
-                style: context.regularText.copyWith(color: context.hintColor),
-                children: [
-                  TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
-                ],
-              ),
-            ),
-            Divider(height: 25.h),
+            ).withPadding(bottom: 4.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -95,10 +79,24 @@ class AgentOrderWidget extends StatelessWidget {
                 ),
               ],
             ),
+            Text.rich(
+              TextSpan(
+                text: "${LocaleKeys.service_type.tr()} : ",
+                style: context.regularText.copyWith(color: context.hintColor),
+                children: [
+                  TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
+                ],
+              ),
+            ).withPadding(top: 8.h),
+            Row(
+              children: [
+                Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
+                Text(item.createdAt, style: context.regularText),
+              ],
+            ).withPadding(top: 8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
                 StatusContainer(
                   title: item.statusTrans,
                   color: item.color,
