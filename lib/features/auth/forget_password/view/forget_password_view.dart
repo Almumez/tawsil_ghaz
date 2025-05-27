@@ -31,7 +31,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const AuthAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Form(
@@ -39,23 +38,49 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 80.h),
-              CustomImage(Assets.images.logo.path, height: 42.2.h),
-              SizedBox(height: 45.h),
-              Text(LocaleKeys.reset_password.tr(), style: context.boldText.copyWith(fontSize: 24)),
-              SizedBox(height: 12.h),
-              Text(
-                LocaleKeys.please_enter_the_phone_number_below_to_reset_your_password.tr(),
-                style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+              SizedBox(height: 100.h),
+              Center(
+                child: CustomImage("assets/images/splash.png", height: 100.h),
               ),
+              SizedBox(height: 16.h),
+              Text(
+                LocaleKeys.reset_password.tr(),
+                textAlign: TextAlign.center,
+                style: context.boldText.copyWith(fontSize: 24),
+              ),
+              SizedBox(height: 16.h),
+              // Text(
+              //   LocaleKeys.please_enter_the_phone_number_below_to_reset_your_password.tr(),
+              //   textAlign: TextAlign.center,
+              //   style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+              // ),
+              SizedBox(height: 45.h),
               AppField(
                 controller: cubit.phone,
-                margin: EdgeInsets.symmetric(vertical: 24.h),
-                keyboardType: TextInputType.phone,
+                margin: EdgeInsets.symmetric(vertical: 8.h),
+                keyboardType: TextInputType.text,
                 labelText: LocaleKeys.phone_number.tr(),
-                onChangeCountry: (country) => cubit.country = country,
+                direction: "right",
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 25.h,
+                      width: 1,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                      child: Text(
+                        textAlign: TextAlign.left,
+                        "+${cubit.country?.phoneCode ?? '966'}",
+                        style: context.regularText.copyWith(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 24.h),
               BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
                 bloc: cubit,
                 listener: (context, state) {
@@ -66,15 +91,35 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   }
                 },
                 builder: (context, state) {
-                  return AppBtn(
-                    loading: state.requestState.isLoading,
-                    onPressed: () => form.isValid ? cubit.forgotPassword() : null,
-                    title: LocaleKeys.send.tr(),
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                    child: AppBtn(
+                      loading: state.requestState.isLoading,
+                      onPressed: () => form.isValid ? cubit.forgotPassword() : null,
+                      title: LocaleKeys.send.tr(),
+                      backgroundColor: Colors.transparent,
+                      textColor: Colors.white,
+                      radius: 30.r,
+                    ),
                   );
                 },
               ),
+              SizedBox(height: 16.h),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        child: AppBtn(
+          title: LocaleKeys.login.tr(),
+          backgroundColor: Colors.transparent,
+          textColor: Colors.black,
+          onPressed: () => push(NamedRoutes.login),
+          radius: 30.r,
         ),
       ),
     );
