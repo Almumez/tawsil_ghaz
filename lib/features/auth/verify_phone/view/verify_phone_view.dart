@@ -57,20 +57,23 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
               Center(child: CustomImage("assets/images/splash.png", height: 100.2.h)),
               SizedBox(height: 45.h),
               Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 24, color: Colors.black))),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: LocaleKeys.we_have_sent_a_verification_code_consisting_of_4_digits_to.tr(args: [bloc.phone.toString()]),
-                    ),
-                    TextSpan(
-                      text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
-                      style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
-                      locale: Locale('en'),
-                    ),
+              SizedBox(height: 24.h),
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: LocaleKeys.we_have_sent_a_verification_code_consisting_of_4_digits_to.tr(args: [bloc.phone.toString()]),
+                      ),
+                      TextSpan(
+                        text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
+                        style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                        locale: Locale('en'),
+                      ),
 
-                  ],
-                  style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                    ],
+                    style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                  ),
                 ),
               ),
               SizedBox(height: 24.h),
@@ -146,7 +149,7 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                 },
                 builder: (context, state) {
                   return AppBtn(
-                    title: LocaleKeys.confirm.tr(),
+                    title: "تأكيد",
                     loading: state.verifyState.isLoading,
                     onPressed: () => form.isValid ? bloc.verify() : null,
                     backgroundColor: Colors.black,

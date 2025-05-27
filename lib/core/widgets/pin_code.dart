@@ -33,7 +33,7 @@ class CustomPinCode extends StatelessWidget {
           borderWidth: 1.r,
           // activeFillColor: context.theme.scaffoldBackgroundColor,
           selectedFillColor: context.scaffoldBackgroundColor,
-          inactiveColor: Colors.black,
+          inactiveColor: Color(0xFFB6AFA9),
           inactiveFillColor: context.scaffoldBackgroundColor,
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(10.r),
