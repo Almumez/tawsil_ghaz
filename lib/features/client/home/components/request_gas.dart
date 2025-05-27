@@ -74,7 +74,7 @@ class RequestGasWidget extends StatelessWidget {
                     Navigator.pop(context);
                     push(NamedRoutes.buyCylinder);
                   },
-                ).withPadding(bottom: 16.h),
+                ).withPadding(bottom: 20.h),
                 
                 // خيار بيع أسطوانة
                 _buildBannerImage(
@@ -89,7 +89,7 @@ class RequestGasWidget extends StatelessWidget {
                     Navigator.pop(context);
                     _showComingSoonPopup(context, LocaleKeys.sell_gas.tr());
                   },
-                ).withPadding(bottom: 10.h)
+                ).withPadding(bottom: 20.h)
 
               ],
             ),
@@ -191,31 +191,74 @@ class RequestGasWidget extends StatelessWidget {
     required String buttonText,
     required VoidCallback onPressed,
   }) {
-    return CustomImage(
-      image,
-      height: 156.h,
-      width: double.infinity,
-      fit: BoxFit.cover,
-      borderRadius: BorderRadius.all(Radius.circular(12.r)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 180.w,
-            child: Text(
-              title,
-              style: context.mediumText.copyWith(fontSize: 16.sp),
-              textAlign: TextAlign.center,
-            ),
-          ).withPadding(bottom: 10.h),
-          AppBtn(
-            title: buttonText,
-            width: 100.w,
-            height: 40.h,
-            onPressed: onPressed,
+    return Container(
+      height: 140.h,
+      decoration: BoxDecoration(
+        color: Color(0xfff5f5f5),
+        borderRadius: BorderRadius.circular(25.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(0, 2),
           ),
         ],
-      ).withPadding(end: 20.w).toEnd,
+      ),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(25.r),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: context.mediumText.copyWith(
+                        fontSize: 20.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+                      child: Text(
+                        buttonText,
+                        style: context.mediumText.copyWith(
+                          fontSize: 14.sp,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            CircleAvatar(
+              radius: 50.r,
+              backgroundColor: Colors.white,
+              child: Image.asset(
+                image,
+                height: 80.h,
+                width: 80.w,
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(width: 15.w),
+          ],
+        ),
+      ),
     );
   }
 
