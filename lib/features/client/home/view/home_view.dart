@@ -197,15 +197,18 @@ class _HomeClientViewState extends State<HomeClientView> {
                             Container(
                               height: 115.h,
                               width: 112.w,
+                              padding:  EdgeInsets.all(15.r),
                               decoration: BoxDecoration(
                                 color: Color(0xfff5f5f5),
                                 borderRadius: BorderRadius.circular(25),
                                 border: Border.all(width: 0, color: Colors.transparent),
                               ),
-                              child: Image.asset(
-                                items[index].image,
-                                fit: BoxFit.cover,
-                              ),
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage(
+                                  items[index].image,
+
+                                ),
+                              )
                             ),
                             Text(items[index].title, style: context.mediumText.copyWith(fontSize: 20)),
                           ],
