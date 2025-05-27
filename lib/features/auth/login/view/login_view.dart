@@ -33,9 +33,16 @@ class _LoginViewState extends State<LoginView> {
   final form = GlobalKey<FormState>();
   final cubit = sl<LoginCubit>();
   List<UserTypeModel> userTypes = [
-    UserTypeModel(name: LocaleKeys.client.tr(), userType: UserType.client),
     UserTypeModel(
-        name: LocaleKeys.free_agent.tr(), userType: UserType.freeAgent),
+      name: LocaleKeys.client.tr(), 
+      userType: UserType.client,
+      icon: "assets/svg/profile_out.svg"
+    ),
+    UserTypeModel(
+      name: LocaleKeys.free_agent.tr(), 
+      userType: UserType.freeAgent,
+      icon: "assets/svg/delivry.svg"
+    ),
   ];
   @override
   void initState() {
@@ -75,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                 controller: cubit.phone,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.text,
-                labelText: "الهاتف",
+                labelText: "هاتف",
                 direction: "right",
 
                 suffixIcon: Row(
@@ -105,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
                 controller: cubit.password,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.visiblePassword,
-                labelText: "الرمز",
+                labelText: "رمز",
               ),
               Text.rich(
                 TextSpan(
@@ -158,8 +165,7 @@ class _LoginViewState extends State<LoginView> {
                           showModalBottomSheet<UserTypeModel?>(
                             context: context,
                             builder: (context) => SelectItemSheet(
-                              title: LocaleKeys.select_val
-                                  .tr(args: [LocaleKeys.user_type.tr()]),
+                              title: "اختر",
                               items: userTypes,
                             ),
                           ).then((value) {
@@ -266,6 +272,7 @@ class _LoginViewState extends State<LoginView> {
 class UserTypeModel {
   final String name;
   final UserType userType;
+  final String icon;
 
-  UserTypeModel({required this.name, required this.userType});
+  UserTypeModel({required this.name, required this.userType, required this.icon});
 }

@@ -3,6 +3,7 @@ import '../../gen/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../utils/extensions.dart';
 import 'app_sheet.dart';
@@ -43,7 +44,6 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: context.borderColor),
               ),
               child: Row(
                 children: [
@@ -54,6 +54,24 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
                       width: 40.h,
                       borderRadius: BorderRadius.circular(4.r),
                     ).withPadding(end: 8.w),
+                  Builder(
+                    builder: (context) {
+                      try {
+                        final String? iconPath = widget.items[index].icon;
+                        if (iconPath != null) {
+                          return SvgPicture.asset(
+                            iconPath,
+                            height: 24.h,
+                            width: 24.h,
+                            colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                          ).withPadding(end: 12.w);
+                        }
+                      } catch (e) {
+                        // Icon property doesn't exist, skip
+                      }
+                      return SizedBox();
+                    },
+                  ),
                   Expanded(
                     child: Text(
                       widget.items[index].name,
@@ -126,7 +144,6 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: context.borderColor),
                     ),
                     child: Row(
                       children: [
@@ -137,6 +154,24 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                             width: 40.h,
                             borderRadius: BorderRadius.circular(4.r),
                           ).withPadding(end: 8.w),
+                        Builder(
+                          builder: (context) {
+                            try {
+                              final String? iconPath = widget.items[index].icon;
+                              if (iconPath != null) {
+                                return SvgPicture.asset(
+                                  iconPath,
+                                  height: 24.h,
+                                  width: 24.h,
+                                  colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                                ).withPadding(end: 12.w);
+                              }
+                            } catch (e) {
+                              // Icon property doesn't exist, skip
+                            }
+                            return SizedBox();
+                          },
+                        ),
                         Expanded(
                           child: Text(
                             widget.items[index].name,

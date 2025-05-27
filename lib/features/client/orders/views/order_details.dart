@@ -11,6 +11,8 @@ import '../components/order_tracker_map.dart';
 import 'rate_agent.dart';
 import '../../../shared/controller/cancel_reasons/states.dart';
 import '../../../../models/cancel_reasons.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/routes/routes.dart';
 import '../../../../core/services/service_locator.dart';
@@ -92,6 +94,26 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
           return Scaffold(
             appBar: CustomAppbar(title: LocaleKeys.order_details.tr()),
             bottomNavigationBar: ClientOrderDetailsActions(cubit: cubit),
+            floatingActionButton: state.detailsState.isDone && cubit.data != null && cubit.data!.agent.id != '' && cubit.data!.status == 'accepted' ? 
+              Container(
+                  height:    80.h,
+                  width:     80.w,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  child: SizedBox(
+                    height: 250.h,
+                    width: 250.w,
+                    child: SvgPicture.asset(
+                      'assets/svg/whatsapp.svg',
+                      height: 200.h,
+                      width: 200.w,
+                    ),
+                  ),
+                  onPressed: () => _openWhatsApp(cubit.data!.agent.phoneNumber),
+                ),
+              ) : null,
+            floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
             body: Builder(
               builder: (context) {
                 if (state.detailsState.isDone) {
@@ -107,6 +129,33 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
         },
       ),
     );
+  }
+
+  void _openWhatsApp(String phoneNumber) async {
+    if(phoneNumber.isEmpty) return;
+    
+    // Format the phone number by removing any spaces or special characters
+    String formattedNumber = phoneNumber.replaceAll(RegExp(r'[^\d+]'), '');
+    
+    // Check if the number starts with '+' or add the '+' if needed
+    if (!formattedNumber.startsWith('+')) {
+      formattedNumber = '+$formattedNumber';
+    }
+    
+    // Create the WhatsApp URL
+    final Uri whatsappUrl = Uri.parse('https://wa.me/$formattedNumber');
+    
+    // Launch WhatsApp
+    try {
+      if (await canLaunchUrl(whatsappUrl)) {
+        await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+      } else {
+        // Handle case where WhatsApp is not installed
+        debugPrint('WhatsApp is not installed');
+      }
+    } catch (e) {
+      debugPrint('Error launching WhatsApp: $e');
+    }
   }
 }
 

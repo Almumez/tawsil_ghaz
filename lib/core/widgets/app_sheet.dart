@@ -32,26 +32,30 @@ class CustomAppSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.r),
                 ),
               ).center,
-              Row(
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  CustomRadiusIcon(
-                    size: 40.h,
-                    borderRadius: BorderRadius.circular(6.r),
-                    onTap: () => Navigator.pop(context),
-                    child: Icon(
-                      Icons.close,
-                      size: 20.h,
+                  Positioned(
+                    right: 24.w,
+                    child: CustomRadiusIcon(
+                      size: 40.h,
+                      borderRadius: BorderRadius.circular(6.r),
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        Icons.close,
+                        size: 20.h,
+                      ),
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                  Expanded(
+                  Center(
                     child: Text(
                       title ?? "",
                       style: context.boldText.copyWith(fontSize: 20),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
-              ).withPadding(horizontal: 24.w, bottom: 10.h),
+              ).withPadding(bottom: 10.h),
               Text(
                 subtitle ?? "",
                 style: context.regularText.copyWith(color: context.hintColor),

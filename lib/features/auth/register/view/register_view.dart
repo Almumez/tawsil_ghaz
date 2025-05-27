@@ -77,7 +77,7 @@ class _RegisterViewState extends State<RegisterView> {
                 controller: cubit.phone,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.text,
-                labelText: "الهاتف",
+                labelText: "هاتف",
                 direction: "right",
                 suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -102,7 +102,7 @@ class _RegisterViewState extends State<RegisterView> {
                 controller: cubit.password,
                 margin: EdgeInsets.symmetric(vertical: 8.h),
                 keyboardType: TextInputType.visiblePassword,
-                labelText: "الرمز",
+                labelText: "رمز",
               ),
               AppField(
                 controller: cubit.confirmPassword,
@@ -136,7 +136,7 @@ class _RegisterViewState extends State<RegisterView> {
                     child: AppBtn(
                       loading: state.requestState.isLoading,
                       onPressed: () => form.isValid ? cubit.register() : null,
-                      title: LocaleKeys.confirm.tr(),
+                      title: "تسجيل",
                       backgroundColor: Colors.transparent,
                       textColor: Colors.white,
                       radius: 30.r,
