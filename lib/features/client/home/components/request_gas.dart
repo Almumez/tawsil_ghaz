@@ -296,10 +296,10 @@ class RequestGasWidget extends StatelessWidget {
               ),
             ).withPadding(start:  50.w),
             CircleAvatar(
-              radius: 50.r,
+              radius: 60.r,
               child: Image.asset(
-                height: 150.h,
-                width: 150.w,
+                height: 200.h,
+                width: 200.w,
                 isEnglish
                     ? Assets.images.homeDistributionEn.path
                     : Assets.images.homeDistribution.path,

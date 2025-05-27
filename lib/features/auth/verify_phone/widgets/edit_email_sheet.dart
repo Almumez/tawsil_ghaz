@@ -27,6 +27,19 @@ class _EditPhoneSheetState extends State<EditPhoneSheet> {
   final form = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    // Set default country code for Saudi Arabia
+    country = CountryModel.fromJson({
+      'name': 'Saudi Arabia',
+      'phone_code': '966',
+      'flag': '',
+      'short_name': 'SA',
+      'phone_limit': 9
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomAppSheet(
       title: LocaleKeys.edit_phone.tr(),
@@ -34,10 +47,29 @@ class _EditPhoneSheetState extends State<EditPhoneSheet> {
         Form(
           key: form,
           child: AppField(
-            title: LocaleKeys.new_phone.tr(),
             controller: newPhone,
-            keyboardType: TextInputType.phone,
-            onChangeCountry: (country) => this.country = country,
+            margin: EdgeInsets.symmetric(vertical: 8.h),
+            keyboardType: TextInputType.text,
+            labelText: "هاتف",
+            direction: "right",
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  height: 25.h,
+                  width: 1,
+                  color: Colors.black,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                  child: Text(
+                    textAlign: TextAlign.left,
+                    "+966",
+                    style: context.regularText.copyWith(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(height: 10.h),
@@ -53,8 +85,10 @@ class _EditPhoneSheetState extends State<EditPhoneSheet> {
             return SafeArea(
               child: AppBtn(
                 loading: state.editEmailState.isLoading,
-                title: LocaleKeys.confirm.tr(),
-                onPressed: () => form.isValid ? context.read<VerifyPhoneCubit>().editEmail(country?.phoneCode ?? '', newPhone.text) : null,
+                title: "تغيير",
+                onPressed: () => form.isValid ? context.read<VerifyPhoneCubit>().editEmail('966', newPhone.text) : null,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
               ),
             );
           },
