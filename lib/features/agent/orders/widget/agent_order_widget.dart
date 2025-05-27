@@ -38,7 +38,6 @@ class AgentOrderWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${LocaleKeys.order_number.tr()} : ${item.id}", style: context.semiboldText),
                 Row(
                   children: [
                     Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
@@ -61,25 +60,24 @@ class AgentOrderWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    CustomImage(
-                      item.clientImage,
-                      height: 40.h,
-                      width: 40.h,
-                      borderRadius: BorderRadius.circular(20.h),
-                      fit: BoxFit.cover,
-                    ).withPadding(end: 8.w),
-                    Text(
-                      item.clientName,
-                      style: context.mediumText,
-                    )
-                  ],
+                Text(
+                  item.clientName,
+                  style: context.mediumText,
                 ),
-                StatusContainer(
-                  title: item.statusTrans,
-                  color: item.color,
-                )
+                
+                if (item.price != 0)
+                  Text.rich(
+                    TextSpan(children: [
+                      TextSpan(
+                        text: LocaleKeys.sar.tr(),
+                        style: context.regularText.copyWith(fontSize: 14),
+                      ),
+                      TextSpan(
+                        text: "${item.price}",
+                        style: context.regularText.copyWith(fontSize: 16),
+                      ),
+                    ]),
+                  )
               ],
             ),
             Row(
@@ -95,34 +93,36 @@ class AgentOrderWidget extends StatelessWidget {
                     style: context.mediumText.copyWith(fontSize: 12),
                   ).withPadding(horizontal: 4.w),
                 ),
-                if (item.price != 0)
-                  Text.rich(
-                    TextSpan(children: [
-                      TextSpan(
-                        text: LocaleKeys.sar.tr(),
-                        style: context.regularText.copyWith(fontSize: 14),
-                      ),
-                      TextSpan(
-                        text: "${item.price}",
-                        style: context.regularText.copyWith(fontSize: 16),
-                      ),
-                    ]),
-                  )
               ],
-            ).withPadding(top: 8.h),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                StatusContainer(
+                  title: item.statusTrans,
+                  color: item.color,
+                )
+              ],
+            ).withPadding(top: 10.h, bottom: 5.h),
+
             if (item.status == 'pending')
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(
+                  Container(
+                    width: 105.w,
+                    height: 30.h,
                     child: AppBtn(
                       onPressed: onTap,
-                      height: 40.h,
+                      height: 30.h,
                       saveArea: false,
                       title: LocaleKeys.accept.tr(),
+                      radius: 4.r,
                     ),
                   ),
                 ],
-              ).withPadding(top: 8.h),
+              )
           ],
         ),
       ),
