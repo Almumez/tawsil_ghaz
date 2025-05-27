@@ -44,7 +44,7 @@ class AgentOrderWidget extends StatelessWidget {
                     children: [
                       Text(
                         item.clientName,
-                        style: context.mediumText,
+                        style: context.mediumText.copyWith(color: Colors.black),
                       ),
                       SizedBox(height: 8.h),
                       Row(
@@ -57,7 +57,7 @@ class AgentOrderWidget extends StatelessWidget {
                           Expanded(
                             child: Text(
                               item.address.placeDescription,
-                              style: context.mediumText.copyWith(fontSize: 12),
+                              style: context.mediumText.copyWith(fontSize: 12, color: Colors.black),
                             ).withPadding(horizontal: 4.w),
                           ),
                         ],
@@ -68,18 +68,18 @@ class AgentOrderWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(" ${item.id} #", style: context.semiboldText),
+                    Text(" ${item.id} #", style: context.semiboldText.copyWith(color: Colors.black)),
                     SizedBox(height: 8.h),
                     if (item.price != 0)
                       Text.rich(
                         TextSpan(children: [
                           TextSpan(
                             text: LocaleKeys.sar.tr(),
-                            style: context.regularText.copyWith(fontSize: 14),
+                            style: context.regularText.copyWith(fontSize: 14, color: Colors.black),
                           ),
                           TextSpan(
                             text: "${item.price}",
-                            style: context.regularText.copyWith(fontSize: 16),
+                            style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
                           ),
                         ]),
                       ),
@@ -97,20 +97,43 @@ class AgentOrderWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "${LocaleKeys.service_type.tr()} : ",
-                          style: context.regularText.copyWith(color: context.hintColor),
-                          children: [
-                            TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            item.typeTrans,
+                            style: context.mediumText.copyWith(fontSize: 16, color: Colors.black),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 8.h),
                       Row(
                         children: [
-                          Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
-                          Text(item.createdAt, style: context.regularText),
+                          CustomImage(
+                            Assets.svg.calender,
+                            height: 16.sp,
+                            width: 16.sp,
+                            color: Colors.black,
+                          ).withPadding(end: 5.w),
+                          Text(
+                            item.createdAt.split(' - ')[0],
+                            style: context.regularText.copyWith(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                          CustomImage(
+                            Assets.svg.clock,
+                            height: 16.sp,
+                            width: 16.sp,
+                            color: Colors.black,
+                          ).withPadding(start: 12.w, end: 5.w),
+                          Text(
+                            item.createdAt.split(' - ').length > 1 ? item.createdAt.split(' - ')[1] : item.createdAt,
+                            style: context.regularText.copyWith(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
                         ],
                       ),
                     ],
