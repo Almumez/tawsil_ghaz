@@ -128,12 +128,15 @@ class BuildProfileList {
       title: LocaleKeys.information, 
       onTap: () => push(NamedRoutes.information),
     ),
-    ProfileItemModel(
+    if (UserModel.i.isAuth) ProfileItemModel(
       image: 'assets/svg/receipt-disscount.svg', 
       title: LocaleKeys.offers, 
       onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.offers.tr()),
     ),
-    ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.financial, onTap: () => push(NamedRoutes.wallet)),
+    if (UserModel.i.isAuth) ProfileItemModel(
+      image: Assets.svg.walletIcon, 
+      title: LocaleKeys.financial, 
+      onTap: () => push(NamedRoutes.wallet)),
     ProfileItemModel(
       image: 'assets/svg/user-add.svg', 
       title: LocaleKeys.join, 
@@ -144,7 +147,11 @@ class BuildProfileList {
       title: LocaleKeys.switch_account, 
       onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.switch_account.tr()),
     ),
-    ProfileItemModel(image: Assets.svg.logout, title: LocaleKeys.exit, onTap: () => logout(),),
+    ProfileItemModel(
+      image: Assets.svg.logout, 
+      title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, 
+      onTap: () => logout(),
+    ),
   ];
 
  
@@ -173,7 +180,7 @@ class BuildProfileList {
     ProfileItemModel(image: Assets.svg.profitsIcon, title: LocaleKeys.profits, onTap: () => push(NamedRoutes.profits)),
     ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.wallet, onTap: () => push(NamedRoutes.wallet)),
     ProfileItemModel(image: "assets/svg/document.svg", title: LocaleKeys.car_info, onTap: () => push(NamedRoutes.freeAgentCarInfo)),
-    ProfileItemModel(image: Assets.svg.logout, title: LocaleKeys.exit, onTap: () => logout(),),
+    ProfileItemModel(image: Assets.svg.logout, title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, onTap: () => logout(),),
   ];
 
 
