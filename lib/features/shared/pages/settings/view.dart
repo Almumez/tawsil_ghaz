@@ -91,14 +91,14 @@ class _SettingsViewState extends State<SettingsView> {
                           final localeResult = await showModalBottomSheet<SelectModel?>(
                             context: context,
                             builder: (context) => SelectItemSheet(
-                              title: LocaleKeys.choose.tr(args: [LocaleKeys.language.tr()]),
+                              title: LocaleKeys.choose.tr(),
                               items: const [
                                 SelectModel(id: Locale('en', 'US'), name: 'English'),
-                                SelectModel(id: Locale('ar', 'SA'), name: 'العربية'),
+                                SelectModel(id: Locale('ar', 'SA'), name: 'عربي'),
                               ],
                               initItem: SelectModel(
                                 id: context.locale,
-                                name: context.locale.languageCode == 'en' ? "English" : "العربية",
+                                name: context.locale.languageCode == 'en' ? "English" : "عربي",
                               ),
                             ),
                           );
@@ -140,16 +140,19 @@ class _SettingsViewState extends State<SettingsView> {
                       }
                     },
                     builder: (context, state) {
-                      return Switch(
-                        activeColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        activeTrackColor: context.primaryColorDark.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        inactiveTrackColor: context.shadowColor.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
-                        trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
-                        value: UserModel.i.isNotified,
-                        onChanged: (value) {
-                          cubit.allowNotifications();
-                        },
+                      return Transform.scale(
+                        scale: 0.8,
+                        child: Switch(
+                          activeColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                          activeTrackColor: context.primaryColorDark.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                          inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                          inactiveTrackColor: context.shadowColor.withValues(alpha: state.allowNotificationsState.isLoading ? .5 : 1),
+                          trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                          value: UserModel.i.isNotified,
+                          onChanged: (value) {
+                            cubit.allowNotifications();
+                          },
+                        ),
                       );
                     },
                   ),
