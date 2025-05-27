@@ -12,6 +12,9 @@ import '../../../../gen/assets.gen.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/enums.dart';
+import '../../../../core/routes/app_routes_fun.dart';
+import '../../../../core/routes/routes.dart';
+import '../../../../models/user_model.dart';
 import '../../../../gen/locale_keys.g.dart';
 import 'controller/cubit.dart';
 import 'controller/states.dart';
@@ -126,6 +129,38 @@ class _ProfitsViewState extends State<ProfitsView> {
                       ],
                     ),
                   ).withPadding(horizontal: 16.h),
+                  
+                  // زر المحفظة
+                  if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent)
+                    InkWell(
+                      onTap: () => push(NamedRoutes.wallet),
+                      child: Container(
+                        margin: EdgeInsets.only(top: 24.h, left: 16.h, right: 16.h),
+                        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.h),
+                        decoration: BoxDecoration(
+                          color: context.canvasColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: context.primaryColorLight.withOpacity(0.3), width: 1)
+                        ),
+                        child: Row(
+                          children: [
+                            CustomImage(
+                              Assets.svg.walletIcon,
+                              height: 24.h,
+                              width: 24.h,
+                              color: context.primaryColorDark,
+                            ).withPadding(end: 16.w),
+                            Expanded(
+                              child: Text(
+                                LocaleKeys.wallet.tr(),
+                                style: context.mediumText.copyWith(fontSize: 16),
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios, size: 16.h, color: context.primaryColorDark)
+                          ],
+                        ),
+                      ),
+                    ),
                 ],
               );
             } else {

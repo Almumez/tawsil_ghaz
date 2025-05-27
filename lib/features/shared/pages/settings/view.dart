@@ -48,6 +48,15 @@ class _SettingsViewState extends State<SettingsView> {
     ProfileItemModel(image: Assets.svg.contactUs, title: LocaleKeys.contact_us, onTap: () => push(NamedRoutes.contactUs)),
   ];
 
+  List<ProfileItemModel> getFreeAgentItems() {
+    if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent) {
+      return [
+        ProfileItemModel(image: "assets/svg/document.svg", title: LocaleKeys.car_info, onTap: () => push(NamedRoutes.freeAgentCarInfo)),
+      ];
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,6 +179,29 @@ class _SettingsViewState extends State<SettingsView> {
                         child: Text(
                           items[index].title.tr(),
                           style: context.mediumText.copyWith(fontSize: 16, color: items[index].isLogout ? context.errorColor : null),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).withPadding(bottom: 4.h),
+              ),
+              // عناصر خاصة بمستخدم freeAgent
+              ...List.generate(
+                getFreeAgentItems().length,
+                (index) => InkWell(
+                  onTap: getFreeAgentItems()[index].onTap,
+                  child: Row(
+                    children: [
+                      CustomImage(
+                        getFreeAgentItems()[index].image,
+                        height: 24.h,
+                        width: 24.h,
+                        color: context.primaryColorDark,
+                      ).withPadding(end: 16.w),
+                      Expanded(
+                        child: Text(
+                          getFreeAgentItems()[index].title.tr(),
+                          style: context.mediumText.copyWith(fontSize: 16),
                         ),
                       ),
                     ],
