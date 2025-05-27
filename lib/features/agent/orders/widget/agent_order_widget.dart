@@ -36,91 +36,110 @@ class AgentOrderWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(" ${item.id} #", style: context.semiboldText),
-              ],
-            ).withPadding(bottom: 4.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  item.clientName,
-                  style: context.mediumText,
-                ),
-                
-                if (item.price != 0)
-                  Text.rich(
-                    TextSpan(children: [
-                      TextSpan(
-                        text: LocaleKeys.sar.tr(),
-                        style: context.regularText.copyWith(fontSize: 14),
-                      ),
-                      TextSpan(
-                        text: "${item.price}",
-                        style: context.regularText.copyWith(fontSize: 16),
-                      ),
-                    ]),
-                  )
-              ],
-            ),
-            Row(
-              children: [
-                CustomImage(
-                  Assets.svg.location,
-                  height: 20.sp,
-                  width: 20.sp,
-                ),
                 Expanded(
-                  child: Text(
-                    item.address.placeDescription,
-                    style: context.mediumText.copyWith(fontSize: 12),
-                  ).withPadding(horizontal: 4.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.clientName,
+                        style: context.mediumText,
+                      ),
+                      SizedBox(height: 8.h),
+                      Row(
+                        children: [
+                          CustomImage(
+                            Assets.svg.location,
+                            height: 20.sp,
+                            width: 20.sp,
+                          ),
+                          Expanded(
+                            child: Text(
+                              item.address.placeDescription,
+                              style: context.mediumText.copyWith(fontSize: 12),
+                            ).withPadding(horizontal: 4.w),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(" ${item.id} #", style: context.semiboldText),
+                    SizedBox(height: 8.h),
+                    if (item.price != 0)
+                      Text.rich(
+                        TextSpan(children: [
+                          TextSpan(
+                            text: LocaleKeys.sar.tr(),
+                            style: context.regularText.copyWith(fontSize: 14),
+                          ),
+                          TextSpan(
+                            text: "${item.price}",
+                            style: context.regularText.copyWith(fontSize: 16),
+                          ),
+                        ]),
+                      ),
+                  ],
                 ),
               ],
             ),
-            Text.rich(
-              TextSpan(
-                text: "${LocaleKeys.service_type.tr()} : ",
-                style: context.regularText.copyWith(color: context.hintColor),
-                children: [
-                  TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
-                ],
-              ),
-            ).withPadding(top: 8.h),
+            
+            SizedBox(height: 16.h),
+            
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
-                Text(item.createdAt, style: context.regularText),
-              ],
-            ).withPadding(top: 8.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                StatusContainer(
-                  title: item.statusTrans,
-                  color: item.color,
-                )
-              ],
-            ).withPadding(top: 10.h, bottom: 5.h),
-
-            if (item.status == 'pending')
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: 105.w,
-                    height: 30.h,
-                    child: AppBtn(
-                      onPressed: onTap,
-                      height: 30.h,
-                      saveArea: false,
-                      title: LocaleKeys.accept.tr(),
-                      radius: 4.r,
-                    ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: "${LocaleKeys.service_type.tr()} : ",
+                          style: context.regularText.copyWith(color: context.hintColor),
+                          children: [
+                            TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Row(
+                        children: [
+                          Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
+                          Text(item.createdAt, style: context.regularText),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              )
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    StatusContainer(
+                      title: item.statusTrans,
+                      color: item.color,
+                    ),
+                    SizedBox(height: 8.h),
+                    if (item.status == 'pending')
+                      Container(
+                        width: 105.w,
+                        height: 30.h,
+                        child: AppBtn(
+                          onPressed: onTap,
+                          height: 30.h,
+                          saveArea: false,
+                          title: LocaleKeys.accept.tr(),
+                          radius: 4.r,
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
