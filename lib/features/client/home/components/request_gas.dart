@@ -214,7 +214,7 @@ class RequestGasWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,16 +228,19 @@ class RequestGasWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Container(
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
-                      child: Text(
-                        buttonText,
-                        style: context.mediumText.copyWith(
-                          fontSize: 14.sp,
-                          color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          buttonText,
+                          style: context.mediumText.copyWith(
+                            fontSize: 14.sp,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
