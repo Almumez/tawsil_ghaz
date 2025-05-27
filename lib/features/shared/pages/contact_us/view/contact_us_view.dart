@@ -35,29 +35,6 @@ class _ContactUsViewState extends State<ContactUsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(title: LocaleKeys.contact_us.tr()),
-      bottomNavigationBar: SafeArea(
-        child: BlocConsumer<ContactUsCubit, ContactUsState>(
-          bloc: cubit,
-          buildWhen: (previous, current) => previous.sendContactsState != current.sendContactsState,
-          listenWhen: (previous, current) => previous.sendContactsState != current.sendContactsState,
-          listener: (context, state) {
-            if (state.sendContactsState.isDone) {
-              Navigator.pop(context);
-            }
-          },
-          builder: (context, state) {
-            return AppBtn(
-              loading: state.sendContactsState.isLoading,
-              title: LocaleKeys.send.tr(),
-              onPressed: () {
-                if (form.currentState!.validate()) {
-                  cubit.send();
-                }
-              },
-            );
-          },
-        ).withPadding(horizontal: 24.w, bottom: 16.h),
-      ),
       body: PullToRefresh(
         onRefresh: _refresh,
         child: SingleChildScrollView(
@@ -101,18 +78,82 @@ class _ContactUsViewState extends State<ContactUsView> {
                   },
                 ),
                 Text(LocaleKeys.please_enter_the_information.tr(), style: context.boldText).withPadding(top: 32.h, bottom: 20.h),
-                AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 20.h),
-                AppField(labelText: LocaleKeys.email.tr(), controller: cubit.email, isRequired: false).withPadding(bottom: 20.h),
                 AppField(
-                    labelText: LocaleKeys.phone.tr(),
-                    controller: cubit.phone,
-                    keyboardType: TextInputType.phone,
-                    onChangeCountry: (country) => cubit.country = country).withPadding(bottom: 20.h),
+                  controller: cubit.name,
+                  margin: EdgeInsets.symmetric(vertical: 8.h),
+                  keyboardType: TextInputType.name,
+                  labelText: LocaleKeys.name.tr(),
+                ),
                 AppField(
-                  labelText: LocaleKeys.your_message.tr(),
+                  controller: cubit.email,
+                  margin: EdgeInsets.symmetric(vertical: 8.h),
+                  keyboardType: TextInputType.emailAddress,
+                  labelText: LocaleKeys.email.tr(),
+                  isRequired: false,
+                ),
+                AppField(
+                  controller: cubit.phone,
+                  margin: EdgeInsets.symmetric(vertical: 8.h),
+                  keyboardType: TextInputType.text,
+                  labelText: LocaleKeys.phone.tr(),
+                  direction: "right",
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 25.h,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                        child: Text(
+                          textAlign: TextAlign.left,
+                          "+966",
+                          style: context.regularText.copyWith(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                AppField(
                   controller: cubit.msg,
+                  margin: EdgeInsets.symmetric(vertical: 8.h),
+                  keyboardType: TextInputType.multiline,
+                  labelText: LocaleKeys.your_message.tr(),
                   maxLines: 4,
-                ).withPadding(bottom: 20.h),
+                ),
+                SizedBox(height: 24.h),
+                BlocConsumer<ContactUsCubit, ContactUsState>(
+                  bloc: cubit,
+                  buildWhen: (previous, current) => previous.sendContactsState != current.sendContactsState,
+                  listenWhen: (previous, current) => previous.sendContactsState != current.sendContactsState,
+                  listener: (context, state) {
+                    if (state.sendContactsState.isDone) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  builder: (context, state) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      child: AppBtn(
+                        loading: state.sendContactsState.isLoading,
+                        title: LocaleKeys.send.tr(),
+                        backgroundColor: Colors.transparent,
+                        textColor: Colors.white,
+                        radius: 30.r,
+                        onPressed: () {
+                          if (form.currentState!.validate()) {
+                            cubit.send();
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
