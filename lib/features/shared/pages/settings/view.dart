@@ -176,25 +176,26 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                 ).withPadding(bottom: 4.h),
               ),
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => DeleteAccountSheet(),
-                  );
-                },
-                child: Row(
-                  children: [
-                    CustomImage(
-                      Assets.svg.deleteIcon,
-                      height: 24.h,
-                      width: 24.h,
-                      color: context.errorColor,
-                    ).withPadding(end: 16.w),
-                    Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(color: context.errorColor))),
-                  ],
+              if (UserModel.i.isAuth)
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => DeleteAccountSheet(),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      CustomImage(
+                        Assets.svg.deleteIcon,
+                        height: 24.h,
+                        width: 24.h,
+                        color: context.errorColor,
+                      ).withPadding(end: 16.w),
+                      Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(color: context.errorColor))),
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),
