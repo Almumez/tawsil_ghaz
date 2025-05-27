@@ -13,7 +13,6 @@ import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/phoneix.dart';
 import '../../../../core/widgets/app_btn.dart';
 import '../../../../core/widgets/app_field.dart';
-import '../../../../core/widgets/change_password_sheet.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../../../core/widgets/flash_helper.dart';
 import '../../../../core/widgets/loading.dart';
@@ -49,34 +48,13 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: LocaleKeys.edit_profile.tr()),
+      appBar: CustomAppbar(title: "تعديل"),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           children: [
-            // إخفاء الصورة وزر التعديل
+            // تم حذف جزء تغيير كلمة المرور
             SizedBox(height: 20.h),
-            InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                  elevation: 0,
-                  context: context,
-                  isScrollControlled: true,
-                  isDismissible: true,
-                  builder: (context) => ChangePasswordSheet(),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomImage(Assets.images.keyIcon.path, height: 24.h).withPadding(end: 12.w),
-                  Text(
-                    LocaleKeys.change_password.tr(), 
-                    style: context.mediumText.copyWith(fontSize: 18.sp),
-                  ),
-                ],
-              ).withPadding(bottom: 30.h),
-            ),
             AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 16.h),
             if (UserModel.i.accountType != UserType.client)
               AppField(labelText: LocaleKeys.email.tr(), controller: cubit.email, isRequired: false).withPadding(bottom: 16.h),
@@ -101,11 +79,29 @@ class _EditProfileViewState extends State<EditProfileView> {
               },
               builder: (context, state) {
                 return AppField(
-                  labelText: LocaleKeys.phone.tr(),
                   controller: cubit.phone,
-                  showFlag: false,
-                  phoneCode: "+966",
-                  keyboardType: TextInputType.phone,
+                  margin: EdgeInsets.symmetric(vertical: 8.h),
+                  keyboardType: TextInputType.text,
+                  labelText: "هاتف",
+                  direction: "right",
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 25.h,
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
+                        child: Text(
+                          textAlign: TextAlign.left,
+                          "+966",
+                          style: context.regularText.copyWith(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
@@ -123,13 +119,22 @@ class _EditProfileViewState extends State<EditProfileView> {
                     }
                   },
                   builder: (context, state) {
-                    return AppBtn(
-                      enable: snapshot.data ?? false,
-                      title: LocaleKeys.confirm.tr(),
-                      loading: state.requestState.isLoading,
-                      onPressed: () {
-                        cubit.updateProfile();
-                      },
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      child: AppBtn(
+                        enable: snapshot.data ?? false,
+                        title: "تعديل",
+                        loading: state.requestState.isLoading,
+                        backgroundColor: Colors.transparent,
+                        textColor: Colors.white,
+                        radius: 30.r,
+                        onPressed: () {
+                          cubit.updateProfile();
+                        },
+                      ),
                     );
                   }
                 );
