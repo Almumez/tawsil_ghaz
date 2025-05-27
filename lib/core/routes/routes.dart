@@ -12,6 +12,7 @@ class NamedRoutes {
   static const successCompleteData = "/successCompleteData";
   static const editProfile = "/editProfile";
   static const settings = "/settings";
+  static const information = "/information";
   static const freeAgentCarInfo = "/freeAgentCarInfo";
   static const static = "/static";
   static const contactUs = "/contactUs";

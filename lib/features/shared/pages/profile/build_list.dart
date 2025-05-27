@@ -126,7 +126,7 @@ class BuildProfileList {
     ProfileItemModel(
       image: 'assets/svg/information.svg', 
       title: LocaleKeys.information, 
-      onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
+      onTap: () => push(NamedRoutes.information),
     ),
     ProfileItemModel(
       image: 'assets/svg/receipt-disscount.svg', 
@@ -153,7 +153,7 @@ class BuildProfileList {
     ProfileItemModel(
       image: 'assets/svg/information.svg', 
       title: LocaleKeys.information, 
-      onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about}),
+      onTap: () => push(NamedRoutes.information),
     ),
     ProfileItemModel(
       image: 'assets/svg/receipt-disscount.svg', 

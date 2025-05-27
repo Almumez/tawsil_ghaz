@@ -46,10 +46,6 @@ class _SettingsViewState extends State<SettingsView> {
 
   List<ProfileItemModel> items = [
     ProfileItemModel(image: Assets.svg.contactUs, title: LocaleKeys.contact_us, onTap: () => push(NamedRoutes.contactUs)),
-    ProfileItemModel(image: Assets.svg.aboutUs, title: LocaleKeys.about_us, onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.about})),
-    ProfileItemModel(image: Assets.svg.terms, title: LocaleKeys.terms_and_conditions, onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.terms})),
-    ProfileItemModel(image: Assets.svg.policy, title: LocaleKeys.privacy_policy, onTap: () => push(NamedRoutes.static, arg: {'type': StaticType.privacy})),
-    ProfileItemModel(image: Assets.svg.faq, title: LocaleKeys.faq, onTap: () => push(NamedRoutes.faq)),
   ];
 
   @override

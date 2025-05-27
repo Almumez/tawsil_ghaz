@@ -37,6 +37,7 @@ import '../../features/product_agent/order_details/view/order_details_view.dart'
 import '../../features/shared/pages/contact_us/view/contact_us_view.dart';
 import '../../features/shared/pages/edit_profile/view.dart';
 import '../../features/shared/pages/faq/view.dart';
+import '../../features/shared/pages/information/view.dart';
 import '../../features/shared/pages/navbar/view.dart';
 import '../../features/shared/pages/order_counts/view.dart';
 import '../../features/shared/pages/profits/view.dart';
@@ -75,6 +76,7 @@ class AppRoutes {
     NamedRoutes.successCompleteData: (c) => SuccessCompleteDataView(),
     NamedRoutes.editProfile: (c) => EditProfileView(),
     NamedRoutes.settings: (c) => SettingsView(),
+    NamedRoutes.information: (c) => InformationView(),
     NamedRoutes.freeAgentCarInfo: (c) => FreeAgentCarInfoView(),
     NamedRoutes.static: (c) => StaticView(type: c.arg['type']),
     NamedRoutes.contactUs: (c) => ContactUsView(),
