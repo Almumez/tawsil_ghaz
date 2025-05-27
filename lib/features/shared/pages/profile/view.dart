@@ -141,41 +141,41 @@ class _ProfileViewState extends State<ProfileView> {
                 
               // زر التحكم في خدمة تتبع الموقع للمندوب الحر
               if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent)
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 16.h),
-                  decoration: BoxDecoration(
-                    color: _isLocationTracking ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: _isLocationTracking ? Colors.green : Colors.orange,
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: Icon(
-                      _isLocationTracking ? Icons.location_on : Icons.location_off,
-                      color: _isLocationTracking ? Colors.green : Colors.orange,
-                    ),
-                    title: Text(
-                      _isLocationTracking ? 'خدمة تتبع الموقع قيد التشغيل' : 'خدمة تتبع الموقع متوقفة',
-                      style: context.mediumText.copyWith(
-                        color: _isLocationTracking ? Colors.green : Colors.orange,
-                      ),
-                    ),
-                    subtitle: Text(
-                      _isLocationTracking 
-                          ? 'يتم إرسال موقعك إلى النظام كل 5 ثواني' 
-                          : 'اضغط للتشغيل',
-                      style: context.regularText.copyWith(fontSize: 12.sp),
-                    ),
-                    trailing: Switch(
-                      value: _isLocationTracking,
-                      onChanged: (value) => _toggleLocationTracking(),
-                      activeColor: Colors.green,
-                    ),
-                    onTap: _toggleLocationTracking,
-                  ),
-                ),
+                // Container(
+                //   margin: EdgeInsets.symmetric(vertical: 16.h),
+                //   decoration: BoxDecoration(
+                //     color: _isLocationTracking ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+                //     borderRadius: BorderRadius.circular(12.r),
+                //     border: Border.all(
+                //       color: _isLocationTracking ? Colors.green : Colors.orange,
+                //       width: 1,
+                //     ),
+                //   ),
+                //   child: ListTile(
+                //     leading: Icon(
+                //       _isLocationTracking ? Icons.location_on : Icons.location_off,
+                //       color: _isLocationTracking ? Colors.green : Colors.orange,
+                //     ),
+                //     title: Text(
+                //       _isLocationTracking ? 'خدمة تتبع الموقع قيد التشغيل' : 'خدمة تتبع الموقع متوقفة',
+                //       style: context.mediumText.copyWith(
+                //         color: _isLocationTracking ? Colors.green : Colors.orange,
+                //       ),
+                //     ),
+                //     subtitle: Text(
+                //       _isLocationTracking
+                //           ? 'يتم إرسال موقعك إلى النظام كل 5 ثواني'
+                //           : 'اضغط للتشغيل',
+                //       style: context.regularText.copyWith(fontSize: 12.sp),
+                //     ),
+                //     trailing: Switch(
+                //       value: _isLocationTracking,
+                //       onChanged: (value) => _toggleLocationTracking(),
+                //       activeColor: Colors.green,
+                //     ),
+                //     onTap: _toggleLocationTracking,
+                //   ),
+                // ),
                 
               ...List.generate(
                 _buildItems().length,
