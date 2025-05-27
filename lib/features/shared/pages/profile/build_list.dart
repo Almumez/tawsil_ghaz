@@ -134,7 +134,11 @@ class BuildProfileList {
       onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.offers.tr()),
     ),
     ProfileItemModel(image: Assets.svg.walletIcon, title: LocaleKeys.financial, onTap: () => push(NamedRoutes.wallet)),
-    ProfileItemModel(image: 'assets/svg/user-add.svg', title: LocaleKeys.join, onTap: () => push(NamedRoutes.register)),
+    ProfileItemModel(
+      image: 'assets/svg/user-add.svg', 
+      title: LocaleKeys.join, 
+      onTap: () => push(NamedRoutes.register, arg: {"type": UserType.freeAgent}),
+    ),
     if (UserModel.i.isAuth) ProfileItemModel(
       image: 'assets/svg/profile-2user.svg', 
       title: LocaleKeys.switch_account, 
@@ -156,7 +160,11 @@ class BuildProfileList {
       title: LocaleKeys.offers, 
       onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.offers.tr()),
     ),
-    ProfileItemModel(image: 'assets/svg/user-add.svg', title: LocaleKeys.join, onTap: () => push(NamedRoutes.register)),
+    ProfileItemModel(
+      image: 'assets/svg/user-add.svg', 
+      title: LocaleKeys.join, 
+      onTap: () => push(NamedRoutes.register, arg: {"type": UserType.freeAgent}),
+    ),
     ProfileItemModel(
       image: 'assets/svg/profile-2user.svg', 
       title: LocaleKeys.switch_account, 
