@@ -192,40 +192,44 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
               width: 100.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(
-                  color: _selectedServiceIndex == index 
-                    ? context.primaryColor 
-                    : context.borderColor,
-                  width: _selectedServiceIndex == index ? 3 : 1,
-                ),
-                color: _selectedServiceIndex == index 
-                  ? const Color(0xFFF5F5F5)
-                  : Colors.transparent,
+                color: Colors.white, // White background for all cards
               ),
-              padding: EdgeInsets.all(8.r),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomImage(
-                    services[index].image,
-                    height: 60.h,
-                    width: 60.h,
-                    borderRadius: BorderRadius.circular(4.r),
+              padding: EdgeInsets.all(3.r), // Space for inner border
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(
+                    color: _selectedServiceIndex == index
+                      ? context.primaryColor
+                      : const Color(0xFFF5F5F5), // Gray border for inactive cards
+                    width: _selectedServiceIndex == index ? 3 : 1, // Increased border width from 2 to 3
                   ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    services[index].title,
-                    style: context.mediumText.copyWith(
-                      fontSize: 12.sp,
-                      color: _selectedServiceIndex == index 
-                        ? context.primaryColor 
-                        : context.borderColor,
+                ),
+                padding: EdgeInsets.all(4.r),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomImage(
+                      services[index].image,
+                      height: 60.h,
+                      width: 60.h,
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    SizedBox(height: 8.h),
+                    Text(
+                      services[index].title,
+                      style: context.mediumText.copyWith(
+                        fontSize: 12.sp,
+                        color: _selectedServiceIndex == index 
+                          ? context.primaryColor 
+                          : context.borderColor,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
