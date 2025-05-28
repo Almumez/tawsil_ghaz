@@ -48,47 +48,6 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
 
   Future<void> _refresh() async {
     await cubit.fetchServices();
-    _addThirdServiceAfterFetch();
-  }
-  
-  void _addThirdServiceAfterFetch() {
-    // Add a mock third service if it doesn't exist yet and there are at least 2 services
-    if (cubit.services.length >= 2 && cubit.services.every((s) => s.key != 'third_service')) {
-      // Find the index of the 'additional' service (which should be last)
-      int additionalIndex = cubit.services.indexWhere((s) => s.key == 'additional');
-      
-      if (additionalIndex != -1) {
-        // Create mock sub items for the third service
-        List<BuyCylinderSubServiceModel> subItems = [
-          BuyCylinderSubServiceModel.fromJson({
-            'id': 'third_1',
-            'type': 'medium',
-            'title': 'اسطوانة متوسطة الحجم',
-            'price': '75.0',
-            'description': 'اسطوانة غاز صناعية متوسطة الحجم للاستخدامات المنزلية والتجارية',
-            'image': 'assets/images/cylinder_medium.png',
-          }),
-          BuyCylinderSubServiceModel.fromJson({
-            'id': 'third_2',
-            'type': 'large',
-            'title': 'اسطوانة كبيرة الحجم',
-            'price': '120.0',
-            'description': 'اسطوانة غاز صناعية كبيرة الحجم للاستخدامات الصناعية والتجارية',
-            'image': 'assets/images/cylinder_large.png',
-          }),
-        ];
-        
-        // Create the third service model
-        BuyCylinderServiceModel thirdService = BuyCylinderServiceModel.fromJson({
-          'key': 'third_service',
-          'image': 'assets/images/industrial_gas.png',
-          'sub': subItems.map((e) => e.toJson()).toList(),
-        });
-        
-        // Insert the third service before the 'additional' service
-        cubit.services.insert(additionalIndex, thirdService);
-      }
-    }
   }
 
   @override
@@ -124,24 +83,6 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                 if (state.requestState.isError) {
                   return CustomErrorWidget(title: state.msg);
                 } else if (state.requestState.isDone) {
-                  // Add the third service after data is loaded
-                  _addThirdServiceAfterFetch();
-                  
-                  // We need to ensure the selected index is within bounds
-                  if (_selectedServiceIndex >= cubit.services.length - 1) {
-                    _selectedServiceIndex = 0;
-                  }
-                  
-                  // Filter out the 'additional' service from the top row
-                  List<BuyCylinderServiceModel> mainServices = cubit.services
-                      .where((service) => service.key != 'additional')
-                      .toList();
-                  
-                  // Get additional service if exists
-                  BuyCylinderServiceModel? additionalService = cubit.services
-                      .firstWhere((service) => service.key == 'additional', 
-                                orElse: () => BuyCylinderServiceModel.fromJson({'key': 'none'}));
-                  
                   return ListView(
                     padding: EdgeInsets.symmetric(vertical: 20.h),
                     children: [
@@ -152,19 +93,23 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                       ).withPadding(bottom: 16.h, horizontal: 16.w),
                       
                       // Service selector row (images side by side)
-                      _buildServiceSelectorRow(mainServices, context),
-                      
+                      _buildServiceSelectorRow(cubit.services.where((service) => service.key != 'additional').toList(), context),
                       
                       // Selected service details
-                      if (_selectedServiceIndex < mainServices.length)
-                        _buildSelectedServiceDetails(mainServices[_selectedServiceIndex], context),
+                      if (_selectedServiceIndex < cubit.services.length && 
+                          cubit.services[_selectedServiceIndex].key != 'additional')
+                        _buildSelectedServiceDetails(cubit.services[_selectedServiceIndex], context),
                       
                       // Additional options (always visible)
-                      if (additionalService.key == 'additional')
+                      if (cubit.services.any((service) => service.key == 'additional'))
                         Column(
                           children: [
                             SizedBox(height: 5.h),
-                            AdditionalOptionsWidget(additionalService: additionalService),
+                            AdditionalOptionsWidget(
+                              additionalService: cubit.services.firstWhere(
+                                (service) => service.key == 'additional',
+                              ),
+                            ),
                           ],
                         ),
                       
