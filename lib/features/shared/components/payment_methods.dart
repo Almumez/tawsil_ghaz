@@ -29,7 +29,19 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${LocaleKeys.choose_payment_method.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+        Row(
+          children: [
+            SvgPicture.asset(
+              'assets/svg/pay.svg',
+              height: 22.h,
+              width: 22.w,
+            ),
+            SizedBox(width: 8.w),
+            Text("دفع", 
+              style: context.semiboldText.copyWith(fontSize: 16)
+            ),
+          ],
+        ).withPadding(bottom: 10.h),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

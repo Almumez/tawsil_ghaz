@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/extensions.dart';
@@ -24,21 +25,34 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${LocaleKeys.service_value.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+        Row(
+          children: [
+            SvgPicture.asset(
+              'assets/svg/orders_out.svg',
+              height: 22.h,
+              width: 22.w,
+              color: Colors.black,
+            ),
+            SizedBox(width: 8.w),
+            Text("قيمة", 
+              style: context.semiboldText.copyWith(fontSize: 16)
+            ),
+          ],
+        ).withPadding(bottom: 10.h),
         Container(
           padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
           child: Column(
             children: [
-              ServiceItem(title: LocaleKeys.service_price.tr(), price: cubit.state.orderPrices!.price.toString()),
+              ServiceItem(title: "خدمة", price: double.parse(cubit.state.orderPrices!.price.toString()).toStringAsFixed(2)),
               Divider(height: 30.h),
-              ServiceItem(title: LocaleKeys.additional_services_fees.tr(), price: cubit.state.orderPrices!.additionalServicesFees.toString()),
+              ServiceItem(title: "اضافات", price: double.parse(cubit.state.orderPrices!.additionalServicesFees.toString()).toStringAsFixed(2)),
               Divider(height: 30.h),
-              ServiceItem(title: LocaleKeys.delivery_price.tr(), price: cubit.state.orderPrices!.deliveryFees.toString()),
+              ServiceItem(title: "توصيل", price: double.parse(cubit.state.orderPrices!.deliveryFees.toString()).toStringAsFixed(2)),
               Divider(height: 30.h),
-              ServiceItem(title: LocaleKeys.tax.tr(), price: double.parse(cubit.state.orderPrices!.tax.toString()).toStringAsFixed(2)),
+              ServiceItem(title: "ضريبة", price: double.parse(cubit.state.orderPrices!.tax.toString()).toStringAsFixed(2)),
               Divider(height: 30.h),
-              ServiceItem(title: LocaleKeys.total.tr(), price: cubit.state.orderPrices!.totalPrice.toString()),
+              ServiceItem(title: "اجمالي", price: double.parse(cubit.state.orderPrices!.totalPrice.toString()).toStringAsFixed(2)),
             ],
           ),
         ),
