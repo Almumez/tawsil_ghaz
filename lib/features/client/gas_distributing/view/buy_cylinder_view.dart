@@ -196,10 +196,10 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                   color: _selectedServiceIndex == index 
                     ? context.primaryColor 
                     : context.borderColor,
-                  width: _selectedServiceIndex == index ? 2 : 1,
+                  width: _selectedServiceIndex == index ? 3 : 1,
                 ),
                 color: _selectedServiceIndex == index 
-                  ? context.mainBorderColor.withOpacity(0.1)
+                  ? const Color(0xFFF5F5F5)
                   : Colors.transparent,
               ),
               padding: EdgeInsets.all(8.r),
@@ -211,7 +211,6 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                     height: 60.h,
                     width: 60.h,
                     borderRadius: BorderRadius.circular(4.r),
-                    backgroundColor: context.mainBorderColor,
                   ),
                   SizedBox(height: 8.h),
                   Text(
@@ -261,7 +260,6 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                         height: 40.h,
                         width: 40.h,
                         borderRadius: BorderRadius.circular(4.r),
-                        backgroundColor: context.mainBorderColor,
                       ).withPadding(end: 8.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,7 +324,6 @@ class AdditionalOptionsWidget extends StatelessWidget {
                   height: 60.h,
                   width: 60.h,
                   borderRadius: BorderRadius.circular(4.r),
-                  backgroundColor: context.mainBorderColor,
                 ).withPadding(end: 8.w),
                 Expanded(
                   child: Column(
@@ -385,7 +382,6 @@ class BuyOrRefillWidget extends StatelessWidget {
                     height: 60.h,
                     width: 60.h,
                     borderRadius: BorderRadius.circular(4.r),
-                    backgroundColor: context.mainBorderColor,
                   ).withPadding(end: 4.w),
                   Expanded(
                     child: Column(
@@ -417,7 +413,6 @@ class BuyOrRefillWidget extends StatelessWidget {
                   height: 60.h,
                   width: 60.h,
                   borderRadius: BorderRadius.circular(4.r),
-                  backgroundColor: context.mainBorderColor,
                 ).withPadding(end: 4.w),
                 Expanded(
                   child: Column(
@@ -561,7 +556,6 @@ class SelectedItemsSummary extends StatelessWidget {
                         height: 40.h,
                         width: 40.h,
                         borderRadius: BorderRadius.circular(4.r),
-                        backgroundColor: context.mainBorderColor,
                       ).withPadding(end: 8.w),
                     Expanded(
                       child: Row(
