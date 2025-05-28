@@ -31,6 +31,8 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
   late final ClientDistributeGasCubit cubit;
   // Track the selected service index
   int _selectedServiceIndex = 0;
+  // Track the selected additional option index
+  int _selectedAdditionalIndex = 0;
 
   @override
   void initState() {
@@ -105,10 +107,31 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                         Column(
                           children: [
                             SizedBox(height: 5.h),
-                            AdditionalOptionsWidget(
-                              additionalService: cubit.services.firstWhere(
-                                (service) => service.key == 'additional',
-                              ),
+                            // Title "خيارات إضافية" above options selector
+                            Text(
+                              "خيارات إضافية",
+                              style: context.boldText.copyWith(fontSize: 16)
+                            ).withPadding(bottom: 16.h, horizontal: 16.w),
+                            
+                            // Get the additional service
+                            Builder(
+                              builder: (context) {
+                                final additionalService = cubit.services.firstWhere(
+                                  (service) => service.key == 'additional',
+                                );
+                                
+                                return Column(
+                                  children: [
+                                    // Additional options selector row (images side by side)
+                                    _buildAdditionalOptionsRow(additionalService, context),
+                                    
+                                    // Selected additional option details
+                                    if (additionalService.sub.isNotEmpty && 
+                                        _selectedAdditionalIndex < additionalService.sub.length)
+                                      _buildSelectedAdditionalDetails(additionalService, _selectedAdditionalIndex, context),
+                                  ],
+                                );
+                              }
                             ),
                           ],
                         ),
@@ -243,66 +266,121 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
       ),
     );
   }
-}
 
-class AdditionalOptionsWidget extends StatelessWidget {
-  final BuyCylinderServiceModel additionalService;
-
-  const AdditionalOptionsWidget({
-    super.key,
-    required this.additionalService,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          additionalService.title, 
-          style: context.boldText.copyWith(fontSize: 16)
-        ).withPadding(bottom: 16.h, horizontal: 16.w),
-        ...List.generate(
-          additionalService.sub.length,
-          (index) => Container(
-            margin: EdgeInsets.only(bottom: 12.h, left: 16.w, right: 16.w),
-            padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 12.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r), 
-              border: Border.all(color: context.borderColor)
-            ),
-            child: Row(
-              children: [
-                CustomImage(
-                  additionalService.sub[index].image,
-                  height: 60.h,
-                  width: 60.h,
-                  borderRadius: BorderRadius.circular(4.r),
-                ).withPadding(end: 8.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        additionalService.sub[index].title, 
-                        style: context.mediumText.copyWith(fontSize: 12)
-                      ).withPadding(bottom: 10.h),
-                      Text(
-                        "${additionalService.sub[index].price} ${LocaleKeys.currency.tr()}",
-                        style: context.mediumText.copyWith(
-                          fontSize: 14, 
-                          color: Colors.black
+  Widget _buildAdditionalOptionsRow(BuyCylinderServiceModel additionalService, BuildContext context) {
+    return Container(
+      height: 120.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: additionalService.sub.isEmpty
+          ? Center(child: Text("لا توجد خيارات إضافية", style: context.mediumText))
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                additionalService.sub.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedAdditionalIndex = index;
+                    });
+                  },
+                  child: Container(
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Colors.white, // White background for all cards
+                    ),
+                    padding: EdgeInsets.all(3.r), // Space for inner border
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.r),
+                        border: Border.all(
+                          color: _selectedAdditionalIndex == index
+                            ? context.primaryColor
+                            : const Color(0xFFF5F5F5), // Gray border for inactive cards
+                          width: _selectedAdditionalIndex == index ? 3 : 2,
                         ),
                       ),
-                    ],
+                      padding: EdgeInsets.all(4.r),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImage(
+                            additionalService.sub[index].image,
+                            height: 60.h,
+                            width: 60.h,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            additionalService.sub[index].title,
+                            style: context.mediumText.copyWith(
+                              fontSize: 12.sp,
+                              color: _selectedAdditionalIndex == index 
+                                ? context.primaryColor 
+                                : context.borderColor,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                IncrementRow(model: additionalService, index: index),
+              ),
+            ),
+    );
+  }
+
+  Widget _buildSelectedAdditionalDetails(BuyCylinderServiceModel additionalService, int selectedIndex, BuildContext context) {
+    final selectedOption = additionalService.sub[selectedIndex];
+    
+    return Container(
+      padding: EdgeInsets.only(top: 0, left: 16.w, right: 16.w, bottom: 16.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CustomImage(
+                      selectedOption.image,
+                      height: 40.h,
+                      width: 40.h,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ).withPadding(end: 8.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          selectedOption.title, 
+                          style: context.mediumText.copyWith(fontSize: 14.sp)
+                        ).withPadding(bottom: 4.h),
+                        Text(
+                          "${selectedOption.price} ${LocaleKeys.currency.tr()}",
+                          style: context.mediumText.copyWith(
+                            fontSize: 14.sp, 
+                            color: Colors.black
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                IncrementRow(model: additionalService, index: selectedIndex),
               ],
             ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }
