@@ -141,18 +141,29 @@ class _MyAddressWidgetsState extends State<MyAddressWidgets> {
                               ],
                             ),
                           ),
-                          Transform.scale(
-                            scale: 0.9,
-                            child: Radio(
-                              value: cubit.addresses[index].id,
-                              groupValue: selectedOption,
-                              activeColor: context.primaryColor,
-                              onChanged: (value) {
-                                setState(() {
-                                  widget.callback(cubit.addresses[index].id);
-                                  selectedOption = cubit.addresses[index].id;
-                                });
-                              },
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                widget.callback(cubit.addresses[index].id);
+                                selectedOption = cubit.addresses[index].id;
+                              });
+                            },
+                            child: Container(
+                              width: 20.w,
+                              height: 20.h,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: selectedOption == cubit.addresses[index].id
+                                    ? context.primaryColor
+                                    : Colors.transparent,
+                                border: Border.all(
+                                  color: selectedOption == cubit.addresses[index].id
+                                      ? context.primaryColor
+                                      : Colors.grey.shade400,
+                                  width: 1.5,
+                                ),
+                              ),
+                              margin: EdgeInsets.only(right: 8.w),
                             ),
                           ),
                         ],
