@@ -29,6 +29,8 @@ class BuyCylinderView extends StatefulWidget {
 
 class _BuyCylinderViewState extends State<BuyCylinderView> {
   late final ClientDistributeGasCubit cubit;
+  // Track the selected service index
+  int _selectedServiceIndex = 0;
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
 
   Future<void> _refresh() async {
     await cubit.fetchServices();
+    _addThirdServiceAfterFetch();
   }
   
   void _addThirdServiceAfterFetch() {
@@ -124,41 +127,235 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                   // Add the third service after data is loaded
                   _addThirdServiceAfterFetch();
                   
-                  return ListView.builder(
+                  // We need to ensure the selected index is within bounds
+                  if (_selectedServiceIndex >= cubit.services.length - 1) {
+                    _selectedServiceIndex = 0;
+                  }
+                  
+                  // Filter out the 'additional' service from the top row
+                  List<BuyCylinderServiceModel> mainServices = cubit.services
+                      .where((service) => service.key != 'additional')
+                      .toList();
+                  
+                  // Get additional service if exists
+                  BuyCylinderServiceModel? additionalService = cubit.services
+                      .firstWhere((service) => service.key == 'additional', 
+                                orElse: () => BuyCylinderServiceModel.fromJson({'key': 'none'}));
+                  
+                  return ListView(
                     padding: EdgeInsets.symmetric(vertical: 20.h),
-                    itemCount: cubit.services.length + 1, // +1 for the summary widget that appears after "additional" section
-                    itemBuilder: (context, index) {
-                      if (index < cubit.services.length) {
-                        // Render normal service item
-                        final serviceItem = BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w);
-                        
-                        // Add a separator after each item except after the last service item
-                        if (index < cubit.services.length - 1) {
-                          return Column(
-                            children: [
-                              serviceItem,
-                              Container(
-                                width: context.w,
-                                height: 10.h,
-                                color: context.mainBorderColor.withValues(alpha: .5),
-                              ).withPadding(bottom: 15.h),
-                            ],
-                          );
-                        }
-                        
-                        // For the last service item (usually "additional"), don't add a separator after it
-                        return serviceItem;
-                      } else {
-                        // This is for the summary widget that appears after all services
-                        return SelectedItemsSummary(cubit: cubit);
-                      }
-                    },
+                    children: [
+                      // Service selector row (images side by side)
+                      _buildServiceSelectorRow(mainServices, context),
+                      
+                      SizedBox(height: 20.h),
+                      
+                      // Selected service details
+                      if (_selectedServiceIndex < mainServices.length)
+                        _buildSelectedServiceDetails(mainServices[_selectedServiceIndex], context),
+                      
+                      // Additional options (always visible)
+                      if (additionalService.key == 'additional')
+                        Column(
+                          children: [
+                            SizedBox(height: 20.h),
+                            AdditionalOptionsWidget(additionalService: additionalService),
+                          ],
+                        ),
+                      
+                      // Order summary
+                      SelectedItemsSummary(cubit: cubit),
+                    ],
                   );
                 } else {
                   return Center(child: CustomProgress(size: 30.w));
                 }
               }),
         ));
+  }
+
+  Widget _buildServiceSelectorRow(List<BuyCylinderServiceModel> services, BuildContext context) {
+    return Container(
+      height: 120.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          services.length,
+          (index) => GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedServiceIndex = index;
+              });
+            },
+            child: Container(
+              width: 100.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(
+                  color: _selectedServiceIndex == index 
+                    ? context.primaryColor 
+                    : context.borderColor,
+                  width: _selectedServiceIndex == index ? 2 : 1,
+                ),
+                color: _selectedServiceIndex == index 
+                  ? context.mainBorderColor.withOpacity(0.1)
+                  : Colors.transparent,
+              ),
+              padding: EdgeInsets.all(8.r),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomImage(
+                    services[index].image,
+                    height: 60.h,
+                    width: 60.h,
+                    borderRadius: BorderRadius.circular(4.r),
+                    backgroundColor: context.mainBorderColor,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    services[index].title,
+                    style: context.mediumText.copyWith(
+                      fontSize: 12.sp,
+                      color: _selectedServiceIndex == index 
+                        ? context.primaryColor 
+                        : context.borderColor,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectedServiceDetails(BuyCylinderServiceModel model, BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(color: context.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            model.title,
+            style: context.boldText.copyWith(fontSize: 16.sp),
+          ).withPadding(bottom: 16.h),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CustomImage(
+                        model.sub[index].image,
+                        height: 40.h,
+                        width: 40.h,
+                        borderRadius: BorderRadius.circular(4.r),
+                        backgroundColor: context.mainBorderColor,
+                      ).withPadding(end: 8.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            model.sub[index].title, 
+                            style: context.mediumText.copyWith(fontSize: 14.sp)
+                          ).withPadding(bottom: 4.h),
+                          Text(
+                            "${model.sub[index].price} ${LocaleKeys.currency.tr()}",
+                            style: context.mediumText.copyWith(
+                              fontSize: 14.sp, 
+                              color: context.secondaryColor
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  IncrementRow(model: model, index: index),
+                ],
+              ),
+            ),
+            itemCount: model.sub.length,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AdditionalOptionsWidget extends StatelessWidget {
+  final BuyCylinderServiceModel additionalService;
+
+  const AdditionalOptionsWidget({
+    super.key,
+    required this.additionalService,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          additionalService.title, 
+          style: context.boldText.copyWith(fontSize: 16)
+        ).withPadding(bottom: 16.h, horizontal: 16.w),
+        ...List.generate(
+          additionalService.sub.length,
+          (index) => Container(
+            margin: EdgeInsets.only(bottom: 12.h, left: 16.w, right: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 12.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r), 
+              border: Border.all(color: context.borderColor)
+            ),
+            child: Row(
+              children: [
+                CustomImage(
+                  additionalService.sub[index].image,
+                  height: 60.h,
+                  width: 60.h,
+                  borderRadius: BorderRadius.circular(4.r),
+                  backgroundColor: context.mainBorderColor,
+                ).withPadding(end: 8.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        additionalService.sub[index].title, 
+                        style: context.mediumText.copyWith(fontSize: 12)
+                      ).withPadding(bottom: 10.h),
+                      Text(
+                        "${additionalService.sub[index].price} ${LocaleKeys.currency.tr()}",
+                        style: context.mediumText.copyWith(
+                          fontSize: 14, 
+                          color: context.secondaryContainer
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IncrementRow(model: additionalService, index: index),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -236,26 +433,28 @@ class BuyOrRefillWidget extends StatelessWidget {
                 ),
               ],
             ).withPadding(horizontal: 8.w),
-            Divider(),
-            ListView.separated(
+            SizedBox(height: 16.h),
+            ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(model.sub[index].title, style: context.mediumText.copyWith(fontSize: 12)).withPadding(bottom: 5.h),
-                      Text("${model.sub[index].price} ${LocaleKeys.currency.tr()}",
-                          style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor)),
-                    ],
-                  ),
-                  IncrementRow(model: model, index: index),
-                ],
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(model.sub[index].title, style: context.mediumText.copyWith(fontSize: 12)).withPadding(bottom: 5.h),
+                        Text("${model.sub[index].price} ${LocaleKeys.currency.tr()}",
+                            style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor)),
+                      ],
+                    ),
+                    IncrementRow(model: model, index: index),
+                  ],
+                ),
               ),
-              separatorBuilder: (context, index) => Divider(),
               itemCount: model.sub.length,
             )
           ],
@@ -392,7 +591,7 @@ class SelectedItemsSummary extends StatelessWidget {
                   ],
                 ),
               )),
-              Divider(thickness: 1),
+              SizedBox(height: 16.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
