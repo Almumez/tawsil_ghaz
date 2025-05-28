@@ -103,23 +103,20 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
   
   // دالة لإنشاء قسم التعليمات
   Widget _buildInstructionsSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        // قائمة التعليمات
-        _buildInstructionItem(
+        _buildVerticalInstructionItem(
           context: context,
           icon: Icons.check_circle_outline,
           text: "اسطوانة نظيفة",
         ),
-        SizedBox(height: 10.h),
-        _buildInstructionItem(
+        _buildVerticalInstructionItem(
           context: context,
           icon: Icons.local_shipping_outlined,
           text: "توصل للباب",
         ),
-        SizedBox(height: 10.h),
-        _buildInstructionItem(
+        _buildVerticalInstructionItem(
           context: context,
           icon: Icons.handshake_outlined,
           text: "استلامك مسوؤليتك",
@@ -128,31 +125,32 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
     );
   }
   
-  // دالة لإنشاء عنصر تعليمة واحدة
-  Widget _buildInstructionItem({
+  // دالة لإنشاء عنصر تعليمة واحدة بشكل عمودي (أيقونة فوق النص)
+  Widget _buildVerticalInstructionItem({
     required BuildContext context, 
     required IconData icon, 
     required String text
   }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          size: 18.h,
-          color: context.primaryColor,
-        ),
-        SizedBox(width: 12.w),
-        Expanded(
-          child: Text(
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 24.h,
+            color: context.primaryColor,
+          ),
+          SizedBox(height: 6.h),
+          Text(
             text,
+            textAlign: TextAlign.center,
             style: context.regularText.copyWith(
-              fontSize: 13.sp,
-              height: 1.3,
+              fontSize: 12.sp,
+              height: 1.2,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
