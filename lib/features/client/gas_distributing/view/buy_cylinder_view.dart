@@ -145,10 +145,15 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                   return ListView(
                     padding: EdgeInsets.symmetric(vertical: 20.h),
                     children: [
+                      // Title "اختر" above service selector
+                      Text(
+                        "اختر",
+                        style: context.boldText.copyWith(fontSize: 16)
+                      ).withPadding(bottom: 16.h, horizontal: 16.w),
+                      
                       // Service selector row (images side by side)
                       _buildServiceSelectorRow(mainServices, context),
                       
-                      SizedBox(height: 2.h),
                       
                       // Selected service details
                       if (_selectedServiceIndex < mainServices.length)
@@ -158,7 +163,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                       if (additionalService.key == 'additional')
                         Column(
                           children: [
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 5.h),
                             AdditionalOptionsWidget(additionalService: additionalService),
                           ],
                         ),
@@ -202,7 +207,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                     color: _selectedServiceIndex == index
                       ? context.primaryColor
                       : const Color(0xFFF5F5F5), // Gray border for inactive cards
-                    width: _selectedServiceIndex == index ? 3 : 1, // Increased border width from 2 to 3
+                    width: _selectedServiceIndex == index ? 3 : 2, // Increased inactive border width to 2
                   ),
                 ),
                 padding: EdgeInsets.all(4.r),
@@ -240,7 +245,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
 
   Widget _buildSelectedServiceDetails(BuyCylinderServiceModel model, BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+      padding: EdgeInsets.only(top: 0, left: 16.w, right: 16.w, bottom: 16.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
         // Border is removed here
@@ -276,7 +281,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                             "${model.sub[index].price} ${LocaleKeys.currency.tr()}",
                             style: context.mediumText.copyWith(
                               fontSize: 14.sp, 
-                              color: context.secondaryColor
+                              color: Colors.black
                             ),
                           ),
                         ],
@@ -341,7 +346,7 @@ class AdditionalOptionsWidget extends StatelessWidget {
                         "${additionalService.sub[index].price} ${LocaleKeys.currency.tr()}",
                         style: context.mediumText.copyWith(
                           fontSize: 14, 
-                          color: context.secondaryContainer
+                          color: Colors.black
                         ),
                       ),
                     ],
@@ -577,7 +582,7 @@ class SelectedItemsSummary extends StatelessWidget {
                             "${item.total} ${LocaleKeys.currency.tr()}",
                             style: context.mediumText.copyWith(
                               fontSize: 14.sp,
-                              color: context.secondaryColor,
+                              color: Colors.black,
                             ),
                           ),
                         ],
@@ -598,7 +603,7 @@ class SelectedItemsSummary extends StatelessWidget {
                     "${totalPrice.toStringAsFixed(2)} ${LocaleKeys.currency.tr()}",
                     style: context.boldText.copyWith(
                       fontSize: 16.sp,
-                      color: context.primaryColor,
+                      color: Colors.black,
                     ),
                   ),
                 ],
