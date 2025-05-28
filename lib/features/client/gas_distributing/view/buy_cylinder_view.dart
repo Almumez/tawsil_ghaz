@@ -71,7 +71,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
               child: AppBtn(
                 loading: state.calculationsState.isLoading,
                 enable: state.serviceChosen!,
-                title: LocaleKeys.order_now.tr(),
+                title: "اطلب",
                 onPressed: () => cubit.calculateOrder(),
               ).withPadding(horizontal: 16.w, bottom: 16.h),
             );
@@ -186,11 +186,14 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomImage(
-                      services[index].image,
-                      height: 60.h,
-                      width: 60.h,
-                      borderRadius: BorderRadius.circular(4.r),
+                    Opacity(
+                      opacity: _selectedServiceIndex == index ? 1.0 : 0.6,
+                      child: CustomImage(
+                        services[index].image,
+                        height: 60.h,
+                        width: 60.h,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
                     ),
                     SizedBox(height: 8.h),
                     Text(
@@ -308,11 +311,14 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomImage(
-                            additionalService.sub[index].image,
-                            height: 60.h,
-                            width: 60.h,
-                            borderRadius: BorderRadius.circular(4.r),
+                          Opacity(
+                            opacity: _selectedAdditionalIndex == index ? 1.0 : 0.6,
+                            child: CustomImage(
+                              additionalService.sub[index].image,
+                              height: 60.h,
+                              width: 60.h,
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
                           ),
                           SizedBox(height: 8.h),
                           Text(
@@ -563,83 +569,81 @@ class SelectedItemsSummary extends StatelessWidget {
         // Calculate total price
         double totalPrice = selectedItems.fold(0, (sum, item) => sum + item.total);
         
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          padding: EdgeInsets.all(16.r),
-          decoration: BoxDecoration(
-            color: context.mainBorderColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(color: context.borderColor),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.shopping_cart, color: context.primaryColor),
-                  SizedBox(width: 8.w),
-                  Text(
-                    LocaleKeys.service_details.tr(),
-                    style: context.boldText.copyWith(fontSize: 16.sp),
-                  ),
-                ],
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // عنوان ملخص بنفس أسلوب ومكان "اختر"
+            Text(
+              "ملخص",
+              style: context.boldText.copyWith(fontSize: 16)
+            ).withPadding(bottom: 16.h, horizontal: 16.w),
+            
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
               ),
-              SizedBox(height: 16.h),
-              ...selectedItems.map((item) => Padding(
-                padding: EdgeInsets.only(bottom: 12.h),
-                child: Row(
-                  children: [
-                    if (item.image != null && item.image.isNotEmpty)
-                      CustomImage(
-                        item.image,
-                        height: 40.h,
-                        width: 40.h,
-                        borderRadius: BorderRadius.circular(4.r),
-                      ).withPadding(end: 8.w),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "${item.title} (${item.count}x)",
-                              style: context.mediumText.copyWith(fontSize: 14.sp),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ...selectedItems.map((item) => Padding(
+                    padding: EdgeInsets.only(bottom: 12.h),
+                    child: Row(
+                      children: [
+                        if (item.image != null && item.image.isNotEmpty)
+                          CustomImage(
+                            item.image,
+                            height: 40.h,
+                            width: 40.h,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ).withPadding(end: 8.w),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "${item.title} (${item.count}x)",
+                                  style: context.mediumText.copyWith(fontSize: 14.sp),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                "${item.total} ${LocaleKeys.currency.tr()}",
+                                style: context.mediumText.copyWith(
+                                  fontSize: 14.sp,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "${item.total} ${LocaleKeys.currency.tr()}",
-                            style: context.mediumText.copyWith(
-                              fontSize: 14.sp,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  )),
+                  SizedBox(height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "اجمالي",
+                        style: context.mediumText.copyWith(fontSize: 14.sp),
                       ),
-                    ),
-                  ],
-                ),
-              )),
-              SizedBox(height: 16.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    LocaleKeys.total.tr(),
-                    style: context.boldText.copyWith(fontSize: 16.sp),
-                  ),
-                  Text(
-                    "${totalPrice.toStringAsFixed(2)} ${LocaleKeys.currency.tr()}",
-                    style: context.boldText.copyWith(
-                      fontSize: 16.sp,
-                      color: Colors.black,
-                    ),
+                      Text(
+                        "${totalPrice.toStringAsFixed(2)} ${LocaleKeys.currency.tr()}",
+                        style: context.mediumText.copyWith(
+                          fontSize: 14.sp,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
