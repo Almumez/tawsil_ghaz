@@ -81,15 +81,22 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                 if (state.requestState.isError) {
                   return CustomErrorWidget(title: state.msg);
                 } else if (state.requestState.isDone) {
-                  return ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
-                    separatorBuilder: (context, index) => Container(
-                      width: context.w,
-                      height: 10.h,
-                      color: context.mainBorderColor.withValues(alpha: .5),
-                    ).withPadding(bottom: 15.h),
-                    itemCount: cubit.services.length,
-                    itemBuilder: (context, index) => BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w),
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.separated(
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
+                          separatorBuilder: (context, index) => Container(
+                            width: context.w,
+                            height: 10.h,
+                            color: context.mainBorderColor.withValues(alpha: .5),
+                          ).withPadding(bottom: 15.h),
+                          itemCount: cubit.services.length,
+                          itemBuilder: (context, index) => BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w),
+                        ),
+                      ),
+                      SelectedItemsSummary(cubit: cubit),
+                    ],
                   );
                 } else {
                   return Center(child: CustomProgress(size: 30.w));
@@ -229,4 +236,143 @@ class IncrementRow extends StatelessWidget {
       },
     );
   }
+}
+
+class SelectedItemsSummary extends StatelessWidget {
+  final ClientDistributeGasCubit cubit;
+
+  const SelectedItemsSummary({
+    super.key,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ClientDistributeGasCubit, ClientDistributeGasState>(
+      bloc: cubit,
+      builder: (context, state) {
+        // Get all selected items (count > 0) from all services
+        List<SelectedItemInfo> selectedItems = [];
+        
+        for (var service in cubit.services) {
+          for (var subItem in service.sub) {
+            if (subItem.count > 0) {
+              selectedItems.add(
+                SelectedItemInfo(
+                  title: subItem.title,
+                  price: double.tryParse(subItem.price.toString()) ?? 0.0,
+                  count: subItem.count,
+                  total: (double.tryParse(subItem.price.toString()) ?? 0.0) * subItem.count,
+                  image: subItem.image,
+                )
+              );
+            }
+          }
+        }
+        
+        if (selectedItems.isEmpty) {
+          return SizedBox.shrink();
+        }
+        
+        // Calculate total price
+        double totalPrice = selectedItems.fold(0, (sum, item) => sum + item.total);
+        
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          padding: EdgeInsets.all(16.r),
+          decoration: BoxDecoration(
+            color: context.mainBorderColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: context.borderColor),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.shopping_cart, color: context.primaryColor),
+                  SizedBox(width: 8.w),
+                  Text(
+                    LocaleKeys.service_details.tr(),
+                    style: context.boldText.copyWith(fontSize: 16.sp),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.h),
+              ...selectedItems.map((item) => Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: Row(
+                  children: [
+                    if (item.image != null && item.image.isNotEmpty)
+                      CustomImage(
+                        item.image,
+                        height: 40.h,
+                        width: 40.h,
+                        borderRadius: BorderRadius.circular(4.r),
+                        backgroundColor: context.mainBorderColor,
+                      ).withPadding(end: 8.w),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "${item.title} (${item.count}x)",
+                              style: context.mediumText.copyWith(fontSize: 14.sp),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            "${item.total} ${LocaleKeys.currency.tr()}",
+                            style: context.mediumText.copyWith(
+                              fontSize: 14.sp,
+                              color: context.secondaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+              Divider(thickness: 1),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    LocaleKeys.total.tr(),
+                    style: context.boldText.copyWith(fontSize: 16.sp),
+                  ),
+                  Text(
+                    "${totalPrice.toStringAsFixed(2)} ${LocaleKeys.currency.tr()}",
+                    style: context.boldText.copyWith(
+                      fontSize: 16.sp,
+                      color: context.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SelectedItemInfo {
+  final String title;
+  final double price;
+  final int count;
+  final double total;
+  final String image;
+
+  SelectedItemInfo({
+    required this.title,
+    required this.price,
+    required this.count,
+    required this.total,
+    required this.image,
+  });
 }
