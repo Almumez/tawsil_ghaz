@@ -47,6 +47,46 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
   Future<void> _refresh() async {
     await cubit.fetchServices();
   }
+  
+  void _addThirdServiceAfterFetch() {
+    // Add a mock third service if it doesn't exist yet and there are at least 2 services
+    if (cubit.services.length >= 2 && cubit.services.every((s) => s.key != 'third_service')) {
+      // Find the index of the 'additional' service (which should be last)
+      int additionalIndex = cubit.services.indexWhere((s) => s.key == 'additional');
+      
+      if (additionalIndex != -1) {
+        // Create mock sub items for the third service
+        List<BuyCylinderSubServiceModel> subItems = [
+          BuyCylinderSubServiceModel.fromJson({
+            'id': 'third_1',
+            'type': 'medium',
+            'title': 'اسطوانة متوسطة الحجم',
+            'price': '75.0',
+            'description': 'اسطوانة غاز صناعية متوسطة الحجم للاستخدامات المنزلية والتجارية',
+            'image': 'assets/images/cylinder_medium.png',
+          }),
+          BuyCylinderSubServiceModel.fromJson({
+            'id': 'third_2',
+            'type': 'large',
+            'title': 'اسطوانة كبيرة الحجم',
+            'price': '120.0',
+            'description': 'اسطوانة غاز صناعية كبيرة الحجم للاستخدامات الصناعية والتجارية',
+            'image': 'assets/images/cylinder_large.png',
+          }),
+        ];
+        
+        // Create the third service model
+        BuyCylinderServiceModel thirdService = BuyCylinderServiceModel.fromJson({
+          'key': 'third_service',
+          'image': 'assets/images/industrial_gas.png',
+          'sub': subItems.map((e) => e.toJson()).toList(),
+        });
+        
+        // Insert the third service before the 'additional' service
+        cubit.services.insert(additionalIndex, thirdService);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +121,9 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                 if (state.requestState.isError) {
                   return CustomErrorWidget(title: state.msg);
                 } else if (state.requestState.isDone) {
+                  // Add the third service after data is loaded
+                  _addThirdServiceAfterFetch();
+                  
                   return ListView.builder(
                     padding: EdgeInsets.symmetric(vertical: 20.h),
                     itemCount: cubit.services.length + 1, // +1 for the summary widget that appears after "additional" section
