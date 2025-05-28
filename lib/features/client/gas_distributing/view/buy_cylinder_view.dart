@@ -148,7 +148,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                       // Service selector row (images side by side)
                       _buildServiceSelectorRow(mainServices, context),
                       
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 2.h),
                       
                       // Selected service details
                       if (_selectedServiceIndex < mainServices.length)
