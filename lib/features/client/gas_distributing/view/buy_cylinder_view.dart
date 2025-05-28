@@ -240,15 +240,16 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: context.borderColor),
+        // Border is removed here
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            model.title,
+            model.key == "iron" ? "" : model.title, // Remove "اسطوانة حديد" by checking the key
             style: context.boldText.copyWith(fontSize: 16.sp),
           ).withPadding(bottom: 16.h),
+          // Text description is already removed
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
