@@ -108,9 +108,12 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                           children: [
                             SizedBox(height: 5.h),
                             // Title "خيارات إضافية" above options selector
-                            Text(
-                              "خيارات إضافية",
-                              style: context.boldText.copyWith(fontSize: 16)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                LocaleKeys.additional_options.tr(),
+                                style: context.boldText.copyWith(fontSize: 16),
+                              ),
                             ).withPadding(bottom: 16.h, horizontal: 16.w),
                             
                             // Get the additional service
