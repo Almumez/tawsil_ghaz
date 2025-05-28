@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/extensions.dart';
@@ -78,6 +79,9 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // قسم التعليمات في البداية
+            _buildInstructionsSection(context).withPadding(bottom: 15.h),
+            
             MyAddressWidgets(
               callback: (val) {
                 setState(() {
@@ -85,15 +89,70 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
                 });
               },
             ).withPadding(bottom: 10.h),
-            ServicePriceWidget().withPadding(bottom: 25.h),
+            ServicePriceWidget().withPadding(bottom: 15.h),
             PaymentMethodsView(
               callback: (v) {
                 cubit.paymentMethod = v;
               },
-            ).withPadding(bottom: 10.h),
+            ).withPadding(bottom: 15.h),
           ],
         ),
       ),
+    );
+  }
+  
+  // دالة لإنشاء قسم التعليمات
+  Widget _buildInstructionsSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // قائمة التعليمات
+        _buildInstructionItem(
+          context: context,
+          icon: Icons.check_circle_outline,
+          text: "اسطوانة نظيفة",
+        ),
+        SizedBox(height: 10.h),
+        _buildInstructionItem(
+          context: context,
+          icon: Icons.local_shipping_outlined,
+          text: "توصل للباب",
+        ),
+        SizedBox(height: 10.h),
+        _buildInstructionItem(
+          context: context,
+          icon: Icons.handshake_outlined,
+          text: "استلامك مسوؤليتك",
+        ),
+      ],
+    );
+  }
+  
+  // دالة لإنشاء عنصر تعليمة واحدة
+  Widget _buildInstructionItem({
+    required BuildContext context, 
+    required IconData icon, 
+    required String text
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          size: 18.h,
+          color: context.primaryColor,
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Text(
+            text,
+            style: context.regularText.copyWith(
+              fontSize: 13.sp,
+              height: 1.3,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
