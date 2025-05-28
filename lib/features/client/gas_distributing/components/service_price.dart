@@ -41,17 +41,13 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
         ).withPadding(bottom: 10.h),
         Container(
           padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
           child: Column(
             children: [
               ServiceItem(title: "خدمة", price: double.parse(cubit.state.orderPrices!.price.toString()).toStringAsFixed(2)),
-              Divider(height: 30.h),
               ServiceItem(title: "اضافات", price: double.parse(cubit.state.orderPrices!.additionalServicesFees.toString()).toStringAsFixed(2)),
-              Divider(height: 30.h),
               ServiceItem(title: "توصيل", price: double.parse(cubit.state.orderPrices!.deliveryFees.toString()).toStringAsFixed(2)),
-              Divider(height: 30.h),
               ServiceItem(title: "ضريبة", price: double.parse(cubit.state.orderPrices!.tax.toString()).toStringAsFixed(2)),
-              Divider(height: 30.h),
               ServiceItem(title: "اجمالي", price: double.parse(cubit.state.orderPrices!.totalPrice.toString()).toStringAsFixed(2)),
             ],
           ),
@@ -67,20 +63,23 @@ class ServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title, style: title == LocaleKeys.total.tr() ? context.boldText : context.regularText),
-        Text.rich(
-          TextSpan(
-            text: price,
-            style: context.boldText.copyWith(fontSize: 16),
-            children: [
-              TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.regularText.copyWith(fontSize: 16)),
-            ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 6.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: title == "اجمالي" ? context.boldText : context.regularText),
+          Text.rich(
+            TextSpan(
+              text: price,
+              style: context.boldText.copyWith(fontSize: 16),
+              children: [
+                TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.regularText.copyWith(fontSize: 16)),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

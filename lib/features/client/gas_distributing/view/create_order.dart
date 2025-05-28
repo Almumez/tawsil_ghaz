@@ -59,7 +59,7 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
           return SafeArea(
             child: AppBtn(
               loading: state.createOrderState.isLoading,
-              title: LocaleKeys.confirm.tr(),
+              title: "طلب",
               onPressed: () {
                 if (cubit.addressId == '') {
                   FlashHelper.showToast(LocaleKeys.choose_address_first.tr());

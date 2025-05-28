@@ -71,7 +71,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
               child: AppBtn(
                 loading: state.calculationsState.isLoading,
                 enable: state.serviceChosen!,
-                title: "اطلب",
+                title: "طلب",
                 onPressed: () => cubit.calculateOrder(),
               ).withPadding(horizontal: 16.w, bottom: 16.h),
             );

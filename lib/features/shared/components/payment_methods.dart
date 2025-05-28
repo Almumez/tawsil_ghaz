@@ -20,7 +20,7 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
   String paymentMethod = '';
 
   List<PaymentMethods> methods = [
-    PaymentMethods(image: "assets/svg/card.svg", title: LocaleKeys.online_payment.tr(), key: "visa"),
+    PaymentMethods(image: "assets/svg/card.svg", title: "الكتروني", key: "visa"),
     PaymentMethods(image: "assets/svg/cash.svg", title: LocaleKeys.cash.tr(), key: "cash"),
   ];
 
@@ -33,8 +33,8 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
           children: [
             SvgPicture.asset(
               'assets/svg/pay.svg',
-              height: 22.h,
-              width: 22.w,
+              height: 20.h,
+              width: 20.w,
             ),
             SizedBox(width: 8.w),
             Text("دفع", 
@@ -55,29 +55,54 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 10.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
                 child: Row(
                   children: [
                     SvgPicture.asset(
                       methods[index].image,
-                      height: 30.h,
-                      width: 30.h,
+                      height: 20.h,
+                      width: 20.h,
                     ),
-                    Expanded(child: Text(methods[index].title, style: context.mediumText.copyWith(fontSize: 16)).withPadding(start: 8.w)),
-                    Radio(
-                      value: methods[index].key,
-                      groupValue: paymentMethod,
-                      onChanged: (value) {
+                    Expanded(child: Text(methods[index].title, 
+                      style: context.mediumText.copyWith(
+                        fontSize: 14,
+                        color: paymentMethod == methods[index].key 
+                          ? context.primaryColor 
+                          : Colors.black,
+                      )
+                    ).withPadding(start: 8.w)),
+                    // Custom radio button
+                    GestureDetector(
+                      onTap: () {
                         setState(() {
                           paymentMethod = methods[index].key;
                           widget.callback(paymentMethod);
                         });
                       },
-                    )
+                      child: Container(
+                        width: 20.w,
+                        height: 20.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: paymentMethod == methods[index].key
+                              ? context.primaryColor
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: paymentMethod == methods[index].key
+                                ? context.primaryColor
+                                : Colors.grey.shade400,
+                            width: 1.5,
+                          ),
+                        ),
+                        margin: EdgeInsets.only(right: 8.w),
+                      ),
+                    ),
                   ],
                 ),
-              ).withPadding(bottom: 10.h),
+              ).withPadding(bottom: 8.h),
             );
           },
         )
