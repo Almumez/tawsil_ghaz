@@ -121,32 +121,45 @@ void switchAccountType() {
 }
 
 class BuildProfileList {
-  static List<ProfileItemModel> items = [
-    ProfileItemModel(image: Assets.svg.setting, title: LocaleKeys.settings, onTap: () => push(NamedRoutes.settings)),
+  static List<ProfileItemModel> clientItems = [
+    ProfileItemModel(
+      image: Assets.svg.setting, 
+      title: LocaleKeys.settings, 
+      onTap: () => push(NamedRoutes.settings)
+    ),
+    
     ProfileItemModel(
       image: 'assets/svg/information.svg', 
       title: LocaleKeys.information, 
       onTap: () => push(NamedRoutes.information),
     ),
-    if (UserModel.i.isAuth) ProfileItemModel(
+    
+    ProfileItemModel(
       image: 'assets/svg/receipt-disscount.svg', 
       title: LocaleKeys.offers, 
       onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.offers.tr()),
     ),
-    if (UserModel.i.isAuth) ProfileItemModel(
+    
+    ProfileItemModel(
       image: Assets.svg.walletIcon, 
       title: LocaleKeys.financial, 
-      onTap: () => push(NamedRoutes.wallet)),
-    ProfileItemModel(
-      image: 'assets/svg/user-add.svg', 
-      title: LocaleKeys.join, 
-      onTap: () => push(NamedRoutes.register, arg: {"type": UserType.freeAgent}),
+      onTap: () => push(NamedRoutes.wallet)
     ),
-    if (UserModel.i.isAuth) ProfileItemModel(
-      image: 'assets/svg/profile-2user.svg', 
-      title: LocaleKeys.switch_account, 
-      onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.switch_account.tr()),
-    ),
+    
+    if (!UserModel.i.isAuth) 
+      ProfileItemModel(
+        image: 'assets/svg/user-add.svg', 
+        title: LocaleKeys.join, 
+        onTap: () => push(NamedRoutes.register, arg: {"type": UserType.freeAgent}),
+      ),
+    
+    if (UserModel.i.isAuth) 
+      ProfileItemModel(
+        image: 'assets/svg/profile-2user.svg', 
+        title: LocaleKeys.switch_account, 
+        onTap: () => showComingSoonPopup(navigator.currentContext!, LocaleKeys.switch_account.tr()),
+      ),
+    
     ProfileItemModel(
       image: Assets.svg.logout, 
       title: UserModel.i.isAuth ? LocaleKeys.logout : LocaleKeys.login, 

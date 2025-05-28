@@ -70,18 +70,27 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   List<ProfileItemModel> _buildItems() {
-    if (UserModel.i.accountType == UserType.client) {
-      return BuildProfileList.items;
-    } else if (UserModel.i.accountType == UserType.agent) {
+    final userType = UserModel.i.accountType;
+    
+    // لطباعة معلومات تصحيح الخطأ
+    debugPrint('نوع المستخدم: ${UserModel.i.userType}, isAuth: ${UserModel.i.isAuth}');
+    
+    // للمستخدم العادي (client)
+    if (userType == UserType.client) {
+      debugPrint('استخدام قائمة المستخدم العادي');
+      return BuildProfileList.clientItems;
+    } else if (userType == UserType.agent) {
       return BuildProfileList.agentItems;
-    } else if (UserModel.i.accountType == UserType.freeAgent) {
+    } else if (userType == UserType.freeAgent) {
       return BuildProfileList.freeAgentItems;
-    } else if (UserModel.i.accountType == UserType.productAgent) {
+    } else if (userType == UserType.productAgent) {
       return BuildProfileList.productAgentItems;
-    } else if (UserModel.i.accountType == UserType.technician) {
+    } else if (userType == UserType.technician) {
       return BuildProfileList.technicianItems;
     } else {
-      return BuildProfileList.items;
+      // في حالة عدم تعرف نوع المستخدم، نستخدم قائمة المستخدم العادي كاحتياط
+      debugPrint('نوع المستخدم غير معروف، استخدام قائمة المستخدم العادي');
+      return BuildProfileList.clientItems;
     }
   }
 
@@ -95,6 +104,10 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    // ضمان أن لدينا قائمة العناصر
+    final profileItems = _buildItems();
+    debugPrint('عدد العناصر في القائمة: ${profileItems.length}');
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -107,6 +120,7 @@ class _ProfileViewState extends State<ProfileView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // عرض معلومات المستخدم إذا كان مسجل الدخول
               if (UserModel.i.isAuth)
                 InkWell(
                   onTap:() => push(NamedRoutes.editProfile),
@@ -137,70 +151,33 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ],
                   ),
-                ),
-                
-              // زر التحكم في خدمة تتبع الموقع للمندوب الحر
-              if (UserModel.i.isAuth && UserModel.i.accountType == UserType.freeAgent)
-                // Container(
-                //   margin: EdgeInsets.symmetric(vertical: 16.h),
-                //   decoration: BoxDecoration(
-                //     color: _isLocationTracking ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
-                //     borderRadius: BorderRadius.circular(12.r),
-                //     border: Border.all(
-                //       color: _isLocationTracking ? Colors.green : Colors.orange,
-                //       width: 1,
-                //     ),
-                //   ),
-                //   child: ListTile(
-                //     leading: Icon(
-                //       _isLocationTracking ? Icons.location_on : Icons.location_off,
-                //       color: _isLocationTracking ? Colors.green : Colors.orange,
-                //     ),
-                //     title: Text(
-                //       _isLocationTracking ? 'خدمة تتبع الموقع قيد التشغيل' : 'خدمة تتبع الموقع متوقفة',
-                //       style: context.mediumText.copyWith(
-                //         color: _isLocationTracking ? Colors.green : Colors.orange,
-                //       ),
-                //     ),
-                //     subtitle: Text(
-                //       _isLocationTracking
-                //           ? 'يتم إرسال موقعك إلى النظام كل 5 ثواني'
-                //           : 'اضغط للتشغيل',
-                //       style: context.regularText.copyWith(fontSize: 12.sp),
-                //     ),
-                //     trailing: Switch(
-                //       value: _isLocationTracking,
-                //       onChanged: (value) => _toggleLocationTracking(),
-                //       activeColor: Colors.green,
-                //     ),
-                //     onTap: _toggleLocationTracking,
-                //   ),
-                // ),
-                
+                ).withPadding(vertical: 15.h),
+              
+              // عرض عناصر القائمة
               ...List.generate(
-                _buildItems().length,
+                profileItems.length,
                 (index) => InkWell(
-                  onTap: _buildItems()[index].onTap,
+                  onTap: profileItems[index].onTap,
                   child: Row(
                     children: [
                       CustomRadiusIcon(
                         size: 40.h,
                         backgroundColor: Colors.transparent,
                         child: CustomImage(
-                          _buildItems()[index].image,
+                          profileItems[index].image,
                           height: 20.h,
                           width: 20.h,
-                          color: _buildItems()[index].isLogout ? context.errorColor : context.primaryColorDark,
+                          color: profileItems[index].isLogout ? context.errorColor : context.primaryColorDark,
                         ),
                       ).withPadding(end: 8.w),
                       Expanded(
                         child: Text(
-                          _buildItems()[index].title.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16, color: _buildItems()[index].isLogout ? context.errorColor : null),
+                          profileItems[index].title.tr(),
+                          style: context.mediumText.copyWith(fontSize: 16, color: profileItems[index].isLogout ? context.errorColor : null),
                         ),
                       ),
                     ],
-                  ).withPadding(vertical: 3 .h),
+                  ).withPadding(vertical: 8.h),
                 ),
               )
             ],
