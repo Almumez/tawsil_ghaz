@@ -238,7 +238,7 @@ class RequestGasWidget extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 15.h),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -264,9 +264,9 @@ class RequestGasWidget extends StatelessWidget {
               radius: 50.r,
               backgroundColor: Colors.white,
               child: Image.asset(
-                image,
-                height: 80.h,
-                width: 80.w,
+                "assets/images/tree_gas.png",
+                height: 75.h,
+                width: 75.w,
                 fit: BoxFit.contain,
               ),
             ),
