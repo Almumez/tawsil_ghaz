@@ -12,10 +12,9 @@ import '../../../../gen/locale_keys.g.dart';
 import '../../../shared/components/appbar.dart';
 import '../../../shared/pages/navbar/cubit/navbar_cubit.dart';
 import '../../addresses/components/my_addresses.dart';
-import '../components/additional_services.dart';
+// import '../components/additional_services.dart';
 import '../../../shared/components/payment_methods.dart';
 import '../components/service_price.dart';
-import '../components/service_type.dart';
 import '../controller/cubit.dart';
 import '../controller/states.dart';
 
@@ -32,7 +31,7 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: LocaleKeys.order_details.tr()),
+      appBar: CustomAppbar(title: "تفاصيل"),
       bottomNavigationBar: BlocConsumer<ClientDistributeGasCubit, ClientDistributeGasState>(
         bloc: cubit,
         buildWhen: (previous, current) => previous.createOrderState != current.createOrderState,
@@ -86,8 +85,6 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
                 });
               },
             ).withPadding(bottom: 10.h),
-            ServiceTypeSummaryWidget().withPadding(bottom: 10.h),
-            AdditionalServicesSummaryWidget().withPadding(bottom: 10.h),
             ServicePriceWidget().withPadding(bottom: 25.h),
             PaymentMethodsView(
               callback: (v) {

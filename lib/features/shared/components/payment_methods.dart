@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/svg.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../core/widgets/custom_image.dart';
 import '../../../gen/assets.gen.dart';
@@ -20,10 +20,8 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
   String paymentMethod = '';
 
   List<PaymentMethods> methods = [
-    PaymentMethods(image: Assets.images.creditCard.path, title: LocaleKeys.online_payment.tr(), key: "visa"),
-    // PaymentMethods(image: Assets.images.mada.path, title: LocaleKeys.mada.tr(), key: "mada"),
-    PaymentMethods(image: Assets.images.cash.path, title: LocaleKeys.cash.tr(), key: "cash"),
-    // PaymentMethods(image: Assets.images.applePay.path, title: LocaleKeys.apple_pay.tr(), key: "applePay"),
+    PaymentMethods(image: "assets/svg/card.svg", title: LocaleKeys.online_payment.tr(), key: "visa"),
+    PaymentMethods(image: "assets/svg/cash.svg", title: LocaleKeys.cash.tr(), key: "cash"),
   ];
 
   @override
@@ -49,7 +47,11 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
                 child: Row(
                   children: [
-                    CustomImage(methods[index].image, height: 30.h, width: 30.h),
+                    SvgPicture.asset(
+                      methods[index].image,
+                      height: 30.h,
+                      width: 30.h,
+                    ),
                     Expanded(child: Text(methods[index].title, style: context.mediumText.copyWith(fontSize: 16)).withPadding(start: 8.w)),
                     Radio(
                       value: methods[index].key,

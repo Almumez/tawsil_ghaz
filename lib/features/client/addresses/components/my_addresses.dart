@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/routes/routes.dart';
@@ -46,7 +47,52 @@ class _MyAddressWidgetsState extends State<MyAddressWidgets> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("• ${LocaleKeys.my_address.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 15.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/svg/location-2.svg',
+                        height: 22.h,
+                        width: 22.w,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text("موقع", 
+                        style: context.semiboldText.copyWith(fontSize: 16)
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () => push(NamedRoutes.pickLocation),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                      decoration: BoxDecoration(
+                        color: context.primaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add_circle_outline,
+                            color: context.primaryColor,
+                            size: 16.h,
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            "اضافه",
+                            style: context.mediumText.copyWith(
+                              fontSize: 14.sp,
+                              color: context.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ).withPadding(bottom: 16.h),
+              
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -60,42 +106,61 @@ class _MyAddressWidgetsState extends State<MyAddressWidgets> {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                      padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 10.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.r), 
+                        border: Border.all(
+                          color: selectedOption == cubit.addresses[index].id 
+                            ? context.primaryColor 
+                            : context.borderColor,
+                          width: selectedOption == cubit.addresses[index].id ? 1.5 : 1,
+                        ),
+                      ),
                       child: Row(
                         children: [
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(cubit.addresses[index].placeTitle, style: context.mediumText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
-                                Text(cubit.addresses[index].placeDescription, style: context.regularText.copyWith(fontSize: 12)),
+                                Text(
+                                  cubit.addresses[index].placeTitle, 
+                                  style: context.mediumText.copyWith(
+                                    fontSize: 13,
+                                    color: selectedOption == cubit.addresses[index].id 
+                                      ? context.primaryColor 
+                                      : Colors.black,
+                                  )
+                                ).withPadding(bottom: 4.h),
+                                Text(
+                                  cubit.addresses[index].placeDescription, 
+                                  style: context.regularText.copyWith(fontSize: 10),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
                           ),
-                          Radio(
-                            value: cubit.addresses[index].id,
-                            groupValue: selectedOption,
-                            onChanged: (value) {
-                              setState(() {
-                                widget.callback(cubit.addresses[index].id);
-                                selectedOption = cubit.addresses[index].id;
-                              });
-                            },
+                          Transform.scale(
+                            scale: 0.9,
+                            child: Radio(
+                              value: cubit.addresses[index].id,
+                              groupValue: selectedOption,
+                              activeColor: context.primaryColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  widget.callback(cubit.addresses[index].id);
+                                  selectedOption = cubit.addresses[index].id;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ).withPadding(bottom: 10.h),
+                    ).withPadding(bottom: 8.h),
                   );
                 },
               ),
-              AppBtn(
-                title: LocaleKeys.add_new_address.tr(),
-                backgroundColor: Colors.transparent,
-                textColor: context.primaryColor,
-                icon: Icon(Icons.add),
-                onPressed: () => push(NamedRoutes.pickLocation),
-              ).withPadding(vertical: 15.h)
             ],
           );
         } else {
