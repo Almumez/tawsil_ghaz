@@ -600,25 +600,20 @@ class SelectedItemsSummary extends StatelessWidget {
                                 width: 40.h,
                                 borderRadius: BorderRadius.circular(4.r),
                               ).withPadding(end: 8.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${item.title} (${item.count}x)",
-                                  style: context.mediumText.copyWith(fontSize: 14.sp),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ).withPadding(bottom: 4.h),
-                                Text(
-                                  "${item.total} ${LocaleKeys.currency.tr()}",
-                                  style: context.mediumText.copyWith(
-                                    fontSize: 14.sp,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              "${item.title} (${item.count}x)",
+                              style: context.mediumText.copyWith(fontSize: 14.sp),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
+                        ),
+                        Text(
+                          "${item.total} ${LocaleKeys.currency.tr()}",
+                          style: context.mediumText.copyWith(
+                            fontSize: 14.sp,
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),
@@ -628,9 +623,17 @@ class SelectedItemsSummary extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "اجمالي",
-                          style: context.mediumText.copyWith(fontSize: 14.sp),
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 40.h,
+                              width: 40.h,
+                            ).withPadding(end: 8.w),
+                            Text(
+                              "اجمالي",
+                              style: context.mediumText.copyWith(fontSize: 14.sp),
+                            ),
+                          ],
                         ),
                         Text(
                           "${totalPrice.toStringAsFixed(2)} ${LocaleKeys.currency.tr()}",
