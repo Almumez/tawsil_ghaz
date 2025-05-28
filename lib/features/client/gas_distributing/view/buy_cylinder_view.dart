@@ -32,7 +32,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
   // Track the selected service index
   int _selectedServiceIndex = 0;
   // Track the selected additional option index
-  int _selectedAdditionalIndex = 0;
+  int _selectedAdditionalIndex = -1;
 
   @override
   void initState() {
@@ -130,6 +130,7 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                                     
                                     // Selected additional option details
                                     if (additionalService.sub.isNotEmpty && 
+                                        _selectedAdditionalIndex >= 0 &&
                                         _selectedAdditionalIndex < additionalService.sub.length)
                                       _buildSelectedAdditionalDetails(additionalService, _selectedAdditionalIndex, context),
                                   ],
@@ -337,6 +338,9 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
   }
 
   Widget _buildSelectedAdditionalDetails(BuyCylinderServiceModel additionalService, int selectedIndex, BuildContext context) {
+    // Don't show any details if no option is selected
+    if (selectedIndex < 0) return SizedBox.shrink();
+    
     final selectedOption = additionalService.sub[selectedIndex];
     
     return Container(
