@@ -81,22 +81,35 @@ class _BuyCylinderViewState extends State<BuyCylinderView> {
                 if (state.requestState.isError) {
                   return CustomErrorWidget(title: state.msg);
                 } else if (state.requestState.isDone) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          padding: EdgeInsets.symmetric(vertical: 20.h),
-                          separatorBuilder: (context, index) => Container(
-                            width: context.w,
-                            height: 10.h,
-                            color: context.mainBorderColor.withValues(alpha: .5),
-                          ).withPadding(bottom: 15.h),
-                          itemCount: cubit.services.length,
-                          itemBuilder: (context, index) => BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w),
-                        ),
-                      ),
-                      SelectedItemsSummary(cubit: cubit),
-                    ],
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    itemCount: cubit.services.length + 1, // +1 for the summary widget that appears after "additional" section
+                    itemBuilder: (context, index) {
+                      if (index < cubit.services.length) {
+                        // Render normal service item
+                        final serviceItem = BuyOrRefillWidget(cubit: cubit, i: index).withPadding(bottom: 16.h, horizontal: 4.w);
+                        
+                        // Add a separator after each item except after the last service item
+                        if (index < cubit.services.length - 1) {
+                          return Column(
+                            children: [
+                              serviceItem,
+                              Container(
+                                width: context.w,
+                                height: 10.h,
+                                color: context.mainBorderColor.withValues(alpha: .5),
+                              ).withPadding(bottom: 15.h),
+                            ],
+                          );
+                        }
+                        
+                        // For the last service item (usually "additional"), don't add a separator after it
+                        return serviceItem;
+                      } else {
+                        // This is for the summary widget that appears after all services
+                        return SelectedItemsSummary(cubit: cubit);
+                      }
+                    },
                   );
                 } else {
                   return Center(child: CustomProgress(size: 30.w));
