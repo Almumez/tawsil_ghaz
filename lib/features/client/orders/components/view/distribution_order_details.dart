@@ -53,13 +53,12 @@ class ClientDistributionOrderDetails extends StatelessWidget {
         children: [
           _buildAgentInfoCard(context),
           
-          _buildSectionHeader(context, LocaleKeys.service_type.tr(), 'assets/svg/orders_out.svg'),
           ...List.generate(
             data.orderServices.length,
             (index) {
               final service = data.orderServices[index];
               if (!service.isService) return SizedBox();
-              return _buildServiceCard(context, service);
+              return _buildServiceCard(context, service, isFirst: index == 0);
             },
           ),
           if (data.orderServices.any((e) => !e.isService)) ...[
@@ -126,7 +125,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   Widget _buildAgentInfoCard(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 20.h),
+      margin: EdgeInsets.only(bottom: 0.h),
       padding: EdgeInsets.all(16.w),
     
       child: ClientOrderAgentItem(data: data),
@@ -158,7 +157,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCard(BuildContext context, dynamic service) {
+  Widget _buildServiceCard(BuildContext context, dynamic service, {bool isFirst = false}) {
     return Container(
       width: context.w,
       margin: EdgeInsets.zero,
@@ -168,12 +167,22 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       ),
       child: Row(
         children: [
+          if (isFirst)
+            SvgPicture.asset(
+              'assets/svg/orders_out.svg',
+              height: 24.h,
+              width: 24.w,
+              colorFilter: ColorFilter.mode(
+                context.primaryColor,
+                BlendMode.srcIn,
+              ),
+            ).withPadding(end: 8.w),
           CustomImage(
             service.image,
             height: 45.sp,
             width: 45.sp,
             borderRadius: BorderRadius.circular(8.r),
-          ).withPadding(end: 16.w),
+          ).withPadding(end: 16.w,),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -199,7 +208,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
             ),
           ),
         ],
-      ).withPadding(start: 35.w),
+      ).withPadding(start: isFirst ? 15.w : 45.w),
     );
   }
   
@@ -246,7 +255,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ),
         ],
       ),
-    ).withPadding(start: 35.w);
+    ).withPadding(start: 45.w);
   }
   
   Widget _buildAddressCard(BuildContext context) {
