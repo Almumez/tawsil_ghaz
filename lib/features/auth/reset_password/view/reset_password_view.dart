@@ -51,11 +51,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   SizedBox(height: 80.h),
                   CustomImage(Assets.images.logo.path, height: 42.2.h),
                   SizedBox(height: 45.h),
-                  Text(LocaleKeys.reset_password.tr(), style: context.boldText.copyWith(fontSize: 24)),
+                  Text(LocaleKeys.reset_password.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                   SizedBox(height: 12.h),
                   Text(
                     LocaleKeys.the_password_must_not_be_less_than_8_numbers.tr(),
-                    style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                    style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),
                   ),
                   SizedBox(height: 24.h),
                   AppField(

@@ -31,10 +31,10 @@ class _SuccessCompleteDataViewState extends State<SuccessCompleteDataView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(LocaleKeys.request_to_create_an_account.tr(), style: context.boldText.copyWith(fontSize: 24)).center.withPadding(bottom: 10.h),
+          Text(LocaleKeys.request_to_create_an_account.tr(), style: context.mediumText.copyWith(fontSize: 20)).center.withPadding(bottom: 10.h),
           Text(
             LocaleKeys.request_to_create_an_account_pending_admin_approval.tr(),
-            style: context.regularText.copyWith(fontSize: 16, color: context.hintColor),
+            style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),
             textAlign: TextAlign.center,
           ).center,
         ],

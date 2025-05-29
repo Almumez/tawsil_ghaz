@@ -59,7 +59,7 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                   SizedBox(height: 80.h),
                   Center(child: CustomImage("assets/images/splash.png", height: 100.2.h)),
                   SizedBox(height: 45.h),
-                  Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 24, color: Colors.black))),
+                  Center(child: Text(LocaleKeys.confirm_identity.tr(), style: context.mediumText.copyWith(fontSize: 20, color: Colors.black))),
                   SizedBox(height: 24.h),
                   Center(
                     child: Text.rich(
@@ -70,12 +70,12 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                           ),
                           TextSpan(
                             text: context.locale.languageCode == "en" ? ' +${bloc.phoneCode}${bloc.phone} ' : ' ${bloc.phoneCode}${bloc.phone}+ ',
-                            style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                            style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                             locale: Locale('en'),
                           ),
 
                         ],
-                        style: context.regularText.copyWith(fontSize: 16, color: Colors.black),
+                        style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                       ),
                     ),
                   ),
@@ -102,7 +102,7 @@ class _VerifyPhoneViewState extends State<VerifyPhoneView> {
                     },
                     child: Text(
                       LocaleKeys.edit_phone.tr(),
-                      style: context.boldText.copyWith(fontSize: 14, color: Colors.black),
+                      style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                     ),
                   ),
                   CustomPinCode(controller: bloc.code).withPadding(vertical: 16.h),

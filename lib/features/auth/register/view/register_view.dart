@@ -67,7 +67,7 @@ class _RegisterViewState extends State<RegisterView> {
                   Text(
                     "تسجيل",
                     textAlign: TextAlign.center,
-                    style: context.boldText.copyWith(fontSize: 24),
+                    style: context.mediumText.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 45.h),
                   AppField(
@@ -95,7 +95,7 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Text(
                             textAlign: TextAlign.left,
                             "+966",
-                            style: context.regularText.copyWith(fontSize: 14),
+                            style: context.mediumText.copyWith(fontSize: 14),
                           ),
                         ),
                       ],
@@ -153,7 +153,7 @@ class _RegisterViewState extends State<RegisterView> {
                         TextSpan(
                           text: LocaleKeys.login.tr(),
                           recognizer: TapGestureRecognizer()..onTap = () => replacement(NamedRoutes.login),
-                          style: context.mediumText.copyWith(fontSize: 16, color: Color(0xff000000)),
+                          style: context.mediumText.copyWith(fontSize: 14, color: Color(0xff000000)),
                         ),
                       ],
                     ),

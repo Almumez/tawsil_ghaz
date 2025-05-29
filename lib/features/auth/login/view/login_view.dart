@@ -78,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
                   Text(
                     " دخول",
                     textAlign: TextAlign.center,
-                    style:  context.boldText.copyWith(fontSize: 24),
+                    style:  context.mediumText.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 45.h),
                   AppField(
@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                          textAlign: TextAlign.left,
                             // textDirection:  TextDirection.LTR,
                             "+966",
-                            style: context.regularText.copyWith(fontSize: 14),
+                            style: context.mediumText.copyWith(fontSize: 14),
                           ),
                         ),
 
@@ -123,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => push(NamedRoutes.forgetPassword),
                     ),
-                    style: context.regularText.copyWith(fontSize: 14),
+                    style: context.mediumText.copyWith(fontSize: 14),
                   ).withPadding(vertical: 8.h,horizontal: 8.w),
                   SizedBox(height: 24.h),
                   BlocConsumer<LoginCubit, LoginState>(
@@ -179,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
                               });
                             },
                           style: context.mediumText
-                              .copyWith(fontSize: 16, color: Color(0xff000000)),
+                              .copyWith(fontSize: 14, color: Color(0xff000000)),
                         ),
                       ],
                     ),

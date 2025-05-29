@@ -50,11 +50,11 @@ class _CompleteDataViewState extends State<CompleteDataView> {
                 SizedBox(height: 80.h),
                 CustomImage(Assets.images.logo.path, height: 42.2.h),
                 SizedBox(height: 17.h),
-                Text(LocaleKeys.complete_registration.tr(), style: context.boldText.copyWith(fontSize: 24)),
+                Text(LocaleKeys.complete_registration.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                 SizedBox(height: 12.h),
                 Text(
                   LocaleKeys.please_enter_this_information_to_continue_registering_and_enjoy_our_services.tr(),
-                  style: context.regularText.copyWith(fontSize: 16, color: context.hintColor),
+                  style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),
                 ).withPadding(bottom: 19.h),
                 Expanded(
                   child: SingleChildScrollView(
@@ -92,7 +92,7 @@ class _CompleteDataViewState extends State<CompleteDataView> {
                                 });
                               },
                             ),
-                            Text(LocaleKeys.accept_terms.tr())
+                            Text(LocaleKeys.accept_terms.tr(), style: context.mediumText.copyWith(fontSize: 14))
                           ],
                         ),
                         BlocConsumer<CompleteDataCubit, CompleteDataState>(

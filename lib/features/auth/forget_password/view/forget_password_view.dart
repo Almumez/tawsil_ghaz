@@ -49,13 +49,13 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   Text(
                     LocaleKeys.reset_password.tr(),
                     textAlign: TextAlign.center,
-                    style: context.boldText.copyWith(fontSize: 24),
+                    style: context.mediumText.copyWith(fontSize: 20),
                   ),
                   SizedBox(height: 16.h),
                   // Text(
                   //   LocaleKeys.please_enter_the_phone_number_below_to_reset_your_password.tr(),
                   //   textAlign: TextAlign.center,
-                  //   style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                  //   style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),
                   // ),
                   SizedBox(height: 45.h),
                   AppField(
@@ -77,7 +77,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                           child: Text(
                             textAlign: TextAlign.left,
                             "+${cubit.country?.phoneCode ?? '966'}",
-                            style: context.regularText.copyWith(fontSize: 14),
+                            style: context.mediumText.copyWith(fontSize: 14),
                           ),
                         ),
                       ],
