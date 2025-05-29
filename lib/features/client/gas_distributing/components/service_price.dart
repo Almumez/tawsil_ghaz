@@ -68,13 +68,13 @@ class ServiceItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: title == "اجمالي" ? context.boldText : context.regularText),
+          Text(title, style: title == "اجمالي" ? context.mediumText.copyWith(fontSize: 14.sp) : context.mediumText.copyWith(fontSize: 14.sp)),
           Text.rich(
             TextSpan(
               text: price,
-              style: context.boldText.copyWith(fontSize: 16),
+              style: context.mediumText.copyWith(fontSize: 14.sp),
               children: [
-                TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.regularText.copyWith(fontSize: 16)),
+                TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.mediumText.copyWith(fontSize: 14.sp)),
               ],
             ),
           ),
