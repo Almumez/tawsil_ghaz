@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/utils/extensions.dart';
 import '../../../../gen/locale_keys.g.dart';
@@ -26,13 +27,64 @@ class ClientBillWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRow("خدمة", data.price, context),
+          _buildServiceRow(context, data.price),
           if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context),
           if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context),
           if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
           if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
           SizedBox(height: 8.h),
           _buildRow("اجمالي", data.totalPrice, context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceRow(BuildContext context, num value) {
+    // Format the number to remove decimal places if they're zeros
+    String formattedValue = value.toStringAsFixed(2);
+    if (formattedValue.endsWith('.00')) {
+      formattedValue = value.toInt().toString();
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/svg/pay.svg',
+            height: 20.h,
+            width: 20.w,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Expanded(
+            child: Text(
+              "خدمة",
+              style: context.mediumText.copyWith(
+                fontSize: 14.sp,
+              ),
+            ),
+          ),
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(
+                text: formattedValue,
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                ),
+              ),
+              TextSpan(
+                text: " ${LocaleKeys.sar.tr()}",
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                ),
+              ),
+            ]),
+          ),
         ],
       ),
     );
