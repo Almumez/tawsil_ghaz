@@ -39,11 +39,11 @@ class ClientProductOrderDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
+    return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ClientOrderAgentItem(data: data).withPadding(bottom: 16.w),
           ProductServiceType(data: data).withPadding(bottom: 16.w),

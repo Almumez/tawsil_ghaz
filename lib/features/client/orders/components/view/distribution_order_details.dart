@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/widgets/custom_image.dart';
 import '../../../../../core/widgets/custom_radius_icon.dart';
 import '../agnent_item.dart';
@@ -44,114 +45,251 @@ class ClientDistributionOrderDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
+    return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ClientOrderAgentItem(data: data),
-          Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)),
-          SizedBox(height: 5.h),
+          _buildAgentInfoCard(context),
+          _buildSectionHeader(context, LocaleKeys.service_type.tr()),
           ...List.generate(
             data.orderServices.length,
             (index) {
               final service = data.orderServices[index];
               if (!service.isService) return SizedBox();
-              return Container(
-                width: context.w,
-                margin: EdgeInsets.symmetric(vertical: 5.h),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
-                child: Row(
-                  children: [
-                    CustomRadiusIcon(
-                      size: 80.sp,
-                      borderRadius: BorderRadius.circular(4.r),
-                      backgroundColor: '#F0F0F5'.color,
-                      child: CustomImage(
-                        service.image,
-                        height: 64.sp,
-                        width: 64.sp,
-                      ),
-                    ).withPadding(end: 10.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(service.title, style: context.mediumText.copyWith(fontSize: 16)).withPadding(bottom: 8.h),
-                          Text(
-                            "${LocaleKeys.quantity.tr()} : ${service.count}",
-                            style: context.mediumText.copyWith(fontSize: 16, color: context.secondaryColor),
-                          ).withPadding(bottom: 5.h),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
+              return _buildServiceCard(context, service);
             },
           ),
           if (data.orderServices.any((e) => !e.isService)) ...[
-            SizedBox(height: 10.h),
-            Text("• ${LocaleKeys.additional_options.tr()}", style: context.semiboldText.copyWith(fontSize: 16)),
-            SizedBox(height: 5.h),
+            SizedBox(height: 16.h),
+            _buildSectionHeader(context, LocaleKeys.additional_options.tr()),
             ...List.generate(
               data.orderServices.length,
               (index) {
                 final service = data.orderServices[index];
                 if (service.isService) return SizedBox();
-                return Container(
-                  width: context.w,
-                  margin: EdgeInsets.symmetric(vertical: 5.h),
-                  padding: EdgeInsets.all(8.w),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#E5E6E1'.color)),
-                  child: Row(
-                    children: [
-                      CustomRadiusIcon(
-                        size: 60.sp,
-                        borderRadius: BorderRadius.circular(4.r),
-                        backgroundColor: '#F0F0F5'.color,
-                        child: CustomImage(
-                          service.image,
-                        ),
-                      ).withPadding(end: 10.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(service.title, style: context.mediumText.copyWith(fontSize: 12)).withPadding(bottom: 8.h),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "${service.price}${LocaleKeys.sar.tr()} ",
-                                    style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
-                                  ).withPadding(bottom: 5.h),
-                                ),
-                                Text(
-                                  "${LocaleKeys.quantity.tr()} : ${service.count}",
-                                  style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildAdditionalServiceCard(context, service);
               },
             ),
           ],
-          OrderDetailsAddressItem(
-            lable: LocaleKeys.site_address.tr(),
-            title: data.address.placeTitle,
-            description: data.address.placeDescription,
-          ),
+          SizedBox(height: 16.h),
+          _buildSectionHeader(context, LocaleKeys.site_address.tr()),
+          _buildAddressCard(context),
           OrderPaymentItem(data: data),
           ClientBillWidget(data: data),
         ],
+      ),
+    );
+  }
+  
+  Widget _buildAgentInfoCard(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 20.h),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: context.borderColor.withOpacity(0.5)),
+      ),
+      child: ClientOrderAgentItem(data: data),
+    );
+  }
+  
+  Widget _buildSectionHeader(BuildContext context, String title) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            'assets/svg/circle_check.svg',
+            height: 20.h,
+            width: 20.w,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Text(
+            title,
+            style: context.semiboldText.copyWith(fontSize: 16.sp),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildServiceCard(BuildContext context, dynamic service) {
+    return Container(
+      width: context.w,
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: context.borderColor.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          CustomRadiusIcon(
+            size: 80.sp,
+            borderRadius: BorderRadius.circular(8.r),
+            backgroundColor: '#F0F0F5'.color,
+            child: CustomImage(
+              service.image,
+              height: 64.sp,
+              width: 64.sp,
+            ),
+          ).withPadding(end: 16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  service.title,
+                  style: context.semiboldText.copyWith(fontSize: 16.sp),
+                ).withPadding(bottom: 8.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  decoration: BoxDecoration(
+                    color: context.primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Text(
+                    "${LocaleKeys.quantity.tr()} : ${service.count}",
+                    style: context.mediumText.copyWith(
+                      fontSize: 14.sp,
+                      color: context.primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildAdditionalServiceCard(BuildContext context, dynamic service) {
+    return Container(
+      width: context.w,
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: context.borderColor.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          CustomRadiusIcon(
+            size: 60.sp,
+            borderRadius: BorderRadius.circular(8.r),
+            backgroundColor: '#F0F0F5'.color,
+            child: CustomImage(
+              service.image,
+              height: 48.sp,
+              width: 48.sp,
+            ),
+          ).withPadding(end: 16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  service.title,
+                  style: context.semiboldText.copyWith(fontSize: 14.sp),
+                ).withPadding(bottom: 8.h),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: context.secondaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        "${service.price}${LocaleKeys.sar.tr()}",
+                        style: context.mediumText.copyWith(
+                          fontSize: 12.sp,
+                          color: context.secondaryColor,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: context.primaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        "${LocaleKeys.quantity.tr()} : ${service.count}",
+                        style: context.mediumText.copyWith(
+                          fontSize: 12.sp,
+                          color: context.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildAddressCard(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 20.h),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: context.borderColor.withOpacity(0.3)),
+      ),
+      child: OrderDetailsAddressItem(
+        lable: "",
+        title: data.address.placeTitle,
+        description: data.address.placeDescription,
       ),
     );
   }

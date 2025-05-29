@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/routes/app_routes_fun.dart';
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/utils/pull_to_refresh.dart';
@@ -12,7 +13,6 @@ import 'rate_agent.dart';
 import '../../../shared/controller/cancel_reasons/states.dart';
 import '../../../../models/cancel_reasons.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/routes/routes.dart';
 import '../../../../core/services/service_locator.dart';
@@ -45,27 +45,188 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
     cubit.getDetails(id: widget.id, type: widget.type);
   }
 
-  Widget buildBody(ClientOrderModel data) {
+  // Construir la sección de estado del pedido
+  Widget _buildOrderStatusSection(ClientOrderModel data) {
+    final Map<String, Color> statusColors = {
+      'pending': "#CE6518".color,
+      'accepted': "#168836".color,
+      'completed': "#168836".color,
+      'canceled': "#E53935".color,
+      'on_way': "#168836".color,
+      'checked': "#168836".color,
+    };
+    
+    final Map<String, String> statusIcons = {
+      'pending': 'assets/svg/time.svg',
+      'accepted': 'assets/svg/check_circle.svg',
+      'completed': 'assets/svg/check_circle.svg',
+      'canceled': 'assets/svg/cancel.svg',
+      'on_way': 'assets/svg/delivery.svg',
+      'checked': 'assets/svg/check_circle.svg',
+    };
+    
+    final Map<String, String> statusMessages = {
+      'pending': "",
+      'accepted': "",
+      'completed': LocaleKeys.service_completed.tr(),
+      'canceled': LocaleKeys.cancel_order.tr(),
+      'on_way': LocaleKeys.tracking_delivery.tr(),
+      'checked': LocaleKeys.check_now.tr(),
+    };
+    
+    if (data.status == 'pending' || data.status == 'accepted') {
+      return SizedBox.shrink();
+    }
+    
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+      margin: EdgeInsets.only(bottom: 16.h),
+      decoration: BoxDecoration(
+        color: statusColors[data.status]?.withOpacity(0.1) ?? Colors.grey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(color: statusColors[data.status] ?? Colors.grey, width: 1),
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            statusIcons[data.status] ?? 'assets/svg/time.svg',
+            height: 24.h,
+            width: 24.w,
+            colorFilter: ColorFilter.mode(
+              statusColors[data.status] ?? Colors.grey,
+              BlendMode.srcIn,
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              statusMessages[data.status] ?? '',
+              style: context.mediumText.copyWith(
+                fontSize: 14.sp,
+                color: statusColors[data.status] ?? Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  // Construir la sección de instrucciones similar a create_order.dart
+  Widget _buildInstructionsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Show tracking map when order status is 'accepted'
-        if (data.status == 'accepted')
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                LocaleKeys.live_order_tracking.tr(),
-                style: context.boldText.copyWith(fontSize: 18.sp),
-              ).withPadding(horizontal: 16.w, bottom: 8.h),
-              OrderTrackerMap(orderId: data.id).withPadding(horizontal: 16.w, bottom: 16.h),
-            ],
-          ),
-        // Show the original order details based on type
-        Expanded(
-          child: _buildOrderDetails(data),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildVerticalInstructionItem(
+              context: context,
+              svgAsset: 'assets/svg/clean.svg',
+              text: "اسطوانة نظيفة",
+            ),
+            _buildVerticalInstructionItem(
+              context: context,
+              svgAsset: 'assets/svg/door.svg',
+              text: "توصل للباب",
+            ),
+            _buildVerticalInstructionItem(
+              context: context,
+              svgAsset: 'assets/svg/warning.svg',
+              text: "استلامك مسوؤليتك",
+            ),
+          ],
         ),
       ],
+    ).withPadding(bottom: 20.h);
+  }
+  
+  // Widget para instrucciones individuales (copiado de create_order.dart)
+  Widget _buildVerticalInstructionItem({
+    required BuildContext context, 
+    required String svgAsset, 
+    required String text
+  }) {
+    List<String> words = text.split(' ');
+    
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            svgAsset,
+            height: 24.h,
+            width: 24.h,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Column(
+            children: words.map((word) => 
+              Text(
+                word,
+                textAlign: TextAlign.center,
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                  height: 1.4,
+                ),
+              )
+            ).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildBody(ClientOrderModel data) {
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Mostrar el estado del pedido (excepto para pending y accepted)
+          _buildOrderStatusSection(data),
+          
+          // Mostrar instrucciones importantes (como en create_order.dart)
+          if (data.type == 'distribution')
+            _buildInstructionsSection(context),
+          
+          // Mostrar el mapa de seguimiento cuando el estado del pedido es 'accepted'
+          if (data.status == 'accepted')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  LocaleKeys.live_order_tracking.tr(),
+                  style: context.boldText.copyWith(fontSize: 16.sp),
+                ).withPadding(horizontal: 16.w, bottom: 8.h),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.r),
+                    child: OrderTrackerMap(orderId: data.id),
+                  ),
+                ).withPadding(horizontal: 16.w, bottom: 20.h),
+              ],
+            ),
+            
+          // Mostrar los detalles del pedido según el tipo
+          _buildOrderDetails(data),
+        ],
+      ),
     );
   }
 
@@ -96,18 +257,30 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
             bottomNavigationBar: ClientOrderDetailsActions(cubit: cubit),
             floatingActionButton: state.detailsState.isDone && cubit.data != null && cubit.data!.agent.id != '' && cubit.data!.status == 'accepted' ? 
               Container(
-                  height:    80.h,
-                  width:     80.w,
+                height: 60.h,
+                width: 60.w,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.green,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
                 child: FloatingActionButton(
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Colors.green,
                   elevation: 0,
-                  child: SizedBox(
-                    height: 250.h,
-                    width: 250.w,
-                    child: SvgPicture.asset(
-                      'assets/svg/whatsapp.svg',
-                      height: 200.h,
-                      width: 200.w,
+                  child: SvgPicture.asset(
+                    'assets/svg/whatsapp.svg',
+                    height: 30.h,
+                    width: 30.w,
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
                     ),
                   ),
                   onPressed: () => _openWhatsApp(cubit.data!.agent.phoneNumber),
