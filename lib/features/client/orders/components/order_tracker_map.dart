@@ -127,10 +127,7 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
             markerId: const MarkerId('delivery_person'),
             position: newLocation,
             icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-            infoWindow: InfoWindow(
-              title: _agentName,
-              snippet: _agentPhone.isNotEmpty ? _agentPhone : null,
-            ),
+            infoWindow: InfoWindow.noText,
             zIndex: 2,
           ),
         );

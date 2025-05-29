@@ -198,9 +198,9 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  LocaleKeys.live_order_tracking.tr(),
-                  style: context.boldText.copyWith(fontSize: 16.sp),
-                ).withPadding(horizontal: 16.w, bottom: 8.h),
+                  "تتبع",
+                  style: context.mediumText.copyWith(fontSize: 14.sp),
+                ).withPadding(horizontal: 16.w, bottom: 8.h,top: 16.h),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
@@ -213,11 +213,12 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
                       ),
                     ],
                   ),
+
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.r),
                     child: OrderTrackerMap(orderId: data.id),
                   ),
-                ).withPadding(horizontal: 16.w, bottom: 20.h),
+                ).withPadding(horizontal: 16.w, bottom: 30.h),
               ],
             ),
             
