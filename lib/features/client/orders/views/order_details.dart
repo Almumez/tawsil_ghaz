@@ -187,7 +187,7 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildInstructionsSection(context),
+          // _buildInstructionsSection(context),
           // Mostrar el estado del pedido (excepto para pending y accepted)
           _buildOrderStatusSection(data),
 
