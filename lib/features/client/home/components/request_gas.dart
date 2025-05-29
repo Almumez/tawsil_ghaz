@@ -57,8 +57,8 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   LocaleKeys.distribution.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 20,
-                    color: "#090909".color,
+                    fontSize: 20.sp,
+                    color: Colors.black,
                   ),
                 ).withPadding(bottom: 24.h),
                 
@@ -152,7 +152,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   LocaleKeys.coming_soon.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     color: "#090909".color,
                   ),
                   textAlign: TextAlign.center,
@@ -161,7 +161,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   LocaleKeys.service_not_available.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     color: "#9E968F".color,
                   ),
                   textAlign: TextAlign.center,
@@ -234,7 +234,7 @@ class RequestGasWidget extends StatelessWidget {
                     Text(
                       title,
                       style: context.mediumText.copyWith(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         color: Colors.black,
                       ),
                     ),
@@ -250,7 +250,7 @@ class RequestGasWidget extends StatelessWidget {
                         child: Text(
                           buttonText,
                           style: context.mediumText.copyWith(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: Colors.white,
                           ),
                         ),
@@ -310,7 +310,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   title,
                   style: context.mediumText.copyWith(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.center,
@@ -329,7 +329,7 @@ class RequestGasWidget extends StatelessWidget {
                     child: Text(
                       LocaleKeys.coming_soon.tr(),
                       style: context.mediumText.copyWith(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -371,7 +371,7 @@ class RequestGasWidget extends StatelessWidget {
             Text(
               LocaleKeys.distribution.tr(),
               style: context.mediumText.copyWith(
-                fontSize: 20,
+                fontSize: 20.sp,
                 color: Colors.black,
               ),
             ).withPadding(start: 50.w),

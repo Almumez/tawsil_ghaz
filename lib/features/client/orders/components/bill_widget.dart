@@ -46,13 +46,13 @@ class ClientBillWidget extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: isBold ? context.mediumText.copyWith(fontSize: 20) : context.mediumText.copyWith(fontSize: 14),
+            style: isBold ? context.mediumText.copyWith(fontSize: 20.sp) : context.mediumText.copyWith(fontSize: 14.sp),
           ),
         ),
         Text.rich(
           TextSpan(children: [
-            TextSpan(text: "$value", style: context.mediumText.copyWith(fontSize: 20)),
-            TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14)),
+            TextSpan(text: "$value", style: context.mediumText.copyWith(fontSize: 20.sp)),
+            TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14.sp)),
           ]),
         ),
       ],

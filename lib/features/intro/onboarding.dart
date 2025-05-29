@@ -40,7 +40,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   Text(
                     LocaleKeys.welcome_you.tr(),
                     style: context.mediumText.copyWith(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,

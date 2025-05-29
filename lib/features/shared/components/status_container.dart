@@ -17,7 +17,7 @@ class StatusContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 21.w, vertical: 8.h),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r), color: color.withValues(alpha: .1)),
-      child: Text(title, style: context.mediumText.copyWith(fontSize: 14, color: color)),
+      child: Text(title, style: context.mediumText.copyWith(fontSize: 14.sp, color: color)),
     );
   }
 }

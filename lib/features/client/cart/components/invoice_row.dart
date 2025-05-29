@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/extensions.dart';
 
 import '../../../../gen/locale_keys.g.dart';
@@ -17,10 +18,10 @@ class InvoiceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Text(title, style: title == LocaleKeys.total.tr() ? context.mediumText.copyWith(fontSize: 20) : context.mediumText.copyWith(fontSize: 14, color: discountColor))),
+        Expanded(child: Text(title, style: title == LocaleKeys.total.tr() ? context.mediumText.copyWith(fontSize: 20.sp) : context.mediumText.copyWith(fontSize: 14.sp, color: discountColor))),
         Text.rich(
-          TextSpan(text: price.toString(), style: context.mediumText.copyWith(fontSize: 20, color: discountColor), children: [
-            TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.mediumText.copyWith(fontSize: 14, color: discountColor)),
+          TextSpan(text: price.toString(), style: context.mediumText.copyWith(fontSize: 20.sp, color: discountColor), children: [
+            TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.mediumText.copyWith(fontSize: 14.sp, color: discountColor)),
           ]),
         )
       ],

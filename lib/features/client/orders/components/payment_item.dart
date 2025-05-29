@@ -20,7 +20,7 @@ class OrderPaymentItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${LocaleKeys.payment_method.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
+        Text("• ${LocaleKeys.payment_method.tr()}", style: context.mediumText.copyWith(fontSize: 20.sp)).withPadding(bottom: 10.h),
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -28,7 +28,7 @@ class OrderPaymentItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(data.paymentMethod == '' ? LocaleKeys.no_payment.tr() : data.paymentMethod, style: context.mediumText.copyWith(fontSize: 14)),
+              Text(data.paymentMethod == '' ? LocaleKeys.no_payment.tr() : data.paymentMethod, style: context.mediumText.copyWith(fontSize: 14.sp)),
             ],
           ),
         ).withPadding(bottom: 16),
