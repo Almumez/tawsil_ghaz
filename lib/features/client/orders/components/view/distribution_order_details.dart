@@ -52,7 +52,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildAgentInfoCard(context),
-          _buildSectionHeader(context, LocaleKeys.service_type.tr()),
+          
+          _buildSectionHeader(context, LocaleKeys.service_type.tr(), 'assets/svg/clean.svg'),
           ...List.generate(
             data.orderServices.length,
             (index) {
@@ -63,7 +64,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ),
           if (data.orderServices.any((e) => !e.isService)) ...[
             SizedBox(height: 16.h),
-            _buildSectionHeader(context, LocaleKeys.additional_options.tr()),
+            _buildSectionHeader(context, LocaleKeys.additional_options.tr(), 'assets/svg/warning.svg'),
             ...List.generate(
               data.orderServices.length,
               (index) {
@@ -74,10 +75,82 @@ class ClientDistributionOrderDetails extends StatelessWidget {
             ),
           ],
           SizedBox(height: 16.h),
-          _buildSectionHeader(context, LocaleKeys.site_address.tr()),
+          
+          _buildSectionHeader(context, LocaleKeys.site_address.tr(), 'assets/svg/door.svg'),
           _buildAddressCard(context),
-          OrderPaymentItem(data: data),
-          ClientBillWidget(data: data),
+          
+          _buildSectionHeader(context, LocaleKeys.payment_method.tr(), 'assets/svg/payment.svg'),
+          _buildComponentCard(
+            context, 
+            child: OrderPaymentItem(data: data)
+          ),
+          
+          _buildSectionHeader(context, LocaleKeys.service_price.tr(), 'assets/svg/price.svg'),
+          _buildComponentCard(
+            context, 
+            child: ClientBillWidget(data: data)
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildInstructionsSection(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildVerticalInstructionItem(
+          context: context,
+          svgAsset: 'assets/svg/clean.svg',
+          text: "اسطوانة نظيفة",
+        ),
+        _buildVerticalInstructionItem(
+          context: context,
+          svgAsset: 'assets/svg/door.svg',
+          text: "توصل للباب",
+        ),
+        _buildVerticalInstructionItem(
+          context: context,
+          svgAsset: 'assets/svg/warning.svg',
+          text: "استلامك مسوؤليتك",
+        ),
+      ],
+    );
+  }
+  
+  Widget _buildVerticalInstructionItem({
+    required BuildContext context, 
+    required String svgAsset, 
+    required String text
+  }) {
+    List<String> words = text.split(' ');
+    
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            svgAsset,
+            height: 24.h,
+            width: 24.h,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Column(
+            children: words.map((word) => 
+              Text(
+                word,
+                textAlign: TextAlign.center,
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                  height: 1.4,
+                ),
+              )
+            ).toList(),
+          ),
         ],
       ),
     );
@@ -88,30 +161,18 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 20.h),
       padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: context.borderColor.withOpacity(0.5)),
-      ),
+    
       child: ClientOrderAgentItem(data: data),
     );
   }
   
-  Widget _buildSectionHeader(BuildContext context, String title) {
+  Widget _buildSectionHeader(BuildContext context, String title, String svgAsset) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
+
       child: Row(
         children: [
           SvgPicture.asset(
-            'assets/svg/circle_check.svg',
+            svgAsset,
             height: 20.h,
             width: 20.w,
             colorFilter: ColorFilter.mode(
@@ -128,7 +189,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildServiceCard(BuildContext context, dynamic service) {
     return Container(
       width: context.w,
@@ -137,27 +198,14 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: context.borderColor.withOpacity(0.3)),
       ),
       child: Row(
         children: [
-          CustomRadiusIcon(
-            size: 80.sp,
+          CustomImage(
+            service.image,
+            height: 64.sp,
+            width: 64.sp,
             borderRadius: BorderRadius.circular(8.r),
-            backgroundColor: '#F0F0F5'.color,
-            child: CustomImage(
-              service.image,
-              height: 64.sp,
-              width: 64.sp,
-            ),
           ).withPadding(end: 16.w),
           Expanded(
             child: Column(
@@ -167,18 +215,11 @@ class ClientDistributionOrderDetails extends StatelessWidget {
                   service.title,
                   style: context.semiboldText.copyWith(fontSize: 16.sp),
                 ).withPadding(bottom: 8.h),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                  decoration: BoxDecoration(
-                    color: context.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Text(
-                    "${LocaleKeys.quantity.tr()} : ${service.count}",
-                    style: context.mediumText.copyWith(
-                      fontSize: 14.sp,
-                      color: context.primaryColor,
-                    ),
+                Text(
+                  "${LocaleKeys.quantity.tr()} : ${service.count}",
+                  style: context.mediumText.copyWith(
+                    fontSize: 14.sp,
+                    color: context.primaryColor,
                   ),
                 ),
               ],
@@ -197,27 +238,14 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: context.borderColor.withOpacity(0.3)),
       ),
       child: Row(
         children: [
-          CustomRadiusIcon(
-            size: 60.sp,
+          CustomImage(
+            service.image,
+            height: 48.sp,
+            width: 48.sp,
             borderRadius: BorderRadius.circular(8.r),
-            backgroundColor: '#F0F0F5'.color,
-            child: CustomImage(
-              service.image,
-              height: 48.sp,
-              width: 48.sp,
-            ),
           ).withPadding(end: 16.w),
           Expanded(
             child: Column(
@@ -229,33 +257,19 @@ class ClientDistributionOrderDetails extends StatelessWidget {
                 ).withPadding(bottom: 8.h),
                 Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: context.secondaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        "${service.price}${LocaleKeys.sar.tr()}",
-                        style: context.mediumText.copyWith(
-                          fontSize: 12.sp,
-                          color: context.secondaryColor,
-                        ),
+                    Text(
+                      "${service.price}${LocaleKeys.sar.tr()}",
+                      style: context.mediumText.copyWith(
+                        fontSize: 12.sp,
+                        color: context.secondaryColor,
                       ),
                     ),
-                    SizedBox(width: 8.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: context.primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        "${LocaleKeys.quantity.tr()} : ${service.count}",
-                        style: context.mediumText.copyWith(
-                          fontSize: 12.sp,
-                          color: context.primaryColor,
-                        ),
+                    SizedBox(width: 16.w),
+                    Text(
+                      "${LocaleKeys.quantity.tr()} : ${service.count}",
+                      style: context.mediumText.copyWith(
+                        fontSize: 12.sp,
+                        color: context.primaryColor,
                       ),
                     ),
                   ],
@@ -276,21 +290,25 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-        border: Border.all(color: context.borderColor.withOpacity(0.3)),
       ),
       child: OrderDetailsAddressItem(
         lable: "",
         title: data.address.placeTitle,
         description: data.address.placeDescription,
       ),
+    );
+  }
+  
+  Widget _buildComponentCard(BuildContext context, {required Widget child}) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 20.h),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: child,
     );
   }
 }

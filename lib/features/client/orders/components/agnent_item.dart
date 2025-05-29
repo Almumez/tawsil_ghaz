@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/utils/extensions.dart';
 
@@ -22,23 +23,32 @@ class ClientOrderAgentItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "• ${data.type != 'maintenance' || data.type != 'supply' ? LocaleKeys.technician.tr() : LocaleKeys.agent.tr()}",
-          style: context.semiboldText.copyWith(fontSize: 16),
-        ).withPadding(bottom: 10.h),
+        // Text(
+        //   "• ${data.type != 'maintenance' || data.type != 'supply' ? LocaleKeys.technician.tr() : LocaleKeys.agent.tr()}",
+        //   style: context.semiboldText.copyWith(fontSize: 16),
+        // ).withPadding(bottom: 10.h),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            color: Colors.white,
+          ),
           child: Row(
             children: [
-              CustomImage(
-                data.agent.id == '' ? Assets.images.logo.path : data.agent.image,
-                height: 40.h,
-                width: 40.h,
-                borderRadius: BorderRadius.circular(20.h),
-              ).withPadding(end: 8.w),
+              SvgPicture.asset(
+                'assets/svg/delivry.svg',
+                height: 20.h,
+                width: 20.h,
+                colorFilter: ColorFilter.mode(
+                  context.primaryColor,
+                  BlendMode.srcIn,
+                ),
+              ).withPadding(end: 10.w),
               Expanded(
-                child: Text(data.agent.id == '' ? LocaleKeys.no_agent.tr() : data.agent.fullname, style: context.mediumText),
+                child: Text(
+                  data.agent.id == '' ? "انتظار" : data.agent.fullname,
+                  style: context.mediumText
+                ),
               ),
               if (data.type != 'maintenance' && data.type != 'supply')
                 StatusContainer(
