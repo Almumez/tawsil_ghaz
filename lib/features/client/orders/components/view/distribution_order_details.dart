@@ -63,7 +63,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
             },
           ),
           if (data.orderServices.any((e) => !e.isService)) ...[
-            SizedBox(height: 16.h),
             ...List.generate(
               data.orderServices.length,
               (index) {
