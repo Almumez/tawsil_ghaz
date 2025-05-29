@@ -27,6 +27,7 @@ import '../components/view/product_order_details.dart';
 import '../components/view/recharge_order_details.dart';
 import '../controller/order_details/cubit.dart';
 import '../controller/order_details/states.dart';
+import '../../../../core/widgets/flash_helper.dart';
 
 class ClientOrderDetailsView extends StatefulWidget {
   final String id, type;
@@ -378,6 +379,7 @@ class _ClientOrderDetailsActionsState extends State<ClientOrderDetailsActions> {
                 widget.cubit.cancelReason = value;
                 setState(() {});
                 widget.cubit.cancel();
+                FlashHelper.showToast("تم الغاء الطلب");
               }
             });
           }
