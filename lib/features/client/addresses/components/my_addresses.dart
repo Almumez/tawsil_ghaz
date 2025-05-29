@@ -109,12 +109,12 @@ class _MyAddressWidgetsState extends State<MyAddressWidgets> {
                       padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 10.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.r), 
-                        border: Border.all(
-                          color: selectedOption == cubit.addresses[index].id 
-                            ? context.primaryColor 
-                            : context.borderColor,
-                          width: selectedOption == cubit.addresses[index].id ? 1.5 : 1,
-                        ),
+                        border: selectedOption == cubit.addresses[index].id 
+                            ? null 
+                            : Border.all(
+                                color: context.borderColor,
+                                width: 1,
+                              ),
                       ),
                       child: Row(
                         children: [
