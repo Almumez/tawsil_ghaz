@@ -53,11 +53,11 @@ class ClientRechargeOrderDetails extends StatelessWidget {
           if (title != '')
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
               child: Row(
                 children: [
                   Icon(Icons.info_outline, size: 20.h, color: color).withPadding(end: 10.w),
-                  Expanded(child: Text(title, style: context.regularText.copyWith(fontSize: 12, color: color))),
+                  Expanded(child: Text(title, style: context.mediumText.copyWith(fontSize: 14, color: color))),
                 ],
               ),
             ).withPadding(horizontal: 16.w, bottom: 16.h),
@@ -66,13 +66,13 @@ class ClientRechargeOrderDetails extends StatelessWidget {
               height: 10.h,
               color: context.canvasColor,
             ).withPadding(bottom: 16.h),
-          Text("• ${LocaleKeys.agent.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(horizontal: 16.w, bottom: 10.h),
+          Text("• ${LocaleKeys.agent.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(horizontal: 16.w, bottom: 10.h),
           Container(
             width: context.w,
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: context.borderColor),
+              color: Color(0xfff5f5f5),
             ),
             child: Row(
               children: [
@@ -81,7 +81,7 @@ class ClientRechargeOrderDetails extends StatelessWidget {
                 Expanded(
                   child: Text(
                     data.agent.id == '' ? LocaleKeys.waiting_for_the_request_to_be_accepted_by_the_nearest_representative.tr() : data.agent.fullname,
-                    style: context.mediumText.copyWith(fontSize: 13),
+                    style: context.mediumText.copyWith(fontSize: 14),
                   ),
                 ),
                 StatusContainer(
@@ -91,11 +91,11 @@ class ClientRechargeOrderDetails extends StatelessWidget {
               ],
             ),
           ).withPadding(horizontal: 16.w, bottom: 16.h),
-          Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(horizontal: 16.w, bottom: 10.h),
+          Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(horizontal: 16.w, bottom: 10.h),
           Container(
             width: context.w,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
             child: Row(
               children: [
                 CustomImage(Assets.svg.clientRefill, height: 50.h).withPadding(end: 10.w),
@@ -103,10 +103,10 @@ class ClientRechargeOrderDetails extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(LocaleKeys.refilling_a_small_cylinder.tr(), style: context.mediumText.copyWith(fontSize: 16)).withPadding(bottom: 8.h),
+                      Text(LocaleKeys.refilling_a_small_cylinder.tr(), style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 8.h),
                       Text(
                         "${LocaleKeys.quantity.tr()} : ${data.daforaCount}",
-                        style: context.mediumText.copyWith(fontSize: 16, color: context.secondaryColor),
+                        style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
                       ).withPadding(bottom: 5.h),
                     ],
                   ),

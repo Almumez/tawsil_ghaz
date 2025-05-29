@@ -17,10 +17,10 @@ class InvoiceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Text(title, style: title == LocaleKeys.total.tr() ? context.boldText : context.regularText.copyWith(color: discountColor))),
+        Expanded(child: Text(title, style: title == LocaleKeys.total.tr() ? context.mediumText.copyWith(fontSize: 20) : context.mediumText.copyWith(fontSize: 14, color: discountColor))),
         Text.rich(
-          TextSpan(text: price.toString(), style: context.boldText.copyWith(fontSize: 16, color: discountColor), children: [
-            TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.regularText.copyWith(color: discountColor)),
+          TextSpan(text: price.toString(), style: context.mediumText.copyWith(fontSize: 20, color: discountColor), children: [
+            TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.mediumText.copyWith(fontSize: 14, color: discountColor)),
           ]),
         )
       ],
