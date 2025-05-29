@@ -125,8 +125,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   Widget _buildAgentInfoCard(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 0.h),
-      padding: EdgeInsets.all(16.w),
+     
+      padding: EdgeInsets.symmetric( horizontal: 16.w),
     
       child: ClientOrderAgentItem(data: data),
     );
