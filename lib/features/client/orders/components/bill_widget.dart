@@ -26,13 +26,13 @@ class ClientBillWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildRow(LocaleKeys.service_price.tr(), data.price, context),
+          _buildRow("خدمة", data.price, context),
           if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context),
-          if (!isMaintenanceOrSupply) _buildRow(LocaleKeys.tax.tr(), data.tax, context),
-          if (isMaintenanceOrSupply) _buildRow(LocaleKeys.tax.tr(), data.tax, context),
-          if (!isMaintenanceOrSupply) _buildRow(LocaleKeys.delivery_price.tr(), data.deliveryFee, context),
+          if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
+          if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
+          if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context),
           SizedBox(height: 8.h),
-          _buildRow('${LocaleKeys.total.tr()} :', data.totalPrice, context, isBold: true),
+          _buildRow('${LocaleKeys.total.tr()} :', data.totalPrice, context),
         ],
       ),
     );
@@ -54,7 +54,6 @@ class ClientBillWidget extends StatelessWidget {
               title,
               style: context.mediumText.copyWith(
                 fontSize: 14.sp,
-                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
               ),
             ),
           ),
@@ -64,14 +63,12 @@ class ClientBillWidget extends StatelessWidget {
                 text: formattedValue,
                 style: context.mediumText.copyWith(
                   fontSize: 14.sp,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
               TextSpan(
                 text: " ${LocaleKeys.sar.tr()}",
                 style: context.mediumText.copyWith(
                   fontSize: 14.sp,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
             ]),
