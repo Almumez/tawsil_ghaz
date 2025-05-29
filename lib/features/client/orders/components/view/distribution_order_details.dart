@@ -215,7 +215,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
                   style: context.semiboldText.copyWith(fontSize: 16.sp),
                 ).withPadding(bottom: 8.h),
                 Text(
-                  "${LocaleKeys.quantity.tr()} : ${service.count}",
+                  "(${service.count}x)",
                   style: context.mediumText.copyWith(
                     fontSize: 14.sp,
                     color: context.primaryColor,
@@ -265,7 +265,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
                     // ),
                     SizedBox(width: 16.w),
                     Text(
-                      "${LocaleKeys.quantity.tr()} : ${service.count}",
+                      "(${service.count}x)",
                       style: context.mediumText.copyWith(
                         fontSize: 12.sp,
                         color: context.primaryColor,
