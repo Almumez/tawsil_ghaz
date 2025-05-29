@@ -64,7 +64,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.semiboldText),
+                        Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.mediumText.copyWith(fontSize: 14)),
                         StatusContainer(
                           title: cubit.order!.statusTrans,
                           color: cubit.order!.color,
@@ -72,7 +72,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)),
+                    Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)),
                     SizedBox(height: 5.h),
                     ...List.generate(
                       item.details.length,
@@ -83,13 +83,13 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                           width: context.w,
                           margin: EdgeInsets.symmetric(vertical: 5.h),
                           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
                           child: Row(
                             children: [
                               CustomRadiusIcon(
                                 size: 80.sp,
                                 borderRadius: BorderRadius.circular(4.r),
-                                backgroundColor: '#F0F0F5'.color,
+                                backgroundColor: '#f5f5f5'.color,
                                 child: CustomImage(
                                   service.image,
                                   height: 64.sp,
@@ -100,10 +100,10 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(service.title, style: context.mediumText.copyWith(fontSize: 16)).withPadding(bottom: 8.h),
+                                    Text(service.title, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 8.h),
                                     Text(
                                       "${LocaleKeys.quantity.tr()} : ${service.count}",
-                                      style: context.mediumText.copyWith(fontSize: 16, color: context.secondaryColor),
+                                      style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
                                     ).withPadding(bottom: 5.h),
                                   ],
                                 ),
@@ -115,7 +115,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     ),
                     if (item.details.any((e) => !e.isService)) ...[
                       SizedBox(height: 10.h),
-                      Text("• ${LocaleKeys.additional_options.tr()}", style: context.semiboldText.copyWith(fontSize: 16)),
+                      Text("• ${LocaleKeys.additional_options.tr()}", style: context.mediumText.copyWith(fontSize: 20)),
                       SizedBox(height: 5.h),
                       ...List.generate(
                         item.details.length,
@@ -126,13 +126,13 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                             width: context.w,
                             margin: EdgeInsets.symmetric(vertical: 5.h),
                             padding: EdgeInsets.all(8.w),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#E5E6E1'.color)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
                             child: Row(
                               children: [
                                 CustomRadiusIcon(
                                   size: 60.sp,
                                   borderRadius: BorderRadius.circular(4.r),
-                                  backgroundColor: '#F0F0F5'.color,
+                                  backgroundColor: '#f5f5f5'.color,
                                   child: CustomImage(
                                     service.image,
                                   ),
@@ -141,7 +141,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(service.title, style: context.mediumText.copyWith(fontSize: 12)).withPadding(bottom: 8.h),
+                                      Text(service.title, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 8.h),
                                       Row(
                                         children: [
                                           Expanded(
@@ -169,18 +169,18 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     SizedBox(height: 5.h),
                     Text(
                       "• ${LocaleKeys.addresses.tr()}",
-                      style: context.semiboldText.copyWith(fontSize: 16),
+                      style: context.mediumText.copyWith(fontSize: 20),
                     ).withPadding(bottom: 10.h),
                     Container(
                       width: context.w,
                       padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             LocaleKeys.client_location.tr(),
-                            style: context.mediumText.copyWith(fontSize: 16),
+                            style: context.mediumText.copyWith(fontSize: 14),
                           ).withPadding(bottom: 8.h),
                           Row(
                             children: [
@@ -189,7 +189,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                                 height: 20.h,
                                 width: 20.h,
                               ).withPadding(end: 4.w),
-                              Expanded(child: Text(item.address.placeDescription, style: context.regularText.copyWith(fontSize: 12)).withPadding(bottom: 5.h)),
+                              Expanded(child: Text(item.address.placeDescription, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h)),
                             ],
                           ),
                           GestureDetector(

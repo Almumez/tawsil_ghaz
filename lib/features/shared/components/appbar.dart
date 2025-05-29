@@ -24,7 +24,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       leading: withBack
           ? CustomRadiusIcon(
               onTap: () => Navigator.pop(context),
-              backgroundColor: context.canvasColor,
+              backgroundColor: '#f5f5f5'.color,
               child: Icon(Icons.arrow_back),
             ).withPadding(start: 16.w)
           : null,

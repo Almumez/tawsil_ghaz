@@ -59,12 +59,12 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
                 Expanded(
                   child: Text(
                     UserModel.i.fullname, 
-                    style: context.mediumText.copyWith(fontSize: 16),
+                    style: context.mediumText.copyWith(fontSize: 20),
                   ),
                 ),
                 Text(
                   LocaleKeys.available.tr(),
-                  style: context.mediumText,
+                  style: context.mediumText.copyWith(fontSize: 14),
                 ).withPadding(end: 16.w),
                 BlocBuilder<AgentHomeCubit, AgentHomeState>(
                   bloc: cubit,
@@ -75,7 +75,7 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
                         activeColor: context.primaryColorLight.withValues(alpha: state.activeState.isLoading ? .5 : 1),
                         activeTrackColor: context.primaryColorDark.withValues(alpha: state.activeState.isLoading ? .5 : 1),
                         inactiveThumbColor: context.primaryColorLight.withValues(alpha: state.activeState.isLoading ? .5 : 1),
-                        inactiveTrackColor: context.shadowColor.withValues(alpha: state.activeState.isLoading ? .5 : 1),
+                        inactiveTrackColor: '#f5f5f5'.color.withValues(alpha: state.activeState.isLoading ? .5 : 1),
                         trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
                         value: UserModel.i.isAvailable,
                         onChanged: (v) {
@@ -95,7 +95,7 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
                   Expanded(child: Container()),
                   Text(
                     "تلقائي",
-                    style: context.mediumText,
+                    style: context.mediumText.copyWith(fontSize: 14),
                   ).withPadding(end: 16.w),
                   Transform.scale(
                     scale: 0.7,
@@ -103,7 +103,7 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
                       activeColor: context.primaryColorLight,
                       activeTrackColor: context.primaryColorDark,
                       inactiveThumbColor: context.primaryColorLight,
-                      inactiveTrackColor: context.shadowColor,
+                      inactiveTrackColor: '#f5f5f5'.color,
                       trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
                       value: isAutomatic,
                       onChanged: (v) {
@@ -133,7 +133,7 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
               return Center(child: CustomErrorWidget(title: state.msg));
             }
             if (state.getOrdersState == RequestState.done && cubit.items.isEmpty) {
-              return Center(child: Text(LocaleKeys.no_orders.tr()));
+              return Center(child: Text(LocaleKeys.no_orders.tr(), style: context.mediumText.copyWith(fontSize: 14)));
             }
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),

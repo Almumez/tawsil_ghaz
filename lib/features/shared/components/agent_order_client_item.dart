@@ -39,11 +39,11 @@ class AgentOrderClientItem extends StatelessWidget {
       children: [
         Text(
           LocaleKeys.client.tr(),
-          style: context.semiboldText.copyWith(fontSize: 16),
+          style: context.mediumText.copyWith(fontSize: 20),
         ).withPadding(bottom: 10.h),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
           child: Row(
             children: [
               CustomImage(
@@ -55,11 +55,11 @@ class AgentOrderClientItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   data.fullname,
-                  style: context.mediumText,
+                  style: context.mediumText.copyWith(fontSize: 14),
                 ),
               ),
               CustomRadiusIcon(
-                backgroundColor: context.canvasColor,
+                backgroundColor: '#f5f5f5'.color,
                 child: Icon(Icons.call_outlined),
                 onTap: () {
                   _callClient(data.phoneCode, data.phone);
