@@ -208,18 +208,24 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ).withPadding(end: 16.w),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  service.title,
-                  style: context.semiboldText.copyWith(fontSize: 16.sp),
-                ).withPadding(bottom: 8.h),
-                Text(
-                  "(${service.count}x)",
-                  style: context.mediumText.copyWith(
-                    fontSize: 14.sp,
-                    color: context.primaryColor,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      service.title,
+                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      "(${service.count}x)",
+                      style: context.mediumText.copyWith(
+                        fontSize: 14.sp,
+                        color: context.primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -248,26 +254,20 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ).withPadding(end: 16.w),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  service.title,
-                  style: context.semiboldText.copyWith(fontSize: 14.sp),
-                ).withPadding(bottom: 8.h),
                 Row(
                   children: [
-                    // Text(
-                    //   "${service.price}${LocaleKeys.sar.tr()}",
-                    //   style: context.mediumText.copyWith(
-                    //     fontSize: 12.sp,
-                    //     color: context.secondaryColor,
-                    //   ),
-                    // ),
-                    SizedBox(width: 16.w),
+                    Text(
+                      service.title,
+                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                    ),
+                    SizedBox(width: 4.w),
                     Text(
                       "(${service.count}x)",
                       style: context.mediumText.copyWith(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         color: context.primaryColor,
                       ),
                     ),
