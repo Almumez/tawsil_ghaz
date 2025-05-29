@@ -13,8 +13,8 @@ import '../utils/logger.dart';
 
 class ServerGate {
 //  final String _baseUrl = 'https://gas.azmy.aait-d.com/api';
- final String _baseUrl = 'http://192.168.0.116:8000/api';
-  //final String _baseUrl = 'http://192.168.137.1:8000/api';
+ //final String _baseUrl = 'http://192.168.0.116:8000/api';
+ final String _baseUrl = 'http://192.168.137.1:8000/api';
 
   Map<String, dynamic> get constHeader => {
         if (UserModel.i.isAuth) "Authorization": "Bearer ${UserModel.i.token}",

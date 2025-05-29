@@ -80,7 +80,7 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // قسم التعليمات في البداية
-            _buildInstructionsSection(context).withPadding(bottom: 15.h),
+            _buildInstructionsSection(context).withPadding(bottom: 25.h),
             
             MyAddressWidgets(
               callback: (val) {
@@ -131,6 +131,9 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
     required IconData icon, 
     required String text
   }) {
+    // تقسيم النص إلى كلمات
+    List<String> words = text.split(' ');
+    
     return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -140,14 +143,18 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
             size: 24.h,
             color: context.primaryColor,
           ),
-          SizedBox(height: 6.h),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: context.regularText.copyWith(
-              fontSize: 12.sp,
-              height: 1.2,
-            ),
+          SizedBox(height: 8.h),
+          Column(
+            children: words.map((word) => 
+              Text(
+                word,
+                textAlign: TextAlign.center,
+                style: context.regularText.copyWith(
+                  fontSize: 12.sp,
+                  height: 1.4,
+                ),
+              )
+            ).toList(),
           ),
         ],
       ),
