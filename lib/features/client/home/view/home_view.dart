@@ -204,6 +204,7 @@ class _HomeClientViewState extends State<HomeClientView> {
                                 border: Border.all(width: 0, color: Colors.transparent),
                               ),
                               child: CircleAvatar(
+                                backgroundColor: Colors.white,
                                 backgroundImage: AssetImage(
                                   items[index].image,
 
