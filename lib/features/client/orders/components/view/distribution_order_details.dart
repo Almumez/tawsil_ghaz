@@ -203,8 +203,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
         children: [
           CustomImage(
             service.image,
-            height: 64.sp,
-            width: 64.sp,
+            height: 45.sp,
+            width: 45.sp,
             borderRadius: BorderRadius.circular(8.r),
           ).withPadding(end: 16.w),
           Expanded(
