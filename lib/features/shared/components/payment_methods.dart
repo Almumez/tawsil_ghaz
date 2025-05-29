@@ -38,7 +38,7 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
             ),
             SizedBox(width: 8.w),
             Text("دفع", 
-              style: context.mediumText.copyWith(fontSize: 20)
+              style: context.mediumText.copyWith(fontSize: 14.sp)
             ),
           ],
         ).withPadding(bottom: 10.h),
