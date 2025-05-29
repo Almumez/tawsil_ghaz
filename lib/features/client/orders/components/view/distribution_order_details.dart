@@ -73,10 +73,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
             ),
           ],
           
-          _buildSectionHeader(context, LocaleKeys.site_address.tr(), 'assets/svg/location.svg'),
           _buildAddressCard(context),
 
-          _buildSectionHeader(context, LocaleKeys.payment_method.tr(), 'assets/svg/payment.svg'),
           _buildComponentCard(
             context, 
             child: OrderPaymentItem(data: data)
