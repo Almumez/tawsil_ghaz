@@ -57,7 +57,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   LocaleKeys.distribution.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 20.sp,
+                    fontSize: 14.sp,
                     color: Colors.black,
                   ),
                 ).withPadding(bottom: 24.h),
@@ -152,7 +152,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   LocaleKeys.coming_soon.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 20.sp,
+                    fontSize: 14.sp,
                     color: "#090909".color,
                   ),
                   textAlign: TextAlign.center,
@@ -181,7 +181,7 @@ class RequestGasWidget extends StatelessWidget {
                     child: Text(
                       LocaleKeys.ok.tr(),
                       style: context.mediumText.copyWith(
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -234,7 +234,7 @@ class RequestGasWidget extends StatelessWidget {
                     Text(
                       title,
                       style: context.mediumText.copyWith(
-                        fontSize: 20.sp,
+                        fontSize: 14.sp,
                         color: Colors.black,
                       ),
                     ),
@@ -310,7 +310,7 @@ class RequestGasWidget extends StatelessWidget {
                 Text(
                   title,
                   style: context.mediumText.copyWith(
-                    fontSize: 18.sp,
+                    fontSize: 14.sp,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.center,
@@ -371,7 +371,7 @@ class RequestGasWidget extends StatelessWidget {
             Text(
               LocaleKeys.distribution.tr(),
               style: context.mediumText.copyWith(
-                fontSize: 20.sp,
+                fontSize: 14.sp,
                 color: Colors.black,
               ),
             ).withPadding(start: 50.w),
