@@ -38,9 +38,9 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
               style: context.semiboldText.copyWith(fontSize: 16)
             ),
           ],
-        ).withPadding(bottom: 10.h),
+        ).withPadding(bottom: 0.h),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 16.w),
+          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
           child: Column(
             children: [
