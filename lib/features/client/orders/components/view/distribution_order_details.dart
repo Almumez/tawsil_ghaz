@@ -199,7 +199,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ).withPadding(start: 35.w),
     );
   }
   
@@ -246,7 +246,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ).withPadding(start: 35.w);
   }
   
   Widget _buildAddressCard(BuildContext context) {
