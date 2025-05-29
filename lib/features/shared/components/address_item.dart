@@ -21,7 +21,7 @@ class OrderDetailsAddressItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${lable ?? LocaleKeys.address.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+        Text("• ${lable ?? LocaleKeys.address.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -30,7 +30,7 @@ class OrderDetailsAddressItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h),
-              Text(description, style: context.regularText.copyWith(fontSize: 12)).withPadding(bottom: 5.h),
+              Text(description, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h),
             ],
           ),
         ).withPadding(bottom: 16),

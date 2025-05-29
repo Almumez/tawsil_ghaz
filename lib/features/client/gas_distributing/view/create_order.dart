@@ -153,8 +153,8 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
               Text(
                 word,
                 textAlign: TextAlign.center,
-                style: context.regularText.copyWith(
-                  fontSize: 12.sp,
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
                   height: 1.4,
                 ),
               )

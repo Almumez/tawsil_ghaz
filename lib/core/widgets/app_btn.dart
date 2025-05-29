@@ -65,7 +65,7 @@ class AppBtn extends StatelessWidget {
                           if (icon != null) icon!.withPadding(end: 4.w),
                           Text(
                             title ?? "",
-                            style: context.boldText.copyWith(
+                            style: context.mediumText.copyWith(
                               fontSize: fontSize ?? 16,
                               height: 0,
                               color: textColor ?? context.primaryColorLight,

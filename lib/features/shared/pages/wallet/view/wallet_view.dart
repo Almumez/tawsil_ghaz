@@ -62,7 +62,7 @@ class _WalletViewState extends State<WalletView> {
                             height: 48.h,
                             child: Text(
                               LocaleKeys.withdraw.tr(),
-                              style: context.semiboldText.copyWith(fontSize: 16),
+                              style: context.mediumText.copyWith(fontSize: 20),
                             ).center,
                           ),
                         ).withPadding(bottom: 16.h),
@@ -74,12 +74,12 @@ class _WalletViewState extends State<WalletView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(LocaleKeys.latest_transactions.tr(), style: context.semiboldText.copyWith(fontSize: 16)),
+                                Text(LocaleKeys.latest_transactions.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                                 InkWell(
                                   onTap: () {
                                     push(NamedRoutes.transactions);
                                   },
-                                  child: Text(LocaleKeys.see_all.tr(), style: context.regularText.copyWith(fontSize: 12)).withPadding(vertical: 4.h),
+                                  child: Text(LocaleKeys.see_all.tr(), style: context.mediumText.copyWith(fontSize: 14)).withPadding(vertical: 4.h),
                                 )
                               ],
                             ).withPadding(bottom: 16.h),

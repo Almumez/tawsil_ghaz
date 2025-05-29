@@ -58,7 +58,7 @@ class ClientOrderCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               data.address.placeDescription,
-                              style: context.regularText.copyWith(fontSize: 12, color: Colors.black),
+                              style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                             ),
                           ),
                         ],
@@ -94,8 +94,8 @@ class ClientOrderCard extends StatelessWidget {
                 ).withPadding(end: 5.w),
                 Text(
                   DateFormat('dd/MM/yyyy', 'en').format(data.createdAt),
-                  style: context.regularText.copyWith(
-                    fontSize: 12,
+                  style: context.mediumText.copyWith(
+                    fontSize: 14,
                     color: Colors.black,
                   ),
                 ),
@@ -107,8 +107,8 @@ class ClientOrderCard extends StatelessWidget {
                 ).withPadding(start: 12.w, end: 5.w),
                 Text(
                   DateFormat('hh:mm a', 'en').format(data.createdAt),
-                  style: context.regularText.copyWith(
-                    fontSize: 12,
+                  style: context.mediumText.copyWith(
+                    fontSize: 14,
                     color: Colors.black,
                   ),
                 ),

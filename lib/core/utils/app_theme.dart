@@ -15,10 +15,10 @@ class AppThemes {
   static const secondaryColor = '#A07855';
   static const whiteColor = '#FFFFFF';
   static const errorColor = '#F43F3F';
-  static const secondaryHeaderColor = '#808080';
-  static const canvasColor = '#F5F5F5';
-  static const shadowColor = '#BDBDD3';
-  static const cardColor = '#F7F7FB';
+  static const secondaryHeaderColor = '#f5f5f5';
+  static const canvasColor = '#f5f5f5';
+  static const shadowColor = '#f5f5f5';
+  static const cardColor = '#f5f5f5';
 
   static ThemeData get lightTheme => ThemeData(
         indicatorColor: rateColor.color,
@@ -151,10 +151,12 @@ class AppThemes {
       );
 
   static TextTheme get arabicTextTheme => const TextTheme(
-        labelLarge: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
-        headlineMedium: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600),
-        labelMedium: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
-        headlineSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
-        labelSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w300),
+        labelLarge: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700),  // bold
+        headlineMedium: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600),  // semibold
+        labelMedium: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),  // medium
+        headlineSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),  // regular
+        labelSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w300),  // light
+        // Agregamos estos estilos para titulos importantes
+        titleLarge: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),  // titulo importante
       );
 }
