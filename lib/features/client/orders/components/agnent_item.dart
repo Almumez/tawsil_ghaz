@@ -55,21 +55,28 @@ class ClientOrderAgentItem extends StatelessWidget {
 
   // Make a phone call to the agent
   void _callAgent(String phoneNumber) async {
-    if(phoneNumber.isEmpty) return;
+    if(phoneNumber.isEmpty) {
+      debugPrint('Phone number is empty');
+      return;
+    }
     
-    final Uri callUri = Uri(scheme: 'tel', path: phoneNumber);
+    // Direct approach to making a phone call
+    final phoneUrl = 'tel:${phoneNumber.trim()}';
+    debugPrint('Opening phone URL: $phoneUrl');
     
     try {
-      if (await canLaunchUrl(callUri)) {
-        await launchUrl(callUri);
-      }
+      // Skip canLaunchUrl check and launch directly
+      await launchUrl(Uri.parse(phoneUrl), mode: LaunchMode.platformDefault);
     } catch (e) {
-      debugPrint('Error making phone call: $e');
+      debugPrint('Error launching phone call: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Debug print the agent phone number
+    debugPrint('Agent phone number: ${data.agent.phoneNumber}');
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -128,7 +135,15 @@ class ClientOrderAgentItem extends StatelessWidget {
                     
                     // Call icon
                     InkWell(
-                      onTap: () => _callAgent(data.agent.phoneNumber),
+                      onTap: () {
+                        final phoneNumber = data.agent.phoneNumber;
+                        debugPrint('Tapped call button. Phone: $phoneNumber');
+                        
+                        if(phoneNumber.isNotEmpty) {
+                          final url = 'tel:$phoneNumber';
+                          launchUrl(Uri.parse(url));
+                        }
+                      },
                       child: Container(
                         padding: EdgeInsets.all(8.h),
                         decoration: BoxDecoration(
