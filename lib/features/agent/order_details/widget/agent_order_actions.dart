@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/widgets/app_btn.dart';
@@ -51,26 +52,27 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
           return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
             bloc: cubit,
             builder: (context, state) {
-              return AbsorbPointer(
-                absorbing: state.acceptState.isLoading || state.rejectOrder.isLoading,
-                child: Opacity(
-                  opacity: state.acceptState.isLoading || state.rejectOrder.isLoading ? 0.4 : 1,
-                  child: AppBtn(
-                    onPressed: () {
-                      // if (UserModel.i.accountType.isAgent) {
-                      cubit.acceptOrder();
-                      // } else {
-                      //   push(NamedRoutes.selectMerchent).then((v) {
-                      //     if (v != null) {
-                      //       cubit.acceptOrder(v);
-                      //     }
-                      //   });
-                      // }
-                    },
-                    title: LocaleKeys.accept.tr(),
+              return SafeArea(
+                child: AbsorbPointer(
+                  absorbing: state.acceptState.isLoading || state.rejectOrder.isLoading,
+                  child: Opacity(
+                    opacity: state.acceptState.isLoading || state.rejectOrder.isLoading ? 0.4 : 1,
+                    child: AppBtn(
+                      onPressed: () => cubit.acceptOrder(),
+                      title: LocaleKeys.accept.tr(),
+                      prefix: SvgPicture.asset(
+                        'assets/svg/check_circle.svg',
+                        height: 20.h,
+                        width: 20.w,
+                        colorFilter: ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ).withPadding(vertical: 12.h, horizontal: 16.w);
+                ).withPadding(vertical: 12.h, horizontal: 16.w),
+              );
             },
           );
         } else if (cubit.order?.status == 'on_way' && cubit.order?.price == 0) {
@@ -78,52 +80,97 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
             bloc: cubit,
             buildWhen: (previous, current) => previous.changeStatus != current.changeStatus,
             builder: (context, state) {
-              return AppBtn(
-                enable: cubit.bill != null,
-                loading: state.changeStatus.isLoading,
-                title: LocaleKeys.send.tr(),
-                onPressed: () => cubit.sendBill(),
+              return SafeArea(
+                child: AppBtn(
+                  enable: cubit.bill != null,
+                  loading: state.changeStatus.isLoading,
+                  title: LocaleKeys.send.tr(),
+                  prefix: SvgPicture.asset(
+                    'assets/svg/send.svg',
+                    height: 20.h,
+                    width: 20.w,
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: () => cubit.sendBill(),
+                ).withPadding(horizontal: 16.w, vertical: 12.h),
               );
             },
-          ).withPadding(horizontal: 16.w, vertical: 12.h);
+          );
         } else if ((cubit.order?.status == "on_way" && (cubit.order!.isPaid || cubit.order!.paymentMethod == 'cash'))) {
           return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
             bloc: cubit,
             buildWhen: (previous, current) => previous.changeStatus != current.changeStatus,
             builder: (context, state) {
-              return AppBtn(
-                loading: state.changeStatus.isLoading,
-                title: "btn_status_trans.${cubit.order?.status}".tr(),
-                onPressed: () => cubit.changeStatus(),
-              ).withPadding(horizontal: 16.w, vertical: 12.h);
+              return SafeArea(
+                child: AppBtn(
+                  loading: state.changeStatus.isLoading,
+                  title: "btn_status_trans.${cubit.order?.status}".tr(),
+                  prefix: SvgPicture.asset(
+                    'assets/svg/delivery.svg',
+                    height: 20.h,
+                    width: 20.w,
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  onPressed: () => cubit.changeStatus(),
+                ).withPadding(horizontal: 16.w, vertical: 12.h),
+              );
             },
           );
         } else if (cubit.order?.status == "accepted") {
           print("DEBUG: Order status is ACCEPTED - Status: ${cubit.order?.status}");
           return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
             bloc: cubit,
-            buildWhen: (previous, current) => previous.changeStatus != current.changeStatus || previous.acceptState != current.acceptState || previous.getOrderState != current.getOrderState,
+            buildWhen: (previous, current) => 
+              previous.changeStatus != current.changeStatus || 
+              previous.acceptState != current.acceptState || 
+              previous.getOrderState != current.getOrderState,
             builder: (context, state) {
-              return Row(
-                children: [
-                  Expanded(
-                    child: AppBtn(
-                      loading: state.changeStatus.isLoading,
-                      title: "btn_status_trans.${cubit.order?.status}".tr(),
-                      onPressed: () => cubit.changeStatus(),
+              return SafeArea(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AppBtn(
+                        loading: state.changeStatus.isLoading,
+                        title: "btn_status_trans.${cubit.order?.status}".tr(),
+                        prefix: SvgPicture.asset(
+                          'assets/svg/delivery.svg',
+                          height: 20.h,
+                          width: 20.w,
+                          colorFilter: ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        onPressed: () => cubit.changeStatus(),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: AppBtn(
-                      onPressed: _showRejectReasonSheet,
-                      textColor: context.errorColor,
-                      backgroundColor: Colors.transparent,
-                      title: LocaleKeys.reject.tr(),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: AppBtn(
+                        onPressed: _showRejectReasonSheet,
+                        textColor: context.errorColor,
+                        backgroundColor: context.errorColor.withOpacity(0.1),
+                        title: LocaleKeys.reject.tr(),
+                        prefix: SvgPicture.asset(
+                          'assets/svg/cancel.svg',
+                          height: 20.h,
+                          width: 20.w,
+                          colorFilter: ColorFilter.mode(
+                            context.errorColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ).withPadding(horizontal: 16.w, vertical: 12.h);
+                  ],
+                ).withPadding(horizontal: 16.w, vertical: 12.h),
+              );
             },
           );
         }
