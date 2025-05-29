@@ -89,7 +89,7 @@ class _ClientOrdersViewState extends State<ClientOrdersView> {
                 return Center(child: CustomErrorWidget(title: state.msg));
               }
               if (state.getOrdersState == RequestState.done && cubit.items.isEmpty) {
-                return Center(child: Text(LocaleKeys.no_orders.tr()));
+                return Center(child: Text(LocaleKeys.no_orders.tr(), style: context.mediumText.copyWith(fontSize: 14)));
               }
               return RefreshIndicator(
                 onRefresh: _refresh,

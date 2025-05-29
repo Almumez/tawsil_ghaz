@@ -68,7 +68,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     snap: true,
                     floating: true,
                     expandedHeight: kToolbarHeight + 346.h,
-                    backgroundColor: '#F0F0F5'.color,
+                    backgroundColor: '#f5f5f5'.color,
                     // title: Text(widget.data.name),
 
                     centerTitle: true,
@@ -91,12 +91,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.data.name, style: context.mediumText),
+                        Text(widget.data.name, style: context.mediumText.copyWith(fontSize: 20)),
                         Text.rich(
-                          TextSpan(text: "${LocaleKeys.price.tr()}: ", style: context.mediumText.copyWith(fontSize: 16), children: [
+                          TextSpan(text: "${LocaleKeys.price.tr()}: ", style: context.mediumText.copyWith(fontSize: 14), children: [
                             TextSpan(
                               text: "${widget.data.price} ${LocaleKeys.currency.tr()}",
-                              style: context.regularText.copyWith(fontSize: 16),
+                              style: context.mediumText.copyWith(fontSize: 14),
                             ),
                           ]),
                         ),
@@ -110,7 +110,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(LocaleKeys.specify_quantity.tr(), style: context.mediumText),
+                                      Text(LocaleKeys.specify_quantity.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                                       IncrementWidget(
                                         count: cubit.count,
                                         increment: () {
@@ -123,11 +123,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                     ],
                                   ),
                                   Divider(height: 40.h),
-                                  Text(LocaleKeys.product_delivery_charges.tr(), style: context.mediumText).withPadding(bottom: 8.h),
-                                  Text("• ( ${cubit.data!.deliveryPrice} ${LocaleKeys.currency.tr()} )", style: context.regularText),
+                                  Text(LocaleKeys.product_delivery_charges.tr(), style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 8.h),
+                                  Text("• ( ${cubit.data!.deliveryPrice} ${LocaleKeys.currency.tr()} )", style: context.mediumText.copyWith(fontSize: 14)),
                                   Divider(height: 40.h),
-                                  Text("${LocaleKeys.description.tr()} : ", style: context.mediumText).withPadding(bottom: 8.h),
-                                  Text("• ${cubit.data!.description}", style: context.regularText),
+                                  Text("${LocaleKeys.description.tr()} : ", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 8.h),
+                                  Text("• ${cubit.data!.description}", style: context.mediumText.copyWith(fontSize: 14)),
                                   Divider(height: 40.h),
                                   if (cubit.similarProducts.isNotEmpty)
                                     Text(

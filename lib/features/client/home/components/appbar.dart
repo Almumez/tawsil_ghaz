@@ -50,7 +50,7 @@ class _HomeAppbarState extends State<HomeAppbar> {
                           UserModel.i.isAuth
                               ? UserModel.i.fullname.split(' ').firstOrNull ?? ''
                               : LocaleKeys.guest.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16),
+                          style: context.mediumText.copyWith(fontSize: 20),
                         ).withPadding(horizontal: 20.w, bottom: 10.h,top: 10.h,),
                         if (UserModel.i.isAuth)
                           InkWell(

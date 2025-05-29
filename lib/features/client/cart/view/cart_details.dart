@@ -72,7 +72,7 @@ class _CartViewState extends State<CartView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+                        Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
                         Column(
                           children: List.generate(
                             cubit.data!.products.length,
@@ -111,7 +111,7 @@ class _CartViewState extends State<CartView> {
                                 )),
                           ),
                         ).withPadding(bottom: 16.h),
-                        Text("• ${LocaleKeys.discount_coupon.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+                        Text("• ${LocaleKeys.discount_coupon.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
                         AppField(
                           controller: cubit.couponController,
                           hintText: LocaleKeys.add_discount_coupon.tr(),
@@ -121,12 +121,12 @@ class _CartViewState extends State<CartView> {
                                 ? CustomProgress(size: 20.h)
                                 : Text(
                                     state.hasCoupon ? LocaleKeys.delete.tr() : LocaleKeys.apply.tr(),
-                                    style: context.mediumText.copyWith(color: state.hasCoupon ? context.errorColor : null),
+                                    style: context.mediumText.copyWith(fontSize: 14, color: state.hasCoupon ? context.errorColor : null),
                                   ),
                             onPressed: () => cubit.coupon(),
                           ),
                         ).withPadding(bottom: 16.h),
-                        Text("• ${LocaleKeys.total_product_value.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+                        Text("• ${LocaleKeys.total_product_value.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
                         Container(
                           width: context.w,
                           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -158,7 +158,7 @@ class _CartViewState extends State<CartView> {
                     ),
                   );
                 } else if (state.requestState == RequestState.done && cubit.data!.products.isEmpty) {
-                  return Center(child: Text(LocaleKeys.no_products_in_cart.tr()));
+                  return Center(child: Text(LocaleKeys.no_products_in_cart.tr(), style: context.mediumText.copyWith(fontSize: 14)));
                 } else if (state.requestState == RequestState.error) {
                   return Center(child: CustomErrorWidget(title: state.msg));
                 } else {

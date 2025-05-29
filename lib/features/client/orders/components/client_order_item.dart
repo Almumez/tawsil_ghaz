@@ -28,8 +28,7 @@ class ClientOrderCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
-
-          color: Color( 0xFFF6F6F6),
+          color: Color(0xfff5f5f5),
         ),
         child: Column(
           spacing: 10.h,

@@ -125,7 +125,7 @@ class _HomeClientViewState extends State<HomeClientView> {
                   child: Text(
                     LocaleKeys.ok.tr(),
                     style: context.mediumText.copyWith(
-                      fontSize: 16.sp,
+                      fontSize: 14,
                       color: Colors.white,
                     ),
                   ),

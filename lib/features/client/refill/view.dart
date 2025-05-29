@@ -38,7 +38,7 @@ class _ClientRefillViewState extends State<ClientRefillView> {
                 floating: true,
                 expandedHeight: 350.h,
                 backgroundColor: context.canvasColor,
-                title: Text(LocaleKeys.small_cylinder_refill.tr()),
+                title: Text(LocaleKeys.small_cylinder_refill.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                 centerTitle: true,
                 leading: CustomRadiusIcon(
                   onTap: () => Navigator.pop(context),
@@ -55,12 +55,13 @@ class _ClientRefillViewState extends State<ClientRefillView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(LocaleKeys.refilling_a_small_cylinder_with_a_capacity_of_2_5_kg.tr()).withPadding(vertical: 10.h),
+                    Text(LocaleKeys.refilling_a_small_cylinder_with_a_capacity_of_2_5_kg.tr(), 
+                         style: context.mediumText.copyWith(fontSize: 14)).withPadding(vertical: 10.h),
                     const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(LocaleKeys.specify_quantity.tr(), style: context.mediumText),
+                        Text(LocaleKeys.specify_quantity.tr(), style: context.mediumText.copyWith(fontSize: 20)),
                         IncrementWidget(
                           count: cubit.count,
                           increment: () {
