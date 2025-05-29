@@ -253,37 +253,7 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
           return Scaffold(
             appBar: CustomAppbar(title: LocaleKeys.order_details.tr()),
             bottomNavigationBar: ClientOrderDetailsActions(cubit: cubit),
-            floatingActionButton: state.detailsState.isDone && cubit.data != null && cubit.data!.agent.id != '' && cubit.data!.status == 'accepted' ? 
-              Container(
-                height: 60.h,
-                width: 60.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.green,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: FloatingActionButton(
-                  backgroundColor: Colors.green,
-                  elevation: 0,
-                  child: SvgPicture.asset(
-                    'assets/svg/whatsapp.svg',
-                    height: 30.h,
-                    width: 30.w,
-                    colorFilter: ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  onPressed: () => _openWhatsApp(cubit.data!.agent.phoneNumber),
-                ),
-              ) : null,
+            floatingActionButton: null,
             floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
             body: Builder(
               builder: (context) {
