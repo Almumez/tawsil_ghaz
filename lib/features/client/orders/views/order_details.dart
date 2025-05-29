@@ -386,7 +386,7 @@ class _ClientOrderDetailsActionsState extends State<ClientOrderDetailsActions> {
           return SafeArea(
               child: AppBtn(
             loading: state.reasonsState.isLoading || widget.cubit.state.cancelState.isLoading,
-            title: LocaleKeys.cancel_order.tr(),
+            title: "الغاء",
             textColor: context.errorColor,
             backgroundColor: context.scaffoldBackgroundColor,
             onPressed: () => cancelCubit.getReasons(),

@@ -32,7 +32,7 @@ class ClientBillWidget extends StatelessWidget {
           if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context).withPadding(start: 35.w),
           if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context).withPadding(start: 35.w),
           if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context).withPadding(start: 35.w),
-          SizedBox(height: 8.h),
+        
           _buildRow("اجمالي", data.totalPrice, context).withPadding(start: 35.w),
         ],
       ),
