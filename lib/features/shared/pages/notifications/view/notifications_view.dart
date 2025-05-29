@@ -156,11 +156,6 @@ class _NotificationsViewState extends State<NotificationsView> {
                                 children: [
                                   Text(
                                     item.title,
-                                    style: context.mediumText.copyWith(fontSize: 20.sp, color: Colors.black),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(
-                                    item.title,
                                     style: context.mediumText.copyWith(fontSize: 14.sp, color: Colors.black),
                                   ),
                                 ],
