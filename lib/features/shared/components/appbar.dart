@@ -18,8 +18,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: Text(
+        title,
+        style: context.mediumText.copyWith(fontSize: 20),
+      ),
       centerTitle: true,
+      backgroundColor: Colors.white,
+      elevation: 0,
       actions: actions,
       leading: withBack
           ? CustomRadiusIcon(

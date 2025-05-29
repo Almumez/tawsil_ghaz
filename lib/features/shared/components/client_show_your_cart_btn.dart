@@ -42,13 +42,14 @@ class ShowYourCartBtn extends StatelessWidget {
                         backgroundColor: context.primaryColorLight,
                         child: Text(
                           sl<CartCubit>().data!.products.length.toString(),
+                          style: context.mediumText.copyWith(fontSize: 14, color: context.primaryColor),
                         ),
                       ).withPadding(end: 5.w),
                       Expanded(
-                        child: Text(LocaleKeys.show_your_cart.tr(), style: context.boldText.copyWith(color: context.primaryColorLight, fontSize: 16)),
+                        child: Text(LocaleKeys.show_your_cart.tr(), style: context.mediumText.copyWith(color: context.primaryColorLight, fontSize: 14)),
                       ),
                       Text("${sl<CartCubit>().data!.invoice.totalPrice} ${LocaleKeys.currency.tr()}",
-                          style: context.boldText.copyWith(color: context.primaryColorLight, fontSize: 16))
+                          style: context.mediumText.copyWith(color: context.primaryColorLight, fontSize: 14))
                     ],
                   ),
                 ).withPadding(horizontal: 16.w, bottom: 16.h),

@@ -111,7 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(LocaleKeys.profile.tr()),
+        title: Text(LocaleKeys.profile.tr(), style: context.mediumText.copyWith(fontSize: 20)),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
@@ -140,11 +140,11 @@ class _ProfileViewState extends State<ProfileView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 16.sp)),
+                            Text(UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 20)),
                             Text(
                               "+${UserModel.i.phoneCode}-${UserModel.i.phone}",
                               textDirection: TextDirection.ltr,
-                              style: context.mediumText,
+                              style: context.mediumText.copyWith(fontSize: 14),
                             )
                           ],
                         ),
@@ -173,7 +173,7 @@ class _ProfileViewState extends State<ProfileView> {
                       Expanded(
                         child: Text(
                           profileItems[index].title.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16, color: profileItems[index].isLogout ? context.errorColor : null),
+                          style: context.mediumText.copyWith(fontSize: 14, color: profileItems[index].isLogout ? context.errorColor : null),
                         ),
                       ),
                     ],

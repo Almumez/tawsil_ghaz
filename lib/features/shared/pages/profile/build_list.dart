@@ -69,8 +69,8 @@ void showComingSoonPopup(BuildContext context, String title) {
               SizedBox(height: 20.h),
               Text(
                 "${LocaleKeys.coming_soon.tr()}",
-                style: context.boldText.copyWith(
-                  fontSize: 20.sp,
+                style: context.mediumText.copyWith(
+                  fontSize: 20,
                   color: "#090909".color,
                 ),
                 textAlign: TextAlign.center,
@@ -88,7 +88,7 @@ void showComingSoonPopup(BuildContext context, String title) {
                 child: Text(
                   LocaleKeys.ok.tr(),
                   style: context.mediumText.copyWith(
-                    fontSize: 16.sp,
+                    fontSize: 14,
                     color: Colors.white,
                   ),
                 ),

@@ -13,6 +13,8 @@ class LogoAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
       title: CustomImage("assets/images/splash.png", height: 80.h),
       centerTitle: true,
     );

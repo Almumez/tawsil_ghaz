@@ -90,7 +90,7 @@ class _SettingsViewState extends State<SettingsView> {
                         width: 24.h,
                         color: context.primaryColorDark,
                       ).withPadding(end: 16.w),
-                      Expanded(child: Text(LocaleKeys.language.tr(), style: context.mediumText)),
+                      Expanded(child: Text(LocaleKeys.language.tr(), style: context.mediumText.copyWith(fontSize: 14))),
                       InkWell(
                         onTap: () async {
                           final localeResult = await showModalBottomSheet<SelectModel?>(
@@ -116,7 +116,7 @@ class _SettingsViewState extends State<SettingsView> {
                           children: [
                             Text(
                               context.locale.languageCode == 'en' ? LocaleKeys.english.tr() : LocaleKeys.arabic.tr(),
-                              style: context.mediumText,
+                              style: context.mediumText.copyWith(fontSize: 14),
                             ).withPadding(end: 6.w),
                             state.changeLanguageState.isLoading ? CustomProgress(size: 16.h) : Icon(Icons.keyboard_arrow_down),
                           ],
@@ -134,7 +134,7 @@ class _SettingsViewState extends State<SettingsView> {
                     width: 24.h,
                     color: context.primaryColorDark,
                   ).withPadding(end: 16.w),
-                  Expanded(child: Text(LocaleKeys.notifications.tr(), style: context.mediumText)),
+                  Expanded(child: Text(LocaleKeys.notifications.tr(), style: context.mediumText.copyWith(fontSize: 14))),
                   BlocConsumer<SettingsCubit, SettingsState>(
                     bloc: cubit,
                     listener: (context, state) {
@@ -178,7 +178,7 @@ class _SettingsViewState extends State<SettingsView> {
                       Expanded(
                         child: Text(
                           items[index].title.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16, color: items[index].isLogout ? context.errorColor : null),
+                          style: context.mediumText.copyWith(fontSize: 14, color: items[index].isLogout ? context.errorColor : null),
                         ),
                       ),
                     ],
@@ -201,7 +201,7 @@ class _SettingsViewState extends State<SettingsView> {
                       Expanded(
                         child: Text(
                           getFreeAgentItems()[index].title.tr(),
-                          style: context.mediumText.copyWith(fontSize: 16),
+                          style: context.mediumText.copyWith(fontSize: 14),
                         ),
                       ),
                     ],
@@ -224,7 +224,7 @@ class _SettingsViewState extends State<SettingsView> {
                         width: 24.h,
                         color: context.errorColor,
                       ).withPadding(end: 16.w),
-                      Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(color: context.errorColor))),
+                      Expanded(child: Text(LocaleKeys.delete_account.tr(), style: context.mediumText.copyWith(fontSize: 14, color: context.errorColor))),
                     ],
                   ),
                 ),

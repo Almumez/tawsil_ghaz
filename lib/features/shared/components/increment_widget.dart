@@ -26,7 +26,7 @@ class IncrementWidget extends StatelessWidget {
     return Container(
       width: count == 0 ? null : 110.w,
       padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 8.h),
-      decoration: BoxDecoration(color: context.canvasColor, borderRadius: BorderRadius.circular(80.r)),
+      decoration: BoxDecoration(color: Color(0xfff5f5f5), borderRadius: BorderRadius.circular(80.r)),
       child: count == 0
           ? CustomRadiusIcon(
               backgroundColor: context.primaryColor,
@@ -45,7 +45,7 @@ class IncrementWidget extends StatelessWidget {
                       ? CustomProgress(size: 18.h, color: context.primaryColorLight)
                       : Icon(Icons.add, color: context.primaryColorLight, size: 15.h),
                 ),
-                Text(count.toString(), style: context.mediumText).withPadding(horizontal: 10.w),
+                Text(count.toString(), style: context.mediumText.copyWith(fontSize: 14)).withPadding(horizontal: 10.w),
                 CustomRadiusIcon(
                     backgroundColor: context.primaryColor,
                     size: 24.h,

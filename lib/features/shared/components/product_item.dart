@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,7 +31,7 @@ class ProductItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.r),
             fit: BoxFit.cover,
           ),
-          Text(data.name, style: context.lightText.copyWith(fontSize: 12)).withPadding(top: 4.h),
+          Text(data.name, style: context.mediumText.copyWith(fontSize: 14)).withPadding(top: 4.h),
           Text("${data.price} ${LocaleKeys.currency.tr()}", style: context.mediumText.copyWith(fontSize: 14)).withPadding(top: 4.h),
           AppBtn(
             height: 32.h,

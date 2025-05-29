@@ -39,8 +39,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                   // مرحباً بك بخط كبير
                   Text(
                     LocaleKeys.welcome_you.tr(),
-                    style: context.boldText.copyWith(
-                      fontSize: 32,
+                    style: context.mediumText.copyWith(
+                      fontSize: 20,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
