@@ -59,7 +59,6 @@ class CustomErrorWidget extends StatelessWidget {
             if (onTap != null) ...[
               SizedBox(height: 12.h),
               AppBtn(
-                
                 title: btnTitle ?? LocaleKeys.try_again.tr(),
                 onPressed: onTap,
               ),

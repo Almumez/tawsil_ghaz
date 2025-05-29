@@ -96,7 +96,7 @@ class _AppFieldState extends State<AppField> {
           if (widget.title != null)
             Text(
               widget.title!,
-              style: context.regularText
+              style: context.mediumText
                   .copyWith(fontSize: 14, color: context.hintColor),
             ).withPadding(bottom: 8.h),
           Directionality(

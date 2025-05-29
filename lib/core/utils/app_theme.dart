@@ -6,10 +6,10 @@ import 'extensions.dart';
 
 class AppThemes {
   static const mainColor = '#090909';
-  static const lightText = '#9E968F';
+  static const lightText = '#f5f5f5';
   static const scaffoldBackgroundColor = '#FFFFFF';
-  static const lightColor = '#FCFBFD';
-  static const mainBorder = '#D6D6E0';
+  static const lightColor = '#f5f5f5';
+  static const mainBorder = '#f5f5f5';
   static const blackColor = '#040404';
   static const rateColor = '#F4BD5B';
   static const secondaryColor = '#A07855';
@@ -48,7 +48,7 @@ class AppThemes {
             fontFamily: FontFamily.ibm,
             color: blackColor.color,
             fontSize: 20,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w500,
           ),
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -60,8 +60,8 @@ class AppThemes {
           // unselectedLabelStyle: TextStyle(color: "#AED489".color),
           type: BottomNavigationBarType.fixed,
           selectedIconTheme: const IconThemeData(color: Colors.white),
-          unselectedIconTheme: IconThemeData(color: "#CBD1DB".color),
-          unselectedItemColor: "#CBD1DB".color,
+          unselectedIconTheme: IconThemeData(color: "#f5f5f5".color),
+          unselectedItemColor: "#f5f5f5".color,
           enableFeedback: true,
         ),
         radioTheme: RadioThemeData(
@@ -107,7 +107,7 @@ class AppThemes {
           textStyle: const TextStyle(
             fontFamily: FontFamily.ibm,
             fontSize: 14,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
           ),
           inputDecorationTheme: InputDecorationTheme(
             suffixIconColor: mainColor.color,
@@ -127,8 +127,8 @@ class AppThemes {
         ),
         inputDecorationTheme: InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelStyle: TextStyle(fontSize: 14, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w400),
-          hintStyle: TextStyle(fontSize: 12, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w400),
+          labelStyle: TextStyle(fontSize: 14, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w500),
+          hintStyle: TextStyle(fontSize: 14, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w500),
           fillColor: scaffoldBackgroundColor.color,
           filled: true,
           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: errorColor.color), borderRadius: BorderRadius.circular(14.r)),
@@ -156,7 +156,6 @@ class AppThemes {
         labelMedium: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),  // medium
         headlineSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),  // regular
         labelSmall: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w300),  // light
-        // Agregamos estos estilos para titulos importantes
-        titleLarge: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),  // titulo importante
+        titleLarge: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),  // titulo importante
       );
 }

@@ -63,7 +63,7 @@ class LoadingImage extends StatelessWidget {
       child: BaseShimmer(
         child: CustomImage(
           'Assets.svg.logo',
-          color: context.hintColor,
+          color: '#f5f5f5'.color,
         ).center.withPadding(horizontal: 10.w),
       ),
     );
@@ -88,7 +88,7 @@ class PaginationLoading extends StatelessWidget {
             Text(
               LocaleKeys.loading.tr(),
               style: context.mediumText.copyWith(
-                fontSize: 12,
+                fontSize: 14,
                 color: context.primaryColorLight,
               ),
             ),

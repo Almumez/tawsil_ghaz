@@ -66,7 +66,7 @@ class AppBtn extends StatelessWidget {
                           Text(
                             title ?? "",
                             style: context.mediumText.copyWith(
-                              fontSize: fontSize ?? 16,
+                              fontSize: fontSize ?? 14,
                               height: 0,
                               color: textColor ?? context.primaryColorLight,
                             ),

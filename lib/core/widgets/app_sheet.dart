@@ -28,7 +28,7 @@ class CustomAppSheet extends StatelessWidget {
                 height: 5.h,
                 width: 134.w,
                 decoration: BoxDecoration(
-                  color: context.hintColor,
+                  color: '#f5f5f5'.color,
                   borderRadius: BorderRadius.circular(4.r),
                 ),
               ).center,
@@ -58,7 +58,7 @@ class CustomAppSheet extends StatelessWidget {
               ).withPadding(bottom: 10.h),
               Text(
                 subtitle ?? "",
-                style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
+                style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),
               ).withPadding(horizontal: 24.w, bottom: 16.h),
               Flexible(
                 child: Padding(

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../core/widgets/custom_image.dart';
 import '../gen/assets.gen.dart';
+import '../core/utils/extensions.dart';
 
 class LogoAppbar extends StatelessWidget implements PreferredSizeWidget {
   const LogoAppbar({

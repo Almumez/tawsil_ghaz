@@ -21,7 +21,7 @@ class BackWidget extends StatelessWidget {
       child: CustomRadiusIcon(
         onTap: () => Navigator.pop(context, data),
         size: 56.h,
-        backgroundColor: color ?? context.primaryContainer,
+        backgroundColor: color ?? '#f5f5f5'.color,
         // borderColor: context.hoverColor,
         // child: Transform.rotate(
         //   angle: context.locale.languageCode == "en" ? pi : 0,
