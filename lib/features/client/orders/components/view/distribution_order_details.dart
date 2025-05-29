@@ -72,7 +72,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
               },
             ),
           ],
-          SizedBox(height: 16.h),
           
           _buildSectionHeader(context, LocaleKeys.site_address.tr(), 'assets/svg/door.svg'),
           _buildAddressCard(context),
@@ -192,8 +191,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   Widget _buildServiceCard(BuildContext context, dynamic service) {
     return Container(
       width: context.w,
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,
       ),
@@ -237,8 +236,8 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   Widget _buildAdditionalServiceCard(BuildContext context, dynamic service) {
     return Container(
       width: context.w,
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.all(16.w),
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
