@@ -28,11 +28,11 @@ class ClientBillWidget extends StatelessWidget {
         children: [
           _buildRow("خدمة", data.price, context),
           if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context),
+          if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context),
           if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
           if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
-          if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context),
           SizedBox(height: 8.h),
-          _buildRow('${LocaleKeys.total.tr()} :', data.totalPrice, context),
+          _buildRow("اجمالي", data.totalPrice, context),
         ],
       ),
     );

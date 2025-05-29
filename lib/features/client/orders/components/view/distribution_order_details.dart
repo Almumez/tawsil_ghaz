@@ -76,7 +76,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           _buildAddressCard(context),
 
           OrderPaymentItem(data: data).withPadding(start: 16.w, end: 16.w),
-          ClientBillWidget(data: data).withPadding(start: 16.w, end: 16.w),
+          ClientBillWidget(data: data).withPadding(start: 40.w, end: 16.w),
          
         ],
       ),
