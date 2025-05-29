@@ -369,7 +369,7 @@ class _ClientOrderDetailsActionsState extends State<ClientOrderDetailsActions> {
             showModalBottomSheet<CancelReasonsModel?>(
               context: context,
               builder: (context) => SelectItemSheet(
-                title: LocaleKeys.select_val.tr(args: [LocaleKeys.cancel_reason.tr()]),
+                title: "اختر",
                 items: cancelCubit.reasons,
                 initItem: widget.cubit.cancelReason,
               ),
