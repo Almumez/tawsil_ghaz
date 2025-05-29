@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/utils/extensions.dart';
 import '../../../../core/widgets/app_btn.dart';
@@ -41,43 +40,26 @@ class _RejectReasonSheetState extends State<RejectReasonSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/cancel.svg',
-                    height: 24.h,
-                    width: 24.w,
-                    colorFilter: ColorFilter.mode(
-                      context.errorColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  Text(
-                    LocaleKeys.reject_order.tr(),
-                    style: context.semiboldText.copyWith(fontSize: 18),
-                  ),
-                ],
+              Text(
+                LocaleKeys.reject_order.tr(),
+                style: context.semiboldText.copyWith(fontSize: 18),
               ),
               IconButton(
                 icon: Icon(Icons.close, color: context.hintColor),
                 onPressed: () => Navigator.pop(context),
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(),
               ),
             ],
           ),
           SizedBox(height: 16.h),
           Text(
             LocaleKeys.reject_reason.tr(),
-            style: context.mediumText.copyWith(fontSize: 14.sp),
+            style: context.mediumText,
           ),
           SizedBox(height: 8.h),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(color: context.borderColor),
-              color: Colors.grey[50],
             ),
             child: TextField(
               controller: _reasonController,
@@ -102,7 +84,7 @@ class _RejectReasonSheetState extends State<RejectReasonSheet> {
                     child: AppBtn(
                       onPressed: () => Navigator.pop(context),
                       textColor: context.primaryColor,
-                      backgroundColor: context.primaryColor.withOpacity(0.1),
+                      backgroundColor: Colors.transparent,
                       title: LocaleKeys.cancel.tr(),
                     ),
                   ),
@@ -116,18 +98,9 @@ class _RejectReasonSheetState extends State<RejectReasonSheet> {
                         });
                       },
                       textColor: Colors.white,
-                      backgroundColor: context.errorColor,
+                      backgroundColor: Colors.black,
                       loading: _isSubmitting,
                       title: LocaleKeys.reject.tr(),
-                      prefix: SvgPicture.asset(
-                        'assets/svg/cancel.svg',
-                        height: 20.h,
-                        width: 20.w,
-                        colorFilter: ColorFilter.mode(
-                          Colors.white,
-                          BlendMode.srcIn,
-                        ),
-                      ),
                     ),
                   ),
                 ],
