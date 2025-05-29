@@ -24,7 +24,7 @@ class CustomAppSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
+                margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 24.w),
                 height: 5.h,
                 width: 134.w,
                 decoration: BoxDecoration(
@@ -50,12 +50,12 @@ class CustomAppSheet extends StatelessWidget {
                   Center(
                     child: Text(
                       title ?? "",
-                      style: context.mediumText.copyWith(fontSize: 20),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
                       textAlign: TextAlign.center,
                     ),
                   ),
                 ],
-              ).withPadding(bottom: 10.h),
+              ).withPadding(bottom: 0.h),
               Text(
                 subtitle ?? "",
                 style: context.mediumText.copyWith(fontSize: 14, color: '#f5f5f5'.color),

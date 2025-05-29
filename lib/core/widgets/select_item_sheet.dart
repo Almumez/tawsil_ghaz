@@ -40,8 +40,8 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
               Navigator.pop(context, widget.items[index] != widget.initItem ? widget.items[index] : null);
             },
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 8.h),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+              margin: EdgeInsets.symmetric(vertical: 2.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -50,8 +50,8 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
                   if (widget.withImage)
                     CustomImage(
                       widget.items[index].image,
-                      height: 30.h,
-                      width: 40.h,
+                      height: 24.h,
+                      width: 34.h,
                       borderRadius: BorderRadius.circular(4.r),
                     ).withPadding(end: 8.w),
                   Builder(
@@ -61,10 +61,10 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
                         if (iconPath != null) {
                           return SvgPicture.asset(
                             iconPath,
-                            height: 24.h,
-                            width: 24.h,
+                            height: 20.h,
+                            width: 20.h,
                             colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                          ).withPadding(end: 12.w);
+                          ).withPadding(end: 10.w);
                         }
                       } catch (e) {
                         // Icon property doesn't exist, skip
@@ -75,7 +75,7 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
                   Expanded(
                     child: Text(
                       widget.items[index].name,
-                      style: context.mediumText.copyWith(fontSize: 20),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
                     ),
                   ),
                   if (widget.initItem == widget.items[index])
@@ -140,8 +140,8 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                     });
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 8.h),
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+                    margin: EdgeInsets.symmetric(vertical: 2.h),
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                     ),
@@ -150,8 +150,8 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                         if (widget.withImage)
                           CustomImage(
                             widget.items[index].image,
-                            height: 30.h,
-                            width: 40.h,
+                            height: 24.h,
+                            width: 34.h,
                             borderRadius: BorderRadius.circular(4.r),
                           ).withPadding(end: 8.w),
                         Builder(
@@ -161,10 +161,10 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                               if (iconPath != null) {
                                 return SvgPicture.asset(
                                   iconPath,
-                                  height: 24.h,
-                                  width: 24.h,
+                                  height: 20.h,
+                                  width: 20.h,
                                   colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                                ).withPadding(end: 12.w);
+                                ).withPadding(end: 10.w);
                               }
                             } catch (e) {
                               // Icon property doesn't exist, skip
@@ -175,7 +175,7 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                         Expanded(
                           child: Text(
                             widget.items[index].name,
-                            style: context.mediumText.copyWith(fontSize: 20),
+                            style: context.mediumText.copyWith(fontSize: 14.sp),
                           ),
                         ),
                         if (selected)

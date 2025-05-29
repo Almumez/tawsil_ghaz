@@ -184,7 +184,7 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     ),
                     textAlign: TextAlign.center,
-                  ).withPadding(vertical: 18.h),
+                  ).withPadding(vertical: 12.h),
                 ],
               ),
             ),
