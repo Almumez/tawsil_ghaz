@@ -75,7 +75,7 @@ class _ClientOrderDetailsViewState extends State<ClientOrderDetailsView> {
       'checked': LocaleKeys.check_now.tr(),
     };
     
-    if (data.status == 'pending' || data.status == 'accepted') {
+    if (data.status == 'pending' || data.status == 'accepted' || data.status == 'canceled') {
       return SizedBox.shrink();
     }
     
