@@ -49,24 +49,27 @@ class ClientBillWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            'assets/svg/pay.svg',
-            height: 20.h,
-            width: 20.w,
-            colorFilter: ColorFilter.mode(
-              context.primaryColor,
-              BlendMode.srcIn,
-            ),
-          ),
-          SizedBox(width: 8.w),
           Expanded(
-            child: Text(
-              "خدمة",
-              style: context.mediumText.copyWith(
-                fontSize: 14.sp,
-              ),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/pay.svg',
+                  height: 20.h,
+                  width: 20.w,
+                  colorFilter: ColorFilter.mode(
+                    context.primaryColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  "خدمة",
+                  style: context.mediumText.copyWith(
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
             ),
           ),
           Text.rich(
