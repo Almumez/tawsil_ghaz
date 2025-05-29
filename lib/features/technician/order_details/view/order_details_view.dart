@@ -63,7 +63,7 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.semiboldText),
+                        Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.mediumText.copyWith(fontSize: 20)),
                         StatusContainer(
                           title: cubit.order!.statusTranslation,
                           color: cubit.order!.color,
@@ -71,13 +71,13 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)),
+                    Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)),
                     SizedBox(height: 5.h),
                     Container(
                       width: context.w,
                       margin: EdgeInsets.symmetric(vertical: 5.h),
                       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -86,15 +86,15 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                             (index) => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(item.services[index].title, style: context.mediumText.copyWith(fontSize: 16)).withPadding(bottom: 8.h),
-                                Text("   • ${item.services[index].description}", style: context.regularText.copyWith(fontSize: 12)).withPadding(bottom: 5.h),
+                                Text(item.services[index].title, style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 8.h),
+                                Text("   • ${item.services[index].description}", style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h),
                               ],
                             ),
                           ),
                           Row(
                             children: [
                               Icon(Icons.access_time, color: context.hintColor, size: 20.h).withPadding(end: 3.w),
-                              Text(item.createdAt, style: context.regularText.copyWith(color: context.hintColor)),
+                              Text(item.createdAt, style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor)),
                             ],
                           ).withPadding(top: 10.h),
                         ],
@@ -104,18 +104,18 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                     SizedBox(height: 5.h),
                     Text(
                       "• ${LocaleKeys.client_address.tr()}",
-                      style: context.semiboldText.copyWith(fontSize: 16),
+                      style: context.mediumText.copyWith(fontSize: 20),
                     ).withPadding(bottom: 10.h),
                     Container(
                       width: context.w,
                       padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             item.address.placeTitle,
-                            style: context.mediumText.copyWith(fontSize: 16),
+                            style: context.mediumText.copyWith(fontSize: 20),
                           ).withPadding(bottom: 8.h),
                           Row(
                             children: [
@@ -124,7 +124,7 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                                 height: 20.h,
                                 width: 20.h,
                               ).withPadding(end: 4.w),
-                              Expanded(child: Text(item.address.placeDescription, style: context.regularText.copyWith(fontSize: 12)).withPadding(bottom: 5.h)),
+                              Expanded(child: Text(item.address.placeDescription, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h)),
                             ],
                           ),
                           GestureDetector(
@@ -148,7 +148,7 @@ class _TechnicianOrderDetailsViewState extends State<TechnicianOrderDetailsView>
                                   ).withPadding(end: 4.w),
                                   Text(
                                     LocaleKeys.address_view.tr(),
-                                    style: context.mediumText.copyWith(fontSize: 16),
+                                    style: context.mediumText.copyWith(fontSize: 20),
                                   )
                                 ],
                               ),

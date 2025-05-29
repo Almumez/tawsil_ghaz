@@ -52,7 +52,7 @@ class _TechnicianHomeViewState extends State<TechnicianHomeView> {
         actions: [
           Text(
             "متاح",
-            style: context.semiboldText.copyWith(fontSize: 16),
+            style: context.mediumText.copyWith(fontSize: 20),
           ),
           SizedBox(width: 12.w),
           BlocBuilder<TechnicianHomeCubit, TechnicianHomeState>(
@@ -83,9 +83,9 @@ class _TechnicianHomeViewState extends State<TechnicianHomeView> {
         title: Text.rich(
           TextSpan(
             text: "${LocaleKeys.welcome_you.tr()}, ",
-            style: context.regularText.copyWith(color: context.hintColor),
+            style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
             children: [
-              TextSpan(text: UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 16)),
+              TextSpan(text: UserModel.i.fullname, style: context.mediumText.copyWith(fontSize: 20)),
             ],
           ),
         ).withPadding(bottom: 20.w),
@@ -102,7 +102,7 @@ class _TechnicianHomeViewState extends State<TechnicianHomeView> {
               return Center(child: CustomErrorWidget(title: state.msg));
             }
             if (state.getOrdersState == RequestState.done && cubit.items.isEmpty) {
-              return Center(child: Text(LocaleKeys.no_orders.tr()));
+              return Center(child: Text(LocaleKeys.no_orders.tr(), style: context.mediumText.copyWith(fontSize: 14)));
             }
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),

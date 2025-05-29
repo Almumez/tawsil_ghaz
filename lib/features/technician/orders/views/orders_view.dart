@@ -41,7 +41,7 @@ class _TechnicianOrdersViewState extends State<TechnicianOrdersView> {
                 return Center(
                   child: Text(
                     LocaleKeys.no_orders.tr(),
-                    style: context.regularText.copyWith(fontSize: 18.sp),
+                    style: context.mediumText.copyWith(fontSize: 14),
                   ),
                 );
               }

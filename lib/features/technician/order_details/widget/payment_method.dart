@@ -20,15 +20,15 @@ class TechnicianOrderPaymentItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${LocaleKeys.payment_method.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+        Text("• ${LocaleKeys.payment_method.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(data.paymentMethod == '' ? LocaleKeys.no_payment.tr() : data.paymentMethod, style: context.mediumText),
+              Text(data.paymentMethod == '' ? LocaleKeys.no_payment.tr() : data.paymentMethod, style: context.mediumText.copyWith(fontSize: 14)),
             ],
           ),
         ).withPadding(bottom: 16),

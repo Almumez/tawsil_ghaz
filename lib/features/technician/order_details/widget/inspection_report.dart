@@ -20,7 +20,7 @@ class InspectionReportWidget extends StatelessWidget {
       children: [
         Text(
           "• ${LocaleKeys.inspection_report.tr()}",
-          style: context.semiboldText.copyWith(fontSize: 16),
+          style: context.mediumText.copyWith(fontSize: 20),
         ).withPadding(bottom: 20.h),
         ...List.generate(
           cubit.inspectionReports.length,
@@ -54,7 +54,7 @@ class InspectionReportWidget extends StatelessWidget {
             },
             child: Text(
               LocaleKeys.delete.tr(),
-              style: context.regularText.copyWith(color: context.errorColor),
+              style: context.mediumText.copyWith(fontSize: 14, color: context.errorColor),
             ),
           ),
         SizedBox(height: 15.h),

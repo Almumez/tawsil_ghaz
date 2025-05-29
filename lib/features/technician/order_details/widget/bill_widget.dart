@@ -27,15 +27,15 @@ class TechnicianBillWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     LocaleKeys.service_price.tr(),
-                    style: context.regularText.copyWith(
+                    style: context.mediumText.copyWith(
                       fontSize: 14,
                     ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(text: "${data.price}", style: context.boldText.copyWith(fontSize: 16)),
-                    TextSpan(text: LocaleKeys.sar.tr(), style: context.regularText.copyWith(fontSize: 16)),
+                    TextSpan(text: "${data.price}", style: context.mediumText.copyWith(fontSize: 20)),
+                    TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14)),
                   ]),
                 )
               ],
@@ -46,15 +46,15 @@ class TechnicianBillWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     LocaleKeys.check_fee.tr(),
-                    style: context.regularText.copyWith(
+                    style: context.mediumText.copyWith(
                       fontSize: 14,
                     ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(text: '${data.checkFee}', style: context.boldText.copyWith(fontSize: 16)),
-                    TextSpan(text: LocaleKeys.sar.tr(), style: context.regularText.copyWith(fontSize: 16)),
+                    TextSpan(text: '${data.checkFee}', style: context.mediumText.copyWith(fontSize: 20)),
+                    TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14)),
                   ]),
                 )
               ],
@@ -65,15 +65,15 @@ class TechnicianBillWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     LocaleKeys.tax.tr(),
-                    style: context.regularText.copyWith(
+                    style: context.mediumText.copyWith(
                       fontSize: 14,
                     ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(text: "${data.tax}", style: context.boldText.copyWith(fontSize: 16)),
-                    TextSpan(text: LocaleKeys.sar.tr(), style: context.regularText.copyWith(fontSize: 16)),
+                    TextSpan(text: "${data.tax}", style: context.mediumText.copyWith(fontSize: 20)),
+                    TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14)),
                   ]),
                 ),
               ],
@@ -84,15 +84,15 @@ class TechnicianBillWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${LocaleKeys.total.tr()} :',
-                    style: context.boldText.copyWith(
+                    style: context.mediumText.copyWith(
                       fontSize: 14,
                     ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(text: '${data.totalPrice}', style: context.boldText.copyWith(fontSize: 16)),
-                    TextSpan(text: LocaleKeys.sar.tr(), style: context.regularText.copyWith(fontSize: 16)),
+                    TextSpan(text: '${data.totalPrice}', style: context.mediumText.copyWith(fontSize: 20)),
+                    TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14)),
                   ]),
                 )
               ],
