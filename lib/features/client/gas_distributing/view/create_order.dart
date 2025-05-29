@@ -108,17 +108,17 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
       children: [
         _buildVerticalInstructionItem(
           context: context,
-          icon: Icons.check_circle_outline,
+          svgAsset: 'assets/svg/clean.svg',
           text: "اسطوانة نظيفة",
         ),
         _buildVerticalInstructionItem(
           context: context,
-          icon: Icons.local_shipping_outlined,
+          svgAsset: 'assets/svg/door.svg',
           text: "توصل للباب",
         ),
         _buildVerticalInstructionItem(
           context: context,
-          icon: Icons.handshake_outlined,
+          svgAsset: 'assets/svg/warning.svg',
           text: "استلامك مسوؤليتك",
         ),
       ],
@@ -128,7 +128,7 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
   // دالة لإنشاء عنصر تعليمة واحدة بشكل عمودي (أيقونة فوق النص)
   Widget _buildVerticalInstructionItem({
     required BuildContext context, 
-    required IconData icon, 
+    required String svgAsset, 
     required String text
   }) {
     // تقسيم النص إلى كلمات
@@ -138,10 +138,14 @@ class _ClientDistributingCreateOrderViewState extends State<ClientDistributingCr
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 24.h,
-            color: context.primaryColor,
+          SvgPicture.asset(
+            svgAsset,
+            height: 24.h,
+            width: 24.h,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
           ),
           SizedBox(height: 8.h),
           Column(
