@@ -24,7 +24,6 @@ class OrderDetailsAddressItem extends StatelessWidget {
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
