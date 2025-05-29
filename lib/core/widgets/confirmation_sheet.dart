@@ -18,7 +18,7 @@ class ConfirmationSheet extends StatelessWidget {
       children: [
         Text(
           subTitle ?? '',
-          style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+          style: context.mediumText.copyWith(fontSize: 14.sp, color: Colors.black),
         ),
         SizedBox(height: 8.h),
         Row(

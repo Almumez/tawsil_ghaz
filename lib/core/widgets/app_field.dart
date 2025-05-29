@@ -145,6 +145,7 @@ class _AppFieldState extends State<AppField> {
               ],
               decoration: InputDecoration(
                 hintText: widget.hintText ?? widget.labelText ?? widget.title,
+                hintStyle: context.mediumText.copyWith(fontSize: 14.sp, color: Color(0xFF9E9E9E)),
                 // labelText: widget.labelText,
                 fillColor: widget.fillColor,
                 prefixIcon: buildPrefixIcon(context),

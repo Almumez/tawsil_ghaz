@@ -127,8 +127,8 @@ class AppThemes {
         ),
         inputDecorationTheme: InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelStyle: TextStyle(fontSize: 14, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w500),
-          hintStyle: TextStyle(fontSize: 14, fontFamily: FontFamily.ibm, color: lightText.color, fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(fontSize: 14.sp, fontFamily: FontFamily.ibm, color: Color(0xFF9E9E9E), fontWeight: FontWeight.w500),
+          hintStyle: TextStyle(fontSize: 14.sp, fontFamily: FontFamily.ibm, color: Color(0xFF9E9E9E), fontWeight: FontWeight.w500),
           fillColor: scaffoldBackgroundColor.color,
           filled: true,
           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: errorColor.color), borderRadius: BorderRadius.circular(14.r)),
