@@ -27,7 +27,7 @@ class ProductAgentOrderWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.w),
-          border: Border.all(color: context.borderColor),
+          color: Color(0xfff5f5f5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,11 +35,11 @@ class ProductAgentOrderWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${LocaleKeys.order_number.tr()} : ${item.id}", style: context.semiboldText),
+                Text("${LocaleKeys.order_number.tr()} : ${item.id}", style: context.mediumText.copyWith(fontSize: 20)),
                 Row(
                   children: [
                     Icon(Icons.access_time, color: context.primaryColor, size: 20.h).withPadding(end: 3.w),
-                    Text(item.createdAt, style: context.regularText),
+                    Text(item.createdAt, style: context.mediumText.copyWith(fontSize: 14)),
                   ],
                 ),
               ],
@@ -48,9 +48,9 @@ class ProductAgentOrderWidget extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: "${LocaleKeys.service_type.tr()} : ",
-                style: context.regularText.copyWith(color: context.hintColor),
+                style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
                 children: [
-                  TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 16)),
+                  TextSpan(text: item.typeTrans, style: context.mediumText.copyWith(fontSize: 14)),
                 ],
               ),
             ),
@@ -69,7 +69,7 @@ class ProductAgentOrderWidget extends StatelessWidget {
                     ).withPadding(end: 8.w),
                     Text(
                       item.clientName,
-                      style: context.mediumText,
+                      style: context.mediumText.copyWith(fontSize: 20),
                     )
                   ],
                 ),
@@ -96,11 +96,11 @@ class ProductAgentOrderWidget extends StatelessWidget {
                   TextSpan(children: [
                     TextSpan(
                       text: LocaleKeys.sar.tr(),
-                      style: context.regularText.copyWith(fontSize: 14),
+                      style: context.mediumText.copyWith(fontSize: 14),
                     ),
                     TextSpan(
                       text: "${item.price}",
-                      style: context.regularText.copyWith(fontSize: 16),
+                      style: context.mediumText.copyWith(fontSize: 14),
                     ),
                   ]),
                 )

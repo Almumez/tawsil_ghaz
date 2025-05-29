@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gasapp/core/utils/extensions.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/pull_to_refresh.dart';
@@ -34,7 +35,7 @@ class _ProductAgentOrdersViewState extends State<ProductAgentOrdersView> {
         buildWhen: (previous, current) => previous.getOrdersState != current.getOrdersState,
         builder: (context, state) {
           if (state.getOrdersState.isDone && cubit.orders.isEmpty) {
-            return Center(child: Text(LocaleKeys.no_orders.tr()));
+            return Center(child: Text(LocaleKeys.no_orders.tr(), style: context.mediumText.copyWith(fontSize: 14)));
           }
           if (state.getOrdersState.isDone && cubit.orders.isNotEmpty) {
             return PullToRefresh(

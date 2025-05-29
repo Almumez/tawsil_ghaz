@@ -16,11 +16,11 @@ class ProductAgentServiceType extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${LocaleKeys.service_type.tr()}", style: context.semiboldText.copyWith(fontSize: 16)).withPadding(bottom: 10.h),
+        Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
@@ -39,12 +39,12 @@ class ProductAgentServiceType extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: context.w * 0.6,
-                        child: Text(data.orderProducts[index].product.name, style: context.mediumText, maxLines: 2, overflow: TextOverflow.ellipsis)
+                        child: Text(data.orderProducts[index].product.name, style: context.mediumText.copyWith(fontSize: 14), maxLines: 2, overflow: TextOverflow.ellipsis)
                             .withPadding(bottom: 10.h),
                       ),
                       Text(
                         '${LocaleKeys.quantity.tr()} : ${data.orderProducts[index].quantity.toString()}',
-                        style: context.mediumText.copyWith(color: context.hintColor),
+                        style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
                       ),
                     ],
                   )

@@ -43,7 +43,7 @@ class AgentOrderClientItem extends StatelessWidget {
         ).withPadding(bottom: 10.h),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
           child: Row(
             children: [
               CustomImage(

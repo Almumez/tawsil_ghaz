@@ -62,7 +62,7 @@ class _ProductAgentOrderDetailsViewState extends State<ProductAgentOrderDetailsV
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.semiboldText),
+                            Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.mediumText.copyWith(fontSize: 20)),
                             StatusContainer(
                               title: cubit.order!.statusTrans,
                               color: cubit.order!.color,
@@ -75,12 +75,12 @@ class _ProductAgentOrderDetailsViewState extends State<ProductAgentOrderDetailsV
                         SizedBox(height: 5.h),
                         Text(
                           "• ${LocaleKeys.addresses.tr()}",
-                          style: context.semiboldText.copyWith(fontSize: 16),
+                          style: context.mediumText.copyWith(fontSize: 20),
                         ).withPadding(bottom: 10.h),
                         Container(
                           width: context.w,
                           padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: context.borderColor)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: Color(0xfff5f5f5)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -96,7 +96,7 @@ class _ProductAgentOrderDetailsViewState extends State<ProductAgentOrderDetailsV
                                     width: 20.h,
                                   ).withPadding(end: 4.w),
                                   Expanded(
-                                      child: Text(item.address.placeDescription, style: context.regularText.copyWith(fontSize: 12)).withPadding(bottom: 5.h)),
+                                      child: Text(item.address.placeDescription, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h)),
                                 ],
                               ),
                               GestureDetector(
@@ -140,7 +140,7 @@ class _ProductAgentOrderDetailsViewState extends State<ProductAgentOrderDetailsV
                                       width: 20.h,
                                     ).withPadding(end: 4.w),
                                     Expanded(
-                                        child: Text(item.merchentAddress.placeDescription, style: context.regularText.copyWith(fontSize: 12))
+                                        child: Text(item.merchentAddress.placeDescription, style: context.mediumText.copyWith(fontSize: 14))
                                             .withPadding(bottom: 5.h)),
                                   ],
                                 ),
