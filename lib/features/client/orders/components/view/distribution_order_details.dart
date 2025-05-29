@@ -53,7 +53,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
         children: [
           _buildAgentInfoCard(context),
           
-          _buildSectionHeader(context, LocaleKeys.service_type.tr(), 'assets/svg/clean.svg'),
+          _buildSectionHeader(context, LocaleKeys.service_type.tr(), 'assets/svg/orders_out.svg'),
           ...List.generate(
             data.orderServices.length,
             (index) {
@@ -64,7 +64,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           ),
           if (data.orderServices.any((e) => !e.isService)) ...[
             SizedBox(height: 16.h),
-            _buildSectionHeader(context, LocaleKeys.additional_options.tr(), 'assets/svg/warning.svg'),
             ...List.generate(
               data.orderServices.length,
               (index) {
@@ -78,7 +77,7 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           
           _buildSectionHeader(context, LocaleKeys.site_address.tr(), 'assets/svg/door.svg'),
           _buildAddressCard(context),
-          
+
           _buildSectionHeader(context, LocaleKeys.payment_method.tr(), 'assets/svg/payment.svg'),
           _buildComponentCard(
             context, 
@@ -168,23 +167,24 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   
   Widget _buildSectionHeader(BuildContext context, String title, String svgAsset) {
     return Container(
-
+      margin: EdgeInsets.only(bottom: 12.h),
       child: Row(
         children: [
-          SvgPicture.asset(
-            svgAsset,
-            height: 20.h,
-            width: 20.w,
-            colorFilter: ColorFilter.mode(
-              context.primaryColor,
-              BlendMode.srcIn,
+          Container(
+            height: 24.h,
+            width: 24.w,
+            alignment: Alignment.center,
+            child: SvgPicture.asset(
+              svgAsset,
+              height: 20.h,
+              width: 20.w,
+              colorFilter: ColorFilter.mode(
+                context.primaryColor,
+                BlendMode.srcIn,
+              ),
             ),
-          ),
-          SizedBox(width: 8.w),
-          Text(
-            title,
-            style: context.semiboldText.copyWith(fontSize: 16.sp),
-          ),
+          ).withPadding(start: 25.w),
+
         ],
       ),
     );
@@ -197,7 +197,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
       ),
       child: Row(
         children: [

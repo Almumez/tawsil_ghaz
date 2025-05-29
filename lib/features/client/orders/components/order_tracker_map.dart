@@ -75,7 +75,7 @@ class _OrderTrackerMapState extends State<OrderTrackerMap> {
           final newLng = double.parse(data['location']['lng'].toString());
           final newLocation = LatLng(newLat, newLng);
           
-          // استخراج معلومات المندوب
+          // استخراج معلومات
           if (data['agent'] != null) {
             _agentName = data['agent']['name']?.toString() ?? LocaleKeys.delivery_person.tr();
             _agentPhone = data['agent']['phone']?.toString() ?? '';

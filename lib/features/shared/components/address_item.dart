@@ -21,7 +21,6 @@ class OrderDetailsAddressItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("• ${lable ?? LocaleKeys.address.tr()}", style: context.mediumText.copyWith(fontSize: 20)).withPadding(bottom: 10.h),
         Container(
           width: context.w,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
