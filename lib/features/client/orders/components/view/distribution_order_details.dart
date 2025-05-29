@@ -256,13 +256,13 @@ class ClientDistributionOrderDetails extends StatelessWidget {
                 ).withPadding(bottom: 8.h),
                 Row(
                   children: [
-                    Text(
-                      "${service.price}${LocaleKeys.sar.tr()}",
-                      style: context.mediumText.copyWith(
-                        fontSize: 12.sp,
-                        color: context.secondaryColor,
-                      ),
-                    ),
+                    // Text(
+                    //   "${service.price}${LocaleKeys.sar.tr()}",
+                    //   style: context.mediumText.copyWith(
+                    //     fontSize: 12.sp,
+                    //     color: context.secondaryColor,
+                    //   ),
+                    // ),
                     SizedBox(width: 16.w),
                     Text(
                       "${LocaleKeys.quantity.tr()} : ${service.count}",
