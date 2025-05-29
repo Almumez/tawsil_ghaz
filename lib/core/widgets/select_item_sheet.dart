@@ -75,7 +75,7 @@ class _SelectItemSheetState extends State<SelectItemSheet> {
                   Expanded(
                     child: Text(
                       widget.items[index].name,
-                      style: context.mediumText.copyWith(fontSize: 16),
+                      style: context.mediumText.copyWith(fontSize: 20),
                     ),
                   ),
                   if (widget.initItem == widget.items[index])
@@ -175,7 +175,7 @@ class _SelectMultiItemSheetState extends State<SelectMultiItemSheet> {
                         Expanded(
                           child: Text(
                             widget.items[index].name,
-                            style: context.mediumText.copyWith(fontSize: 16),
+                            style: context.mediumText.copyWith(fontSize: 20),
                           ),
                         ),
                         if (selected)

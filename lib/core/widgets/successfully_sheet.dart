@@ -54,7 +54,7 @@ class SuccessfullySheet extends StatelessWidget {
               if (subTitle != null)
                 Text(
                   subTitle!,
-                  style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                  style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
                   textAlign: TextAlign.center,
                 ).withPadding(top: 10.h, bottom: 10.h),
               SizedBox(height: 20.h),

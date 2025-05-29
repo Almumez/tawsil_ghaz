@@ -47,14 +47,14 @@ class CustomErrorWidget extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: context.mediumText.copyWith(fontSize: 16),
+              style: context.mediumText.copyWith(fontSize: 20),
             ),
             SizedBox(height: 8.h),
             if (subtitle?.isNotEmpty == true)
               Text(
                 subtitle ?? '',
                 textAlign: TextAlign.center,
-                style: context.regularText.copyWith(fontSize: 14, color: context.hintColor),
+                style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
               ),
             if (onTap != null) ...[
               SizedBox(height: 12.h),

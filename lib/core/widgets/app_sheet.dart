@@ -50,7 +50,7 @@ class CustomAppSheet extends StatelessWidget {
                   Center(
                     child: Text(
                       title ?? "",
-                      style: context.boldText.copyWith(fontSize: 20),
+                      style: context.mediumText.copyWith(fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -58,7 +58,7 @@ class CustomAppSheet extends StatelessWidget {
               ).withPadding(bottom: 10.h),
               Text(
                 subtitle ?? "",
-                style: context.regularText.copyWith(color: context.hintColor),
+                style: context.mediumText.copyWith(fontSize: 14, color: context.hintColor),
               ).withPadding(horizontal: 24.w, bottom: 16.h),
               Flexible(
                 child: Padding(
