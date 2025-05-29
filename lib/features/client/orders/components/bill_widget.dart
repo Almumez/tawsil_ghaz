@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/extensions.dart';
-import '../../../../core/widgets/custom_image.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../gen/locale_keys.g.dart';
 import '../../../../models/client_order.dart';
 
@@ -19,51 +17,66 @@ class ClientBillWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (data.price == 0) return const SizedBox();
 
-    return CustomImage(
-      Assets.svg.bill,
-      fit: BoxFit.fill,
+    return Container(
       width: context.w,
-      height: context.h / 2.6,
+      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
       child: Column(
         children: [
           _buildRow(LocaleKeys.service_price.tr(), data.price, context),
-          _buildDivider(),
           if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context),
           if (!isMaintenanceOrSupply) _buildRow(LocaleKeys.tax.tr(), data.tax, context),
-          _buildDivider(),
           if (isMaintenanceOrSupply) _buildRow(LocaleKeys.tax.tr(), data.tax, context),
           if (!isMaintenanceOrSupply) _buildRow(LocaleKeys.delivery_price.tr(), data.deliveryFee, context),
-          const Spacer(),
+          SizedBox(height: 8.h),
           _buildRow('${LocaleKeys.total.tr()} :', data.totalPrice, context, isBold: true),
         ],
-      ).withPadding(vertical: 22.h, horizontal: 16.w),
+      ),
     );
   }
 
   Widget _buildRow(String title, num value, BuildContext context, {bool isBold = false}) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: isBold ? context.mediumText.copyWith(fontSize: 20.sp) : context.mediumText.copyWith(fontSize: 14.sp),
-          ),
-        ),
-        Text.rich(
-          TextSpan(children: [
-            TextSpan(text: "$value", style: context.mediumText.copyWith(fontSize: 20.sp)),
-            TextSpan(text: LocaleKeys.sar.tr(), style: context.mediumText.copyWith(fontSize: 14.sp)),
-          ]),
-        ),
-      ],
-    );
-  }
+    // Format the number to remove decimal places if they're zeros
+    String formattedValue = value.toStringAsFixed(2);
+    if (formattedValue.endsWith('.00')) {
+      formattedValue = value.toInt().toString();
+    }
 
-  Widget _buildDivider() {
-    return Row(
-      children: List.generate(
-        40,
-        (i) => const Expanded(child: Divider(height: 28, endIndent: 1, indent: 1)),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4.h),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: context.mediumText.copyWith(
+                fontSize: 14.sp,
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ),
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(
+                text: formattedValue,
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              TextSpan(
+                text: " ${LocaleKeys.sar.tr()}",
+                style: context.mediumText.copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }

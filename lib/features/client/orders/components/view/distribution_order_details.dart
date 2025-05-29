@@ -75,44 +75,16 @@ class ClientDistributionOrderDetails extends StatelessWidget {
           
           _buildAddressCard(context),
 
-          _buildComponentCard(
-            context, 
-            child: OrderPaymentItem(data: data)
-          ),
-          
-          _buildSectionHeader(context, LocaleKeys.service_price.tr(), 'assets/svg/price.svg'),
-          _buildComponentCard(
-            context, 
-            child: ClientBillWidget(data: data)
-          ),
+          OrderPaymentItem(data: data).withPadding(start: 16.w, end: 16.w),
+          ClientBillWidget(data: data)
+         
         ],
       ),
     );
   }
-  
-  Widget _buildInstructionsSection(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _buildVerticalInstructionItem(
-          context: context,
-          svgAsset: 'assets/svg/clean.svg',
-          text: "اسطوانة نظيفة",
-        ),
-        _buildVerticalInstructionItem(
-          context: context,
-          svgAsset: 'assets/svg/door.svg',
-          text: "توصل للباب",
-        ),
-        _buildVerticalInstructionItem(
-          context: context,
-          svgAsset: 'assets/svg/warning.svg',
-          text: "استلامك مسوؤليتك",
-        ),
-      ],
-    );
-  }
-  
+
+
+
   Widget _buildVerticalInstructionItem({
     required BuildContext context, 
     required String svgAsset, 
