@@ -27,13 +27,13 @@ class ClientBillWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildServiceRow(context, data.price),
-          if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context),
-          if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context),
-          if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
-          if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context),
+          _buildServiceRow(context, data.price).withPadding(start: 15.w),
+          if (isMaintenanceOrSupply) _buildRow(LocaleKeys.check_fee.tr(), data.checkFee, context).withPadding(start: 30.w),
+          if (!isMaintenanceOrSupply) _buildRow("توصيل", data.deliveryFee, context).withPadding(start: 35.w),
+          if (!isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context).withPadding(start: 35.w),
+          if (isMaintenanceOrSupply) _buildRow("ضريبة", data.tax, context).withPadding(start: 35.w),
           SizedBox(height: 8.h),
-          _buildRow("اجمالي", data.totalPrice, context),
+          _buildRow("اجمالي", data.totalPrice, context).withPadding(start: 35.w),
         ],
       ),
     );
