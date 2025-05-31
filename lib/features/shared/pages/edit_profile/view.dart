@@ -36,6 +36,8 @@ class _EditProfileViewState extends State<EditProfileView> {
   final attachmentCubit = sl<UploadAttachmentCubit>();
   final _buttonStream = StreamController<bool>();
   final _phoneStream = StreamController<bool>();
+  final _passwordFormKey = GlobalKey<FormState>();
+  final _passwordStream = StreamController<bool>();
 
   @override
   void initState() {
@@ -43,6 +45,25 @@ class _EditProfileViewState extends State<EditProfileView> {
     cubit.name.addListener(() => _buttonStream.add(cubit.canUpdate));
     cubit.email.addListener(() => _buttonStream.add(cubit.canUpdate));
     cubit.phone.addListener(() => _phoneStream.add(cubit.canUpdatePhone));
+    cubit.oldPassword.addListener(() => _validatePasswords());
+    cubit.password.addListener(() => _validatePasswords());
+    cubit.confirmPassword.addListener(() => _validatePasswords());
+  }
+
+  void _validatePasswords() {
+    if (cubit.oldPassword.text.isNotEmpty && cubit.password.text.isNotEmpty && cubit.confirmPassword.text.isNotEmpty) {
+      _passwordStream.add(cubit.password.text == cubit.confirmPassword.text);
+    } else {
+      _passwordStream.add(false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _buttonStream.close();
+    _phoneStream.close();
+    _passwordStream.close();
+    super.dispose();
   }
 
   @override
@@ -52,8 +73,8 @@ class _EditProfileViewState extends State<EditProfileView> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // تم حذف جزء تغيير كلمة المرور
             SizedBox(height: 20.h),
             AppField(labelText: LocaleKeys.name.tr(), controller: cubit.name).withPadding(bottom: 16.h),
             if (UserModel.i.accountType != UserType.client)
@@ -140,6 +161,84 @@ class _EditProfileViewState extends State<EditProfileView> {
                 );
               }
             ),
+            
+            SizedBox(height: 40.h),
+            Text(
+              "تغيير كلمة المرور",
+              style: context.mediumText.copyWith(fontSize: 18),
+            ).withPadding(bottom: 16.h),
+            
+            Form(
+              key: _passwordFormKey,
+              child: Column(
+                children: [
+                  AppField(
+                    controller: cubit.oldPassword,
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: "كلمة المرور الحالية",
+                  ),
+                  AppField(
+                    controller: cubit.password,
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: "كلمة المرور الجديدة",
+                  ),
+                  AppField(
+                    controller: cubit.confirmPassword,
+                    margin: EdgeInsets.symmetric(vertical: 8.h),
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: "تأكيد كلمة المرور الجديدة",
+                    validator: (v) {
+                      if (v != cubit.password.text) {
+                        return LocaleKeys.passwords_do_not_match.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.h),
+                  
+                  StreamBuilder<bool>(
+                    stream: _passwordStream.stream,
+                    builder: (context, snapshot) {
+                      return BlocConsumer<EditProfileCubit, EditProfileState>(
+                        bloc: cubit,
+                        listener: (context, state) {
+                          if (state.passwordState.isDone) {
+                            FlashHelper.showToast(state.msg, type: MessageType.success);
+                            cubit.passwordsClean();
+                          } else if (state.passwordState.isError) {
+                            FlashHelper.showToast(state.msg);
+                          }
+                        },
+                        builder: (context, state) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            child: AppBtn(
+                              enable: snapshot.data ?? false,
+                              title: "تغيير كلمة المرور",
+                              loading: state.passwordState.isLoading,
+                              backgroundColor: Colors.transparent,
+                              textColor: Colors.white,
+                              radius: 30.r,
+                              onPressed: () {
+                                if (_passwordFormKey.currentState!.validate()) {
+                                  cubit.changePassword();
+                                }
+                              },
+                            ),
+                          );
+                        }
+                      );
+                    }
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 30.h),
           ],
         ),
       ),
