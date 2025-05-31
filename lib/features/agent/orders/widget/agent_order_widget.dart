@@ -40,6 +40,7 @@ class AgentOrderWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              
               children: [
                 Expanded(
                   child: Column(
@@ -78,12 +79,12 @@ class AgentOrderWidget extends StatelessWidget {
                     if (item.price != 0)
                       Text.rich(
                         TextSpan(children: [
-                          TextSpan(
-                            text: LocaleKeys.sar.tr(),
+                            TextSpan(
+                            text: "${item.price} ",
                             style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                           ),
-                          TextSpan(
-                            text: "${item.price}",
+                           TextSpan(
+                            text: LocaleKeys.sar.tr(),
                             style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                           ),
                         ]),
