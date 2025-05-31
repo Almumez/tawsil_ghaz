@@ -15,9 +15,16 @@ class StatusContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 21.w, vertical: 8.h),
+      width: double.infinity,
+      height: double.infinity,
+      alignment: Alignment.center,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r), color: color.withValues(alpha: .1)),
-      child: Text(title, style: context.mediumText.copyWith(fontSize: 14.sp, color: color)),
+      child: Text(
+        title,
+        style: context.mediumText.copyWith(fontSize: 14.sp, color: color),
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

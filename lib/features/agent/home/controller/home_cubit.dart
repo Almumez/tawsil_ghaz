@@ -44,8 +44,8 @@ class AgentHomeCubit extends Cubit<AgentHomeState> {
         // Add new items
         items.addAll(newItems);
         
-        // ترتيب الطلبات تنازليًا حسب رقم الطلب (الرقم الأكبر أولاً)
-        items.sort((a, b) => int.parse(b.id).compareTo(int.parse(a.id)));
+        // ترتيب الطلبات تصاعديًا حسب رقم الطلب (الرقم الأصغر أولاً)
+        items.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
 
         emit(state.copyWith(
           getOrdersState: isPagination ? state.getOrdersState : RequestState.done,

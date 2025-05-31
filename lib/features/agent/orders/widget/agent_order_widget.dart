@@ -143,9 +143,13 @@ class AgentOrderWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    StatusContainer(
-                      title: item.statusTrans,
-                      color: item.color,
+                    Container(
+                      width: 105.w,
+                      height: 30.h,
+                      child: StatusContainer(
+                        title: item.statusTrans,
+                        color: item.color,
+                      ),
                     ),
                     SizedBox(height: 8.h),
                     if (item.status == 'pending')
