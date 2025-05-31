@@ -44,6 +44,7 @@ class AgentOrderWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: [
                       Text(
                         item.clientName,
