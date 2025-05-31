@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../widget/bill_widget.dart';
 
 import '../../../../core/services/service_locator.dart';
@@ -20,6 +21,7 @@ import '../../../shared/components/status_container.dart';
 import '../cubit/order_details_cubit.dart';
 import '../cubit/order_details_state.dart';
 import '../widget/agent_order_actions.dart';
+import 'package:flutter/rendering.dart';
 
 class OrderDetailsView extends StatefulWidget {
   final String id;
@@ -57,217 +59,93 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               onRefresh: _handleRefresh,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", style: context.mediumText.copyWith(fontSize: 14)),
-                        StatusContainer(
-                          title: cubit.order!.statusTrans,
-                          color: cubit.order!.color,
-                        )
-                      ],
+                    // Header section with order number and status
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", 
+                            style: context.mediumText.copyWith(fontSize: 14.sp)
+                          ),
+                          StatusContainer(
+                            title: cubit.order!.statusTrans,
+                            color: cubit.order!.color,
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(height: 16.h),
-                    Text("• ${LocaleKeys.service_type.tr()}", style: context.mediumText.copyWith(fontSize: 20)),
-                    SizedBox(height: 5.h),
+                    
+                    // Client information section
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: AgentOrderClientItem(data: item.client),
+                    ),
+                    SizedBox(height: 16.h),
+                    
+                    // Service type section
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text(
+                        "• ${LocaleKeys.service_type.tr()}", 
+                        style: context.semiboldText.copyWith(fontSize: 16.sp)
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    
+                    // Services list
                     ...List.generate(
                       item.details.length,
                       (index) {
                         final service = item.details[index];
                         if (!service.isService) return SizedBox();
-                        return Container(
-                          width: context.w,
-                          margin: EdgeInsets.symmetric(vertical: 5.h),
-                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
-                          child: Row(
-                            children: [
-                              CustomRadiusIcon(
-                                size: 80.sp,
-                                borderRadius: BorderRadius.circular(4.r),
-                                backgroundColor: '#f5f5f5'.color,
-                                child: CustomImage(
-                                  service.image,
-                                  height: 64.sp,
-                                  width: 64.sp,
-                                ),
-                              ).withPadding(end: 10.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(service.title, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 8.h),
-                                    Text(
-                                      "${LocaleKeys.quantity.tr()} : ${service.count}",
-                                      style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
-                                    ).withPadding(bottom: 5.h),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                        return _buildServiceCard(context, service, isFirst: index == 0);
                       },
                     ),
+                    
+                    // Additional options section
                     if (item.details.any((e) => !e.isService)) ...[
-                      SizedBox(height: 10.h),
-                      Text("• ${LocaleKeys.additional_options.tr()}", style: context.mediumText.copyWith(fontSize: 20)),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: 16.h),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Text(
+                          "• ${LocaleKeys.additional_options.tr()}", 
+                          style: context.semiboldText.copyWith(fontSize: 16.sp)
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
                       ...List.generate(
                         item.details.length,
                         (index) {
                           final service = item.details[index];
                           if (service.isService) return SizedBox();
-                          return Container(
-                            width: context.w,
-                            margin: EdgeInsets.symmetric(vertical: 5.h),
-                            padding: EdgeInsets.all(8.w),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
-                            child: Row(
-                              children: [
-                                CustomRadiusIcon(
-                                  size: 60.sp,
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  backgroundColor: '#f5f5f5'.color,
-                                  child: CustomImage(
-                                    service.image,
-                                  ),
-                                ).withPadding(end: 10.w),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(service.title, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 8.h),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              "${service.price}${LocaleKeys.sar.tr()} ",
-                                              style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
-                                            ).withPadding(bottom: 5.h),
-                                          ),
-                                          Text(
-                                            "${LocaleKeys.quantity.tr()} : ${service.count}",
-                                            style: context.mediumText.copyWith(fontSize: 14, color: context.secondaryColor),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
+                          return _buildAdditionalServiceCard(context, service);
                         },
                       ),
                     ],
-                    AgentOrderClientItem(data: item.client).withPadding(top: 8.h),
-                    SizedBox(height: 5.h),
-                    Text(
-                      "• ${LocaleKeys.addresses.tr()}",
-                      style: context.mediumText.copyWith(fontSize: 20),
-                    ).withPadding(bottom: 10.h),
+                    
+                    SizedBox(height: 16.h),
+                    
+                    // Address section
                     Container(
-                      width: context.w,
-                      padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), border: Border.all(color: '#f5f5f5'.color)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            LocaleKeys.client_location.tr(),
-                            style: context.mediumText.copyWith(fontSize: 14),
-                          ).withPadding(bottom: 8.h),
-                          Row(
-                            children: [
-                              CustomImage(
-                                Assets.svg.location,
-                                height: 20.h,
-                                width: 20.h,
-                              ).withPadding(end: 4.w),
-                              Expanded(child: Text(item.address.placeDescription, style: context.mediumText.copyWith(fontSize: 14)).withPadding(bottom: 5.h)),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () => launchGoogleMaps(item.address.lat, item.address.lng),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 8.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: '#0404041A'.color.withValues(alpha: .1),
-                              ),
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(vertical: 8.h),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CustomImage(
-                                    Assets.svg.eye,
-                                    height: 20.h,
-                                    width: 20.h,
-                                    color: context.primaryColorDark,
-                                  ).withPadding(end: 4.w),
-                                  Text(
-                                    LocaleKeys.address_view.tr(),
-                                    style: context.mediumText.copyWith(fontSize: 16),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (item.merchentAddress.hasData) ...[
-                            Divider(height: 32.h),
-                            Text(
-                              LocaleKeys.store_address.tr(),
-                              style: context.mediumText.copyWith(fontSize: 16),
-                            ).withPadding(bottom: 8.h),
-                            Row(
-                              children: [
-                                CustomImage(
-                                  Assets.svg.location,
-                                  height: 20.h,
-                                  width: 20.h,
-                                ).withPadding(end: 4.w),
-                                Expanded(
-                                    child: Text(item.merchentAddress.placeDescription, style: context.regularText.copyWith(fontSize: 12))
-                                        .withPadding(bottom: 5.h)),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () => launchGoogleMaps(item.merchentAddress.lat, item.merchentAddress.lng),
-                              child: Container(
-                                margin: EdgeInsets.only(top: 8.h),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: '#0404041A'.color.withValues(alpha: .1),
-                                ),
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(vertical: 8.h),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CustomImage(
-                                      Assets.svg.eye,
-                                      height: 20.h,
-                                      width: 20.h,
-                                      color: context.primaryColorDark,
-                                    ).withPadding(end: 4.w),
-                                    Text(
-                                      LocaleKeys.address_view.tr(),
-                                      style: context.mediumText.copyWith(fontSize: 16),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ]
-                        ],
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Text(
+                        "• ${LocaleKeys.addresses.tr()}",
+                        style: context.semiboldText.copyWith(fontSize: 16.sp),
                       ),
-                    ).withPadding(bottom: 16),
+                    ),
+                    SizedBox(height: 8.h),
+                    _buildAddressCard(context, item),
+                    
+                    // Bill section
+                    SizedBox(height: 16.h),
                     AgentBillWidget(cubit: cubit),
                   ],
                 ),
@@ -278,6 +156,244 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
           }
           return LoadingApp();
         },
+      ),
+    );
+  }
+  
+  Widget _buildServiceCard(BuildContext context, dynamic service, {bool isFirst = false}) {
+    return Container(
+      width: context.w,
+      margin: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Row(
+        children: [
+          if (isFirst)
+            SvgPicture.asset(
+              'assets/svg/orders_out.svg',
+              height: 24.h,
+              width: 24.w,
+              colorFilter: ColorFilter.mode(
+                context.primaryColor,
+                BlendMode.srcIn,
+              ),
+            ).withPadding(end: 8.w),
+          CustomImage(
+            service.image,
+            height: 45.sp,
+            width: 45.sp,
+            borderRadius: BorderRadius.circular(8.r),
+          ).withPadding(end: 16.w),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      service.title,
+                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      "(${service.count}x)",
+                      style: context.mediumText.copyWith(
+                        fontSize: 14.sp,
+                        color: context.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ).withPadding(start: isFirst ? 15.w : 45.w),
+    );
+  }
+  
+  Widget _buildAdditionalServiceCard(BuildContext context, dynamic service) {
+    return Container(
+      width: context.w,
+      margin: EdgeInsets.symmetric(vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Row(
+        children: [
+          CustomImage(
+            service.image,
+            height: 48.sp,
+            width: 48.sp,
+            borderRadius: BorderRadius.circular(8.r),
+          ).withPadding(end: 16.w),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      service.title,
+                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      "(${service.count}x)",
+                      style: context.mediumText.copyWith(
+                        fontSize: 14.sp,
+                        color: context.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  "${service.price}${LocaleKeys.sar.tr()}",
+                  style: context.mediumText.copyWith(
+                    fontSize: 14.sp,
+                    color: context.secondaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ).withPadding(start: 45.w);
+  }
+  
+  Widget _buildAddressCard(BuildContext context, dynamic item) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: '#f5f5f5'.color),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            LocaleKeys.client_location.tr(),
+            style: context.semiboldText.copyWith(fontSize: 14.sp),
+          ).withPadding(bottom: 8.h),
+          Row(
+            children: [
+              SvgPicture.asset(
+                'assets/svg/location.svg',
+                height: 20.h,
+                width: 20.h,
+                colorFilter: ColorFilter.mode(
+                  context.primaryColor,
+                  BlendMode.srcIn,
+                ),
+              ).withPadding(end: 8.w),
+              Expanded(
+                child: Text(
+                  item.address.placeDescription, 
+                  style: context.mediumText.copyWith(fontSize: 14.sp)
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () => launchGoogleMaps(item.address.lat, item.address.lng),
+            child: Container(
+              margin: EdgeInsets.only(top: 12.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: '#0404041A'.color.withValues(alpha: .1),
+              ),
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svg/eye.svg',
+                    height: 20.h,
+                    width: 20.h,
+                    colorFilter: ColorFilter.mode(
+                      context.primaryColorDark,
+                      BlendMode.srcIn,
+                    ),
+                  ).withPadding(end: 4.w),
+                  Text(
+                    LocaleKeys.address_view.tr(),
+                    style: context.mediumText.copyWith(fontSize: 14.sp),
+                  )
+                ],
+              ),
+            ),
+          ),
+          
+          // Merchant address section if available
+          if (item.merchentAddress.hasData) ...[
+            Divider(height: 32.h, thickness: 1),
+            Text(
+              LocaleKeys.store_address.tr(),
+              style: context.semiboldText.copyWith(fontSize: 14.sp),
+            ).withPadding(bottom: 8.h),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/svg/location.svg',
+                  height: 20.h,
+                  width: 20.h,
+                  colorFilter: ColorFilter.mode(
+                    context.primaryColor,
+                    BlendMode.srcIn,
+                  ),
+                ).withPadding(end: 8.w),
+                Expanded(
+                  child: Text(
+                    item.merchentAddress.placeDescription, 
+                    style: context.mediumText.copyWith(fontSize: 14.sp)
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () => launchGoogleMaps(item.merchentAddress.lat, item.merchentAddress.lng),
+              child: Container(
+                margin: EdgeInsets.only(top: 12.h),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: '#0404041A'.color.withValues(alpha: .1),
+                ),
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 8.h),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/eye.svg',
+                      height: 20.h,
+                      width: 20.h,
+                      colorFilter: ColorFilter.mode(
+                        context.primaryColorDark,
+                        BlendMode.srcIn,
+                      ),
+                    ).withPadding(end: 4.w),
+                    Text(
+                      LocaleKeys.address_view.tr(),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ]
+        ],
       ),
     );
   }
