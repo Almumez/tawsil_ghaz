@@ -83,45 +83,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
   }
 
 
-
-  Widget _buildVerticalInstructionItem({
-    required BuildContext context, 
-    required String svgAsset, 
-    required String text
-  }) {
-    List<String> words = text.split(' ');
-    
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            svgAsset,
-            height: 24.h,
-            width: 24.h,
-            colorFilter: ColorFilter.mode(
-              context.primaryColor,
-              BlendMode.srcIn,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Column(
-            children: words.map((word) => 
-              Text(
-                word,
-                textAlign: TextAlign.center,
-                style: context.mediumText.copyWith(
-                  fontSize: 14.sp,
-                  height: 1.4,
-                ),
-              )
-            ).toList(),
-          ),
-        ],
-      ),
-    );
-  }
-  
   Widget _buildAgentInfoCard(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -129,31 +90,6 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       padding: EdgeInsets.symmetric( horizontal: 16.w),
     
       child: ClientOrderAgentItem(data: data),
-    );
-  }
-  
-  Widget _buildSectionHeader(BuildContext context, String title, String svgAsset) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
-      child: Row(
-        children: [
-          Container(
-            height: 24.h,
-            width: 24.w,
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              svgAsset,
-              height: 20.h,
-              width: 20.w,
-              colorFilter: ColorFilter.mode(
-                context.primaryColor,
-                BlendMode.srcIn,
-              ),
-            ),
-          ).withPadding(start: 25.w),
-
-        ],
-      ),
     );
   }
 
@@ -274,17 +210,5 @@ class ClientDistributionOrderDetails extends StatelessWidget {
       ),
     );
   }
-  
-  Widget _buildComponentCard(BuildContext context, {required Widget child}) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 20.h),
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: child,
-    );
-  }
+
 }
