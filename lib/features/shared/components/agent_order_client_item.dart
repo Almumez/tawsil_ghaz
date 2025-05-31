@@ -45,7 +45,7 @@ class AgentOrderClientItem extends StatelessWidget {
           child: Row(
             children: [
               SvgPicture.asset(
-                'assets/svg/user.svg',
+                'assets/svg/profile_out.svg',
                 height: 20.h,
                 width: 20.h,
                 colorFilter: ColorFilter.mode(
@@ -70,6 +70,29 @@ class AgentOrderClientItem extends StatelessWidget {
                   ),
                   child: SvgPicture.asset(
                     'assets/svg/call.svg',
+                    height: 20.h,
+                    width: 20.w,
+                    colorFilter: ColorFilter.mode(
+                      Colors.black,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8.w),
+              // Chat icon
+              InkWell(
+                onTap: () {
+                  // Add chat functionality here
+                },
+                child: Container(
+                  padding: EdgeInsets.all(8.h),
+                  decoration: BoxDecoration(
+                    color: Color(0xfff5f5f5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/svg/chatbox.svg',
                     height: 20.h,
                     width: 20.w,
                     colorFilter: ColorFilter.mode(

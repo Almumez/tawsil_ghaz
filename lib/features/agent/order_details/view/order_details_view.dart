@@ -69,9 +69,12 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "${cubit.order!.id}#", 
-                            style: context.mediumText.copyWith(fontSize: 14.sp)
+                          Padding(
+                            padding: EdgeInsets.only(right: 16.w),
+                            child: Text(
+                              "${cubit.order!.id}#", 
+                              style: context.mediumText.copyWith(fontSize: 14.sp)
+                            ),
                           ),
                           StatusContainer(
                             title: cubit.order!.statusTrans,
