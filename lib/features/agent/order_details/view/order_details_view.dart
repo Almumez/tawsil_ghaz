@@ -94,7 +94,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
-                        "• ${LocaleKeys.service_type.tr()}", 
+                        "• خدمة", 
                         style: context.semiboldText.copyWith(fontSize: 16.sp)
                       ),
                     ),
@@ -116,7 +116,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Text(
-                          "• ${LocaleKeys.additional_options.tr()}", 
+                          "${LocaleKeys.additional_options.tr()}",
                           style: context.semiboldText.copyWith(fontSize: 16.sp)
                         ),
                       ),
@@ -134,14 +134,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     SizedBox(height: 16.h),
                     
                     // Address section
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        "• ${LocaleKeys.addresses.tr()}",
-                        style: context.semiboldText.copyWith(fontSize: 16.sp),
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
+
                     _buildAddressCard(context, item),
                     
                     // Bill section
@@ -277,13 +270,12 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: '#f5f5f5'.color),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            LocaleKeys.client_location.tr(),
+            "موقع",
             style: context.semiboldText.copyWith(fontSize: 14.sp),
           ).withPadding(bottom: 8.h),
           Row(
