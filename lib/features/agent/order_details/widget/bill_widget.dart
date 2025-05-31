@@ -23,6 +23,7 @@ class AgentBillWidget extends StatelessWidget {
     if (item.type == 'distribution' || item.price != 0) {
       return Container(
         width: context.w,
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
         decoration: BoxDecoration(
           color: Colors.white,

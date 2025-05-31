@@ -60,72 +60,80 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header section with order number and status
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 16.w),
-                            child: Text(
-                              "${cubit.order!.id}#", 
-                              style: context.mediumText.copyWith(fontSize: 14.sp)
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header section with order number and status
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 16.w),
+                              child: Text(
+                                "${cubit.order!.id}#", 
+                                style: context.mediumText.copyWith(fontSize: 14.sp)
+                              ),
                             ),
-                          ),
-                          StatusContainer(
-                            title: cubit.order!.statusTrans,
-                            color: cubit.order!.color,
-                          )
-                        ],
+                            Container(
+                              width: 105.w,
+                              height: 30.h,
+                              child: StatusContainer(
+                                title: cubit.order!.statusTrans,
+                                color: cubit.order!.color,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
 
-                    
-                    // Client information section
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: AgentOrderClientItem(data: item.client),
-                    ),
-                    
-                    // Services list
-                    ...List.generate(
-                      item.details.length,
-                      (index) {
-                        final service = item.details[index];
-                        if (!service.isService) return SizedBox();
-                        return _buildServiceCard(context, service, isFirst: index == 0);
-                      },
-                    ),
-                    
-                    // Additional options section
-                    if (item.details.any((e) => !e.isService)) ...[
-
-                      SizedBox(height: 8.h),
+                      
+                      // Client information section
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: AgentOrderClientItem(data: item.client),
+                      ),
+                      
+                      // Services list
                       ...List.generate(
                         item.details.length,
                         (index) {
                           final service = item.details[index];
-                          if (service.isService) return SizedBox();
-                          return _buildAdditionalServiceCard(context, service);
+                          if (!service.isService) return SizedBox();
+                          return _buildServiceCard(context, service, isFirst: index == 0);
                         },
                       ),
+                      
+                      // Additional options section
+                      if (item.details.any((e) => !e.isService)) ...[
+
+                        SizedBox(height: 8.h),
+                        ...List.generate(
+                          item.details.length,
+                          (index) {
+                            final service = item.details[index];
+                            if (service.isService) return SizedBox();
+                            return _buildAdditionalServiceCard(context, service);
+                          },
+                        ),
+                      ],
+                      
+
+                      
+                      // Address section
+
+                      _buildAddressCard(context, item),
+                      
+                      // Bill section
+                     
+                      AgentBillWidget(cubit: cubit),
                     ],
-                    
-
-                    
-                    // Address section
-
-                    _buildAddressCard(context, item),
-                    
-                    // Bill section
-                   
-                    AgentBillWidget(cubit: cubit),
-                  ],
+                  ),
                 ),
               ),
             );
