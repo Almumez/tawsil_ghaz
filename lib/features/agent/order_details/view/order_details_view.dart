@@ -71,7 +71,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         children: [
                           Text(
                             "${cubit.order!.id}#", 
-                            style: context.semiboldText.copyWith(fontSize: 14.sp)
+                            style: context.mediumText.copyWith(fontSize: 14.sp)
                           ),
                           StatusContainer(
                             title: cubit.order!.statusTrans,
@@ -91,13 +91,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     SizedBox(height: 16.h),
                     
                     // Service type section
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        "• خدمة", 
-                        style: context.semiboldText.copyWith(fontSize: 16.sp)
-                      ),
-                    ),
                     SizedBox(height: 8.h),
                     
                     // Services list
@@ -112,14 +105,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     
                     // Additional options section
                     if (item.details.any((e) => !e.isService)) ...[
-                      SizedBox(height: 16.h),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Text(
-                          "${LocaleKeys.additional_options.tr()}",
-                          style: context.semiboldText.copyWith(fontSize: 16.sp)
-                        ),
-                      ),
+
                       SizedBox(height: 8.h),
                       ...List.generate(
                         item.details.length,
@@ -188,7 +174,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   children: [
                     Text(
                       service.title,
-                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
                     ),
                     SizedBox(width: 4.w),
                     Text(
@@ -234,7 +220,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   children: [
                     Text(
                       service.title,
-                      style: context.semiboldText.copyWith(fontSize: 14.sp),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
                     ),
                     SizedBox(width: 4.w),
                     Text(
@@ -276,7 +262,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
         children: [
           Text(
             "موقع",
-            style: context.semiboldText.copyWith(fontSize: 14.sp),
+            style: context.mediumText.copyWith(fontSize: 14.sp),
           ).withPadding(bottom: 8.h),
           Row(
             children: [
@@ -302,7 +288,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   children: [
                     Text(
                       LocaleKeys.view.tr(),
-                      style: context.mediumText.copyWith(fontSize: 12.sp),
+                      style: context.mediumText.copyWith(fontSize: 14.sp),
                     ).withPadding(bottom: 4.h),
                     SvgPicture.asset(
                       'assets/svg/eye.svg',
@@ -324,7 +310,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             Divider(height: 32.h, thickness: 1),
             Text(
               LocaleKeys.store_address.tr(),
-              style: context.semiboldText.copyWith(fontSize: 14.sp),
+              style: context.mediumText.copyWith(fontSize: 14.sp),
             ).withPadding(bottom: 8.h),
             Row(
               children: [
@@ -350,7 +336,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     children: [
                       Text(
                         LocaleKeys.view.tr(),
-                        style: context.mediumText.copyWith(fontSize: 12.sp),
+                        style: context.mediumText.copyWith(fontSize: 14.sp),
                       ).withPadding(bottom: 4.h),
                       SvgPicture.asset(
                         'assets/svg/eye.svg',
