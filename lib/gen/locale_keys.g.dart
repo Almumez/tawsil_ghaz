@@ -312,4 +312,5 @@ abstract class  LocaleKeys {
   static const retry = 'retry';
   static const tracking_delivery = 'tracking_delivery';
   static const live_order_tracking = 'live_order_tracking';
+  static const view = 'view';
 }

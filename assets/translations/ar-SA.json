@@ -322,5 +322,6 @@
   "delivery_person": "المندوب",
   "retry": "إعادة المحاولة",
   "tracking_delivery": "تتبع التوصيل",
-  "live_order_tracking": "تتبع الطلب المباشر"
+  "live_order_tracking": "تتبع الطلب المباشر",
+  "view": "عرض"
 }

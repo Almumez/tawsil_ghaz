@@ -311,5 +311,6 @@
   "delivery_person": "Delivery Person",
   "retry": "Retry",
   "tracking_delivery": "Tracking Delivery",
-  "live_order_tracking": "Live Order Tracking"
+  "live_order_tracking": "Live Order Tracking",
+  "view": "View"
 }

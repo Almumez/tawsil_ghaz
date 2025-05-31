@@ -70,8 +70,8 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${LocaleKeys.order_number.tr()} : ${cubit.order!.id}", 
-                            style: context.mediumText.copyWith(fontSize: 14.sp)
+                            "${cubit.order!.id}#", 
+                            style: context.semiboldText.copyWith(fontSize: 14.sp)
                           ),
                           StatusContainer(
                             title: cubit.order!.statusTrans,
@@ -303,37 +303,28 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                   style: context.mediumText.copyWith(fontSize: 14.sp)
                 ),
               ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () => launchGoogleMaps(item.address.lat, item.address.lng),
-            child: Container(
-              margin: EdgeInsets.only(top: 12.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: '#0404041A'.color.withValues(alpha: .1),
-              ),
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/eye.svg',
-                    height: 20.h,
-                    width: 20.h,
-                    colorFilter: ColorFilter.mode(
-                      context.primaryColorDark,
-                      BlendMode.srcIn,
+              GestureDetector(
+                onTap: () => launchGoogleMaps(item.address.lat, item.address.lng),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      LocaleKeys.view.tr(),
+                      style: context.mediumText.copyWith(fontSize: 12.sp),
+                    ).withPadding(bottom: 4.h),
+                    SvgPicture.asset(
+                      'assets/svg/eye.svg',
+                      height: 16.h,
+                      width: 16.w,
+                      colorFilter: ColorFilter.mode(
+                        context.primaryColorDark,
+                        BlendMode.srcIn,
+                      ),
                     ),
-                  ).withPadding(end: 4.w),
-                  Text(
-                    LocaleKeys.address_view.tr(),
-                    style: context.mediumText.copyWith(fontSize: 14.sp),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
           
           // Merchant address section if available
@@ -360,37 +351,28 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                     style: context.mediumText.copyWith(fontSize: 14.sp)
                   ),
                 ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () => launchGoogleMaps(item.merchentAddress.lat, item.merchentAddress.lng),
-              child: Container(
-                margin: EdgeInsets.only(top: 12.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: '#0404041A'.color.withValues(alpha: .1),
-                ),
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(vertical: 8.h),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/svg/eye.svg',
-                      height: 20.h,
-                      width: 20.h,
-                      colorFilter: ColorFilter.mode(
-                        context.primaryColorDark,
-                        BlendMode.srcIn,
+                GestureDetector(
+                  onTap: () => launchGoogleMaps(item.merchentAddress.lat, item.merchentAddress.lng),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        LocaleKeys.view.tr(),
+                        style: context.mediumText.copyWith(fontSize: 12.sp),
+                      ).withPadding(bottom: 4.h),
+                      SvgPicture.asset(
+                        'assets/svg/eye.svg',
+                        height: 16.h,
+                        width: 16.w,
+                        colorFilter: ColorFilter.mode(
+                          context.primaryColorDark,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                    ).withPadding(end: 4.w),
-                    Text(
-                      LocaleKeys.address_view.tr(),
-                      style: context.mediumText.copyWith(fontSize: 14.sp),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ]
         ],
