@@ -80,7 +80,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 16.h),
+
                     
                     // Client information section
                     Container(
@@ -88,10 +88,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: AgentOrderClientItem(data: item.client),
                     ),
-                    SizedBox(height: 16.h),
-                    
-                    // Service type section
-                    SizedBox(height: 8.h),
                     
                     // Services list
                     ...List.generate(
@@ -117,14 +113,14 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       ),
                     ],
                     
-                    SizedBox(height: 16.h),
+
                     
                     // Address section
 
                     _buildAddressCard(context, item),
                     
                     // Bill section
-                    SizedBox(height: 16.h),
+                   
                     AgentBillWidget(cubit: cubit),
                   ],
                 ),
@@ -231,14 +227,6 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
                       ),
                     ),
                   ],
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  "${service.price}${LocaleKeys.sar.tr()}",
-                  style: context.mediumText.copyWith(
-                    fontSize: 14.sp,
-                    color: context.secondaryColor,
-                  ),
                 ),
               ],
             ),

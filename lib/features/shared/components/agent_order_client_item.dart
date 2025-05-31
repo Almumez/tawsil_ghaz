@@ -55,7 +55,7 @@ class AgentOrderClientItem extends StatelessWidget {
               ).withPadding(end: 10.w),
               Expanded(
                 child: Text(
-                  data.fullname,
+                  data.fullname.split(' ')[0],
                   style: context.mediumText.copyWith(fontSize: 14.sp),
                 ),
               ),
