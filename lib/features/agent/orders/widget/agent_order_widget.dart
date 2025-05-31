@@ -27,17 +27,19 @@ class AgentOrderWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(bottom: 20.h),
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.w),
-          color: '#f5f5f5'.color,
+          borderRadius: BorderRadius.circular(15.r),
+          color: Color(0xfff5f5f5),
         ),
         child: Column(
+          spacing: 5.h,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Column(
@@ -45,21 +47,22 @@ class AgentOrderWidget extends StatelessWidget {
                     children: [
                       Text(
                         item.clientName,
-                        style: context.mediumText.copyWith(color: Colors.black),
+                        style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 4.h),
                       Row(
                         children: [
                           CustomImage(
                             Assets.svg.location,
-                            height: 20.sp,
-                            width: 20.sp,
-                          ),
+                            height: 16.sp,
+                            width: 16.sp,
+                            color: Colors.black,
+                          ).withPadding(end: 4.w),
                           Expanded(
                             child: Text(
                               item.address.placeDescription,
                               style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
-                            ).withPadding(horizontal: 4.w),
+                            ),
                           ),
                         ],
                       ),
@@ -69,8 +72,8 @@ class AgentOrderWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(" ${item.id} #", style: context.mediumText.copyWith(color: Colors.black)),
-                    SizedBox(height: 8.h),
+                    Text(" ${item.id} #", style: context.mediumText.copyWith(fontSize: 14, color: Colors.black)),
+                    SizedBox(height: 4.h),
                     if (item.price != 0)
                       Text.rich(
                         TextSpan(children: [
@@ -89,24 +92,27 @@ class AgentOrderWidget extends StatelessWidget {
               ],
             ),
             
-            SizedBox(height: 16.h),
-            
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            item.typeTrans,
-                            style: context.mediumText.copyWith(fontSize: 14, color: Colors.black),
-                          ),
-                        ],
+                      Text.rich(
+                        TextSpan(
+                          text: LocaleKeys.the_service.tr(),
+                          style: context.mediumText.copyWith(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: item.typeTrans,
+                              style: context.mediumText.copyWith(color: Colors.black),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 8.h),
+                      SizedBox(height: 4.h),
                       Row(
                         children: [
                           CustomImage(
@@ -151,7 +157,7 @@ class AgentOrderWidget extends StatelessWidget {
                         color: item.color,
                       ),
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 4.h),
                     if (item.status == 'pending')
                       Container(
                         width: 105.w,

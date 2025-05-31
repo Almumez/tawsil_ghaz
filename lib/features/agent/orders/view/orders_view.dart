@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gasapp/core/utils/extensions.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/utils/pull_to_refresh.dart';
@@ -43,7 +44,7 @@ class _AgentOrdersViewState extends State<AgentOrdersView> {
                 itemCount: cubit.orders.length,
                 itemBuilder: (context, index) {
                   final item = cubit.orders[index];
-                  return AgentOrderWidget(item: item, onBack: () => cubit.reload());
+                  return AgentOrderWidget(item: item, onBack: () => cubit.reload()).withPadding(bottom: 20.h);
                 },
               ),
             );

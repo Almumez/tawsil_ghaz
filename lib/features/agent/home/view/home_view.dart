@@ -145,7 +145,7 @@ class _FreeAgentHomeViewState extends State<FreeAgentHomeView> {
                   return Center(child: CircularProgressIndicator());
                 }
                 final item = cubit.items[index];
-                return AgentOrderWidget(item: item, onBack: () => cubit.reload());
+                return AgentOrderWidget(item: item, onBack: () => cubit.reload()).withPadding(bottom: 20.h);
               },
             );
           },
