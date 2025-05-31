@@ -36,6 +36,7 @@ class ClientOrderCard extends StatelessWidget {
           children: [
             Row(
               mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Column(
@@ -65,10 +66,14 @@ class ClientOrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                StatusContainer(
-                  title: data.statusTrans,
-                  color: data.color,
-                ).toEnd
+                Container(
+                  width: 105.w,
+                  height: 30.h,
+                  child: StatusContainer(
+                    title: data.statusTrans,
+                    color: data.color,
+                  ),
+                )
               ],
             ),
             Text.rich(
