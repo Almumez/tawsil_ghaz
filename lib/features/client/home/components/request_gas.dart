@@ -237,7 +237,7 @@ class RequestGasWidget extends StatelessWidget {
                         fontSize: 14.sp,
                         color: Colors.black,
                       ),
-                    ),
+                    ).withPadding(start: 25.h) ,
                     SizedBox(height: 15.h),
                     Container(
                       width: double.infinity,
@@ -245,7 +245,7 @@ class RequestGasWidget extends StatelessWidget {
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(15.r),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+                      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
                       child: Center(
                         child: Text(
                           buttonText,
@@ -371,10 +371,10 @@ class RequestGasWidget extends StatelessWidget {
             Text(
               LocaleKeys.distribution.tr(),
               style: context.mediumText.copyWith(
-                fontSize: 14.sp,
+                fontSize: 20.sp,
                 color: Colors.black,
               ),
-            ).withPadding(start: 50.w),
+            ).withPadding(start: 10.w),
             CircleAvatar(
               radius: 60.r,
               backgroundColor: Colors.white,
