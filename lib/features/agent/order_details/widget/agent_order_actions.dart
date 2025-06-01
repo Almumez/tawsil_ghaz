@@ -49,6 +49,10 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
         builder: (context, state) {
           // Print debug information for all statuses
           print("DEBUG: Current order status: ${cubit.order?.status}");
+          print("DEBUG: Payment method: ${cubit.order?.paymentMethod}");
+          print("DEBUG: Is paid: ${cubit.order?.isPaid}");
+          print("DEBUG: Button should show: ${cubit.order?.status == "on_way" && (cubit.order!.isPaid || cubit.order!.paymentMethod == 'cash')}");
+          
           if (cubit.order?.status == "pending") {
             return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
               bloc: cubit,
@@ -88,7 +92,7 @@ class _AgentOrderActionsState extends State<AgentOrderActions> {
                 );
               },
             ).withPadding(horizontal: 16.w, vertical: 12.h);
-          } else if ((cubit.order?.status == "on_way" && (cubit.order!.isPaid || cubit.order!.paymentMethod == 'cash'))) {
+          } else if (cubit.order?.status == "on_way") {
             return BlocBuilder<AgentOrderDetailsCubit, AgentOrderDetailsState>(
               bloc: cubit,
               buildWhen: (previous, current) => previous.changeStatus != current.changeStatus,

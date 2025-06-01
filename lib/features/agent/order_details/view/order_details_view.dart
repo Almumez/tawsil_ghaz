@@ -129,6 +129,75 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
 
                       _buildAddressCard(context, item),
                       
+                      // Payment method section
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        margin: EdgeInsets.only(bottom: 16.h, top: 8.h),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svg/payment.svg',
+                              height: 20.h,
+                              width: 20.w,
+                              colorFilter: ColorFilter.mode(
+                                context.primaryColor,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              LocaleKeys.payment_method.tr(),
+                              style: context.semiboldText.copyWith(fontSize: 16.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 16.h),
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svg/cash.svg',
+                              height: 20.h,
+                              width: 20.w,
+                              colorFilter: ColorFilter.mode(
+                                context.primaryColor,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              item.paymentMethod.toLowerCase() == 'cash' ? "كاش" : "الكتروني", 
+                              style: context.mediumText.copyWith(fontSize: 14.sp)
+                            ),
+                            Spacer(),
+                            if (item.isPaid)
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                child: Text(
+                                  "تم الدفع",
+                                  style: context.mediumText.copyWith(
+                                    fontSize: 12.sp,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ).withPadding(horizontal: 16.w),
+                      
                       // Bill section
                      
                       AgentBillWidget(cubit: cubit),
