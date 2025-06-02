@@ -392,3 +392,8 @@ class RequestGasWidget extends StatelessWidget {
     );
   }
 }
+
+
+// {"address_id":"56","payment_method":"cash","fiber_cylinder_buying":1}
+// {"address_id":"56","payment_method":"cash","gas_connection ":1}
+// {"address_id":"56","payment_method":"visa","gas_regulator":1}
