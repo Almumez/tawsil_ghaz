@@ -22,6 +22,11 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Check if orderPrices is null
+    if (cubit.state.orderPrices == null) {
+      return const SizedBox.shrink();
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,21 +39,43 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
               color: Colors.black,
             ),
             SizedBox(width: 8.w),
-            Text("قيمة", 
+            Text(
+              LocaleKeys.order_price.tr(), 
               style: context.semiboldText.copyWith(fontSize: 16)
             ),
           ],
-        ).withPadding(bottom: 0.h),
+        ).withPadding(bottom: 12.h),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
+          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: context.borderColor.withOpacity(0.3)),
+            color: Colors.white,
+          ),
           child: Column(
             children: [
-              ServiceItem(title: "خدمة", price: double.parse(cubit.state.orderPrices!.price.toString()).toStringAsFixed(2)),
-              ServiceItem(title: "اضافات", price: double.parse(cubit.state.orderPrices!.additionalServicesFees.toString()).toStringAsFixed(2)),
-              ServiceItem(title: "توصيل", price: double.parse(cubit.state.orderPrices!.deliveryFees.toString()).toStringAsFixed(2)),
-              ServiceItem(title: "ضريبة", price: double.parse(cubit.state.orderPrices!.tax.toString()).toStringAsFixed(2)),
-              ServiceItem(title: "اجمالي", price: double.parse(cubit.state.orderPrices!.totalPrice.toString()).toStringAsFixed(2)),
+              ServiceItem(
+                title: LocaleKeys.service_price.tr(), 
+                price: double.parse(cubit.state.orderPrices!.price.toString()).toStringAsFixed(2)
+              ),
+              ServiceItem(
+                title: LocaleKeys.additional_options.tr(), 
+                price: double.parse(cubit.state.orderPrices!.additionalServicesFees.toString()).toStringAsFixed(2)
+              ),
+              ServiceItem(
+                title: LocaleKeys.delivery.tr(), 
+                price: double.parse(cubit.state.orderPrices!.deliveryFees.toString()).toStringAsFixed(2)
+              ),
+              ServiceItem(
+                title: LocaleKeys.tax.tr(), 
+                price: double.parse(cubit.state.orderPrices!.tax.toString()).toStringAsFixed(2)
+              ),
+              Divider(height: 24.h, thickness: 1, color: context.borderColor.withOpacity(0.3)),
+              ServiceItem(
+                title: LocaleKeys.total.tr(), 
+                price: double.parse(cubit.state.orderPrices!.totalPrice.toString()).toStringAsFixed(2),
+                isTotal: true
+              ),
             ],
           ),
         ),
@@ -59,7 +86,14 @@ class _ServicePriceWidgetState extends State<ServicePriceWidget> {
 
 class ServiceItem extends StatelessWidget {
   final String title, price;
-  const ServiceItem({super.key, required this.title, required this.price});
+  final bool isTotal;
+  
+  const ServiceItem({
+    super.key, 
+    required this.title, 
+    required this.price, 
+    this.isTotal = false
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +102,25 @@ class ServiceItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: title == "اجمالي" ? context.mediumText.copyWith(fontSize: 14.sp) : context.mediumText.copyWith(fontSize: 14.sp)),
+          Text(
+            title, 
+            style: isTotal 
+              ? context.semiboldText.copyWith(fontSize: 14.sp) 
+              : context.regularText.copyWith(fontSize: 14.sp, color: Colors.black87)
+          ),
           Text.rich(
             TextSpan(
               text: price,
-              style: context.mediumText.copyWith(fontSize: 14.sp),
+              style: isTotal 
+                ? context.semiboldText.copyWith(fontSize: 14.sp, color: context.primaryColor) 
+                : context.regularText.copyWith(fontSize: 14.sp, color: Colors.black),
               children: [
-                TextSpan(text: ' ${LocaleKeys.currency.tr()}', style: context.mediumText.copyWith(fontSize: 14.sp)),
+                TextSpan(
+                  text: ' ${LocaleKeys.currency.tr()}', 
+                  style: isTotal 
+                    ? context.semiboldText.copyWith(fontSize: 14.sp, color: context.primaryColor)
+                    : context.regularText.copyWith(fontSize: 14.sp, color: Colors.black)
+                ),
               ],
             ),
           ),

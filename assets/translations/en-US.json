@@ -312,5 +312,7 @@
   "retry": "Retry",
   "tracking_delivery": "Tracking Delivery",
   "live_order_tracking": "Live Order Tracking",
-  "view": "View"
+  "view": "View",
+  "order_price": "Order Price",
+  "delivery": "Delivery"
 }

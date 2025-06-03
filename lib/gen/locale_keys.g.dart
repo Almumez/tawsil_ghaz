@@ -313,4 +313,6 @@ abstract class  LocaleKeys {
   static const tracking_delivery = 'tracking_delivery';
   static const live_order_tracking = 'live_order_tracking';
   static const view = 'view';
+  static const order_price = 'order_price';
+  static const delivery = 'delivery';
 }
