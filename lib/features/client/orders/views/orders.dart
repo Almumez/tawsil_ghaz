@@ -78,6 +78,7 @@ class _ClientOrdersViewState extends State<ClientOrdersView> {
               ],
             ),
           )
+          
         : BlocBuilder<ClientOrdersCubit, ClientOrdersCState>(
             bloc: cubit,
             builder: (context, state) {
