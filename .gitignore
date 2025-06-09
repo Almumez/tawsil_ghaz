@@ -46,3 +46,16 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Android NDK and Build artifacts
+**/android/**/cxx/
+**/android/**/build/
+**/android/**/intermediates/
+**/configure_fingerprint.bin
+android/app/cxx/
+android/app/.cxx/
+android/.gradle/
+
+# Additional Android build files
+android/app/src/main/jniLibs/
+android/gradle.properties.backup
