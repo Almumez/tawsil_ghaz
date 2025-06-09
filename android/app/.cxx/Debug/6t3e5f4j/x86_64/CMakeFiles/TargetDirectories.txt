@@ -1,2 +1,0 @@
-C:/Users/abdu7/OneDrive/Desktop/sinar/app/android/app/.cxx/Debug/6t3e5f4j/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/abdu7/OneDrive/Desktop/sinar/app/android/app/.cxx/Debug/6t3e5f4j/x86_64/CMakeFiles/rebuild_cache.dir
